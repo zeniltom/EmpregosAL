@@ -26,7 +26,6 @@ public class FormacaoActivity extends AppCompatActivity {
     private EditText data_inicio;
     private EditText data_conclusao;
     private EditText uf_curso;
-
     private Formacao formacao;
     private String idUsuarioLogado;
     private DatabaseReference firebase;

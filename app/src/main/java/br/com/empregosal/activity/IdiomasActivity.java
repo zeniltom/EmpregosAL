@@ -21,7 +21,6 @@ public class IdiomasActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private EditText nome_idioma;
     private EditText nivel_idioma;
-
     private Idioma idioma;
     private String idUsuarioLogado;
     private DatabaseReference firebase;

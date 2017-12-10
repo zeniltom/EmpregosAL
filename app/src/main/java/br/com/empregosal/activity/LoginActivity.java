@@ -58,8 +58,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         Permissao.validaPermissao(1, this, permissoesNecessarias);
-
-
         verificarUsuarioLogado();
 
         email = findViewById(R.id.edit_login_email);
@@ -97,106 +95,105 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.show();
 
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
-        autenticacao.signInWithEmailAndPassword(
-                usuario.getEmail(),
-                usuario.getSenha()
-        ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (task.isSuccessful()) {
+        autenticacao.signInWithEmailAndPassword(usuario.getEmail(), usuario.getSenha()
+        ).addOnCompleteListener(
+                new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
 
-                                            identificadorUsuarioLogado = task.getResult().getUser().getUid();
+                            identificadorUsuarioLogado = task.getResult().getUser().getUid();
 
-                                            firebase = ConfiguracaoFirebase.getFirebase()
-                                                    .child("usuarios")
-                                                    .child(identificadorUsuarioLogado);
+                            firebase = ConfiguracaoFirebase.getFirebase()
+                                    .child("usuarios")
+                                    .child(identificadorUsuarioLogado);
 
-                                            valueEventListenerUsuario = new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                            valueEventListenerUsuario = new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                    Usuario usuarioRecuperado = dataSnapshot.getValue(Usuario.class);
+                                    Usuario usuarioRecuperado = dataSnapshot.getValue(Usuario.class);
 
-                                                    //Salvando nas preferencias do usuario
-                                                    Preferencias preferencias = new Preferencias(LoginActivity.this);
+                                    //Salvando nas preferencias do usuario
+                                    Preferencias preferencias = new Preferencias(LoginActivity.this);
 
-                                                    //TENTE USAR UM IF AQUI EM BAIXO PARA VERIFICAR O GETTIPO SE É NULO MANDE PARA EMPRESA
-                                                    if (usuarioRecuperado == null) {
-                                                        firebase = ConfiguracaoFirebase.getFirebase()
-                                                                .child("empresas")
-                                                                .child(identificadorUsuarioLogado);
+                                    //Empresa
+                                    if (usuarioRecuperado == null) {
+                                        firebase = ConfiguracaoFirebase.getFirebase()
+                                                .child("empresas")
+                                                .child(identificadorUsuarioLogado);
 
-                                                        valueEventListenerEmpresa = new ValueEventListener() {
-                                                            @Override
-                                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                        valueEventListenerEmpresa = new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                                                Empresa empresaRecuperada = dataSnapshot.getValue(Empresa.class);
+                                                Empresa empresaRecuperada = dataSnapshot.getValue(Empresa.class);
 
-                                                                Preferencias preferencias1 = new Preferencias(LoginActivity.this);
+                                                Preferencias preferencias1 = new Preferencias(LoginActivity.this);
 
-                                                                preferencias1.salvarDados(identificadorUsuarioLogado, empresaRecuperada.getTipo());
-                                                                abrirTelaPrincipal();
-                                                                progressDialog.dismiss();
-                                                                Toast.makeText(LoginActivity.this, "Sucesso ao logar!", Toast.LENGTH_LONG).show();
+                                                preferencias1.salvarDados(identificadorUsuarioLogado, empresaRecuperada.getTipo());
+                                                abrirTelaPrincipal();
+                                                progressDialog.dismiss();
+                                                Toast.makeText(LoginActivity.this, "Sucesso ao logar!", Toast.LENGTH_LONG).show();
 
-                                                            }
-
-                                                            @Override
-                                                            public void onCancelled(DatabaseError databaseError) {
-                                                                Toast.makeText(LoginActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                                                            }
-                                                        };
-
-                                                        firebase.addListenerForSingleValueEvent(valueEventListenerEmpresa);
-                                                    } else {
-
-                                                        preferencias.salvarDados(identificadorUsuarioLogado, usuarioRecuperado.getTipo());
-
-                                                        abrirTelaPrincipal();
-                                                        progressDialog.dismiss();
-                                                        Toast.makeText(LoginActivity.this, "Sucesso ao logar!", Toast.LENGTH_LONG).show();
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onCancelled(DatabaseError databaseError) {
-                                                    Toast.makeText(LoginActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                                                }
-                                            };
-
-                                            firebase.addListenerForSingleValueEvent(valueEventListenerUsuario);
-
-                                        } else {
-                                            progressDialog.dismiss();
-                                            String erroExcecao = "";
-
-                                            try {
-                                                throw task.getException();
-
-                                            } catch (FirebaseAuthInvalidUserException e) {
-                                                erroExcecao = "E-mail não existe ou desativado!";
-
-                                            } catch (FirebaseAuthInvalidCredentialsException e) {
-                                                erroExcecao = "Senha digitada incorreta!";
-
-                                            } catch (IllegalArgumentException e) {
-                                                erroExcecao = "Campos vazios!";
-
-                                            } catch (FirebaseApiNotAvailableException e) {
-                                                erroExcecao = "É necessário o 'Google Play Services' para prosseguir!";
-
-                                            } catch (FirebaseNetworkException e) {
-                                                erroExcecao = "Sem concexão!";
-                                                e.printStackTrace();
-
-                                            } catch (Exception e) {
-                                                erroExcecao = "Ao efetuar o cadastro!";
-                                                e.printStackTrace();
                                             }
-                                            Toast.makeText(LoginActivity.this, "Erro: " + erroExcecao, Toast.LENGTH_LONG).show();
-                                        }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+                                                Toast.makeText(LoginActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        };
+
+                                        firebase.addListenerForSingleValueEvent(valueEventListenerEmpresa);
+                                    } else {
+
+                                        preferencias.salvarDados(identificadorUsuarioLogado, usuarioRecuperado.getTipo());
+
+                                        abrirTelaPrincipal();
+                                        progressDialog.dismiss();
+                                        Toast.makeText(LoginActivity.this, "Sucesso ao logar!", Toast.LENGTH_LONG).show();
                                     }
                                 }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Toast.makeText(LoginActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            };
+
+                            firebase.addListenerForSingleValueEvent(valueEventListenerUsuario);
+
+                        } else {
+                            progressDialog.dismiss();
+                            String erroExcecao = "";
+
+                            try {
+                                throw task.getException();
+
+                            } catch (FirebaseAuthInvalidUserException e) {
+                                erroExcecao = "E-mail não existe ou desativado!";
+
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
+                                erroExcecao = "Senha digitada incorreta!";
+
+                            } catch (IllegalArgumentException e) {
+                                erroExcecao = "Campos vazios!";
+
+                            } catch (FirebaseApiNotAvailableException e) {
+                                erroExcecao = "É necessário o 'Google Play Services' para prosseguir!";
+
+                            } catch (FirebaseNetworkException e) {
+                                erroExcecao = "Sem concexão!";
+                                e.printStackTrace();
+
+                            } catch (Exception e) {
+                                erroExcecao = "Ao efetuar o cadastro!";
+                                e.printStackTrace();
+                            }
+                            Toast.makeText(LoginActivity.this, "Erro: " + erroExcecao, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
 
         );
     }
