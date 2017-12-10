@@ -215,7 +215,7 @@ public class LoginActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Permissões negadas");
-        builder.setMessage("Para utilizar este app, é necessário aceitar as permissões");
+        builder.setMessage("Para utilizar este app, é necessário aceitar as permissões solicitadas");
         builder.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
