@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_objetivos"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="br.com.empregosal.activity.ObjetivosActivity">
+
+    <include
+        android:id="@id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tipo de Jornada"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_tipo_jornada"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:ems="10"
+                android:inputType="textCapSentences"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tipo de Contrato"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_tipo_contrato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:ems="10"
+                android:inputType="textCapSentences"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nível Hieráquico"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_nivel_hieraquico_objetivos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textCapSentences"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Salário Mensal Desejado"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_salario_mensal_desejado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textCapSentences"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/bt_salvar_objetivos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bt_alterar_dados"
+                android:theme="@style/botao_padrao" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="171dp">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabAddObjetivos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            app:fabSize="normal"
+            app:srcCompat="@android:drawable/ic_menu_add" />
+
+    </RelativeLayout>
+
+</LinearLayout>

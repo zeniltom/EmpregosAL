@@ -1,0 +1,49 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cinzaClaro"
+    tools:context="br.com.empregosal.activity.fragment.CandidaturaFragment">
+
+    <TextView
+        android:id="@+id/vazia_candidaturas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Sem candidaturas"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/lv_candidaturas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/cinzaClaro"
+                android:dividerHeight="10.0sp"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/qtd_candidaturas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lv_candidaturas"
+                android:gravity="right|center"
+                android:textAlignment="center"
+                android:textColor="@color/preto"
+                android:textSize="24sp" />
+
+        </RelativeLayout>
+    </ScrollView>
+</FrameLayout>

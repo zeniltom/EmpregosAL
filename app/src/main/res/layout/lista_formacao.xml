@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bordas"
+    android:orientation="vertical">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tv_nome_instituicao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="8dp"
+        android:paddingTop="10dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_nivel_curso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="normal|bold" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_data_inicio_curso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:text="até"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_data_conclusao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+        </TableRow>
+
+    </TableLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@color/cinzaClaro"
+        android:layout_height="wrap_content" android:paddingTop="1dp">
+
+        <Button
+            android:text="Apagar"
+            android:layout_width="wrap_content"
+            android:id="@+id/bt_apagar_formacao"
+            android:layout_weight="1"
+            android:background="@color/textColorPrimary"
+            android:textStyle="normal|bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="30dp" />
+
+        <Button
+            android:text="Visualizar"
+            android:layout_width="wrap_content"
+            android:id="@+id/bt_visualizar_formacao"
+            android:layout_weight="1"
+            android:background="@color/textColorPrimary"
+            android:textStyle="normal|bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="30dp" />
+
+        <Button
+            android:text="Editar"
+            android:layout_width="wrap_content"
+            android:id="@+id/bt_editar_formacao"
+            android:layout_weight="1"
+            android:background="@color/textColorPrimary"
+            android:textStyle="normal|bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="30dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

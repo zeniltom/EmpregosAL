@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">EmpregosAL</string>
+    <string name="botao_cadastrar">Cadastrar</string>
+    <string name="texto_validacao">Validação</string>
+    <string name="botao_validar">Validar</string>
+    <string name="botao_logar">Entrar</string>
+    <string name="texto_cadastro">Empresa? Cadastre-se</string>
+    <string name="texto_cadastre">Sem conta? Cadastre-se</string>
+    <string name="item_sair">Sair</string>
+    <string name="item_configurações">Configuração</string>
+    <string name="item_perfil">Meus dados</string>
+    <string name="item_perfil_empresa">Perfil da Empresa</string>
+    <string name="texto_email">Digite seu e-mail</string>
+    <string name="texto_senha">Digite sua senha</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bt_alterar_dados">Salvar</string>
+    <string name="title_activity_experiencia">ExperienciaActivity</string>
+    <string name="title_activity_objetivos">ObjetivosActivity</string>
+    <string name="bt_salvar_vaga">Anunciar Vaga</string>
+    <string name="bt_alterar_dados_empresa">Alterar Dados</string>
+
+</resources>

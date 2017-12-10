@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "710907502776",
+    "firebase_url": "https://empregosa-2017.firebaseio.com",
+    "project_id": "empregosa-2017",
+    "storage_bucket": "empregosa-2017.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710907502776:android:6fa866221a04b824",
+        "android_client_info": {
+          "package_name": "br.com.empregosal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710907502776-94tlhsugi93b85svalc6e115hst1dtub.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.empregosal",
+            "certificate_hash": "5dbb80f5c1b1f7a9c2981c4f55d6019466a74129"
+          }
+        },
+        {
+          "client_id": "710907502776-hn6kl1rbunrv1luhov071i2gr2qk191n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2iGka_UBGA1p2V8E5dhPnMQiLiUfrguw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710907502776-hn6kl1rbunrv1luhov071i2gr2qk191n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_vagas_cadastro"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="br.com.empregosal.activity.VagasCadastroActivity">
+
+    <include
+        android:id="@id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cargo"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_cargo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:ems="10"
+                android:inputType="textCapSentences"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Área Profissional"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_area_profissional_vaga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textCapSentences"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nível Hieráquico"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_nivel_hieraquico_vaga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textCapSentences"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tipo de Contrato"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_tipo_contrato_vaga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textCapSentences"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nível de Estudos"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Jornada"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="15sp" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <EditText
+                        android:id="@+id/et_nivel_estudo_vaga"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/cinza"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/et_jornada_vaga"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/cinza"
+                        android:textSize="15sp" />
+                </TableRow>
+            </TableLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Descrição da Vaga"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Quantidade"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/et_descricao_vaga"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:cursorVisible="true"
+                        android:ems="10"
+                        android:inputType="textCapSentences"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/cinza"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/et_qtd_vaga"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/cinza"
+                        android:textSize="15sp" />
+
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Faixa Salarial"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_faixa_salarial_vaga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textCapSentences"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Localização"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_localizacao_vaga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textCapSentences"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/bt_salvar_vaga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bt_salvar_vaga"
+                android:theme="@style/botao_padrao" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

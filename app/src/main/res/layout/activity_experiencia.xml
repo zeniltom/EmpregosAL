@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_experiencia"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.com.empregosal.activity.ExperienciaActivity"
+    android:orientation="vertical">
+
+    <include
+        android:id="@id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nome da Empresa"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_nome_empresa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp"
+                android:cursorVisible="true"
+                android:inputType="textCapSentences" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cargo"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Salário"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/et_cargo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/cinza"
+                        android:textSize="15sp"
+                        android:cursorVisible="true"
+                        android:inputType="textCapSentences" />
+
+                    <EditText
+                        android:id="@+id/et_salario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/cinza"
+                        android:textSize="15sp" />
+
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nível Hieráquico"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_nivel_hieraquico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp"
+                android:inputType="textCapSentences" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Área Profissional"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_area_profissional"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp"
+                android:inputType="textCapSentences" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Especialidade"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_especialidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp"
+                android:inputType="textCapSentences" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Data Início"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Data Saída"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="15sp" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <EditText
+                        android:id="@+id/et_data_inicio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/cinza"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/et_data_saida"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/cinza"
+                        android:textSize="15sp" />
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descricão das Atividades"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_atividades"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp"
+                android:inputType="textCapSentences" />
+
+            <Button
+                android:id="@+id/bt_salvar_experiencia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bt_alterar_dados"
+                android:theme="@style/botao_padrao" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

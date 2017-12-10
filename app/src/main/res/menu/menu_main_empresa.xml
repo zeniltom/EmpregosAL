@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_pesquisa"
+        android:icon="@drawable/ic_search"
+        android:orderInCategory="100"
+        android:title="Pesquisar"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/item_anunciar_vaga"
+        android:icon="@drawable/ic_anuncio_vaga"
+        android:orderInCategory="200"
+        android:title="Anunciar Vaga"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/item_perfil"
+        android:orderInCategory="300"
+        android:title="@string/item_perfil_empresa"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/item_configurações"
+        android:orderInCategory="400"
+        android:title="@string/item_configurações"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/item_sair"
+        android:orderInCategory="500"
+        android:title="@string/item_sair"
+        app:showAsAction="never" />
+</menu>

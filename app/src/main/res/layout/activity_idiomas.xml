@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_idiomas"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.com.empregosal.activity.IdiomasActivity"
+    android:orientation="vertical">
+
+    <include
+        android:id="@id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Idioma"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_nome_idioma"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nível"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_nivel_idioma"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/bt_salvar_idioma"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bt_alterar_dados"
+                android:theme="@style/botao_padrao" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

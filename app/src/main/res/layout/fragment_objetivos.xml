@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="300dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tipo de Jornada"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/et_tipo_jornada"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="18sp"
+                android:cursorVisible="true"
+                android:inputType="textCapSentences" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tipo de Contrato"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/et_tipo_contrato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="18sp"
+                android:cursorVisible="true"
+                android:inputType="textCapSentences" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nível Hieráquico"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/et_nivel_hieraquico_objetivos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="18sp"
+                android:inputType="textCapSentences" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Salário Mensal Desejado"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/et_salario_mensal_desejado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/cinza"
+                android:textSize="18sp"
+                android:inputType="textCapSentences" />
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabAddObjetivos"
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@android:drawable/ic_menu_add"
+        android:layout_weight="1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="right" />
+
+</LinearLayout>
