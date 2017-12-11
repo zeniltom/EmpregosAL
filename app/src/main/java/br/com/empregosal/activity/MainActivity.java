@@ -1,6 +1,8 @@
 package br.com.empregosal.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -9,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -28,6 +31,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ConnectivityManager conexao = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (conexao.getNetworkInfo(0).isConnected()) {
+            Toast.makeText(MainActivity.this, "Conexão 3G", Toast.LENGTH_SHORT).show();
+        } else if (conexao.getNetworkInfo(1).isConnected()) {
+            Toast.makeText(MainActivity.this, "Conexão WIFi", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Desconectado", Toast.LENGTH_SHORT).show();
+        }
 
         usuarioFirebase = ConfiguracaoFirebase.getFirebaseAutenticacao();
 
@@ -49,6 +62,21 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(tabAdapter);
 
         slidingTabLayout.setViewPager(viewPager);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        ConnectivityManager conexao = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (conexao.getNetworkInfo(0).isConnected()) {
+            Toast.makeText(MainActivity.this, "Conexão 3G", Toast.LENGTH_SHORT).show();
+        } else if (conexao.getNetworkInfo(1).isConnected()) {
+            Toast.makeText(MainActivity.this, "Conexão WIFi", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Desconectado", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

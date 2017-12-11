@@ -116,6 +116,7 @@ public class DadosUsuarioActivity extends AppCompatActivity {
                 progressDialog = new SpotsDialog(DadosUsuarioActivity.this, "Procurando...", R.style.dialogEmpregosAL);
                 progressDialog.setCancelable(false);
                 progressDialog.show();
+
                 consultarCep();
             }
 
@@ -152,13 +153,13 @@ public class DadosUsuarioActivity extends AppCompatActivity {
 
                         reference.child("usuarios").child(usuarioFirebase.getCurrentUser().getUid()).updateChildren(dados);
                         reference.keepSynced(true);
+
                         Toast.makeText(DadosUsuarioActivity.this, "Dados alterados com sucesso!", Toast.LENGTH_LONG).show();
                         finish();
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(DadosUsuarioActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -220,6 +221,7 @@ public class DadosUsuarioActivity extends AppCompatActivity {
     private void deslogarUsuario() {
 
         usuarioFirebase.signOut();
+
         Intent intent = new Intent(DadosUsuarioActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();

@@ -3,6 +3,7 @@ package br.com.empregosal.activity.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,6 +51,16 @@ public class CandidaturaFragment extends Fragment {
     public void onStop() {
         super.onStop();
         query.removeEventListener(valueEventListenerCandidaturas);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            Log.i("setUserVisibleHint", "Está visível para o usuário");
+            query.addListenerForSingleValueEvent(valueEventListenerCandidaturas);
+
+        }
     }
 
     @Override
@@ -112,7 +122,6 @@ public class CandidaturaFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         };
 

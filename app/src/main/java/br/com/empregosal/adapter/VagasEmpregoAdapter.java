@@ -91,7 +91,7 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+
                 }
             });
 
@@ -111,9 +111,10 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+
                 }
             });
+
 
             botaoCandidatar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -151,6 +152,9 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
 
                 for (DataSnapshot dados : dataSnapshot.getChildren()) {
                     candidaturaP = dados.getValue(Candidatura.class);
+
+
+
                 }
 
                 if (candidaturaP == null){
@@ -174,7 +178,7 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
     }

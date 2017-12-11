@@ -1,8 +1,12 @@
 package br.com.empregosal.activity.fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import br.com.empregosal.R;
+import br.com.empregosal.activity.DetalhesVagaActivity;
 import br.com.empregosal.adapter.VagasEmpregoAdapter;
 import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.helper.Preferencias;
@@ -50,6 +55,29 @@ public class VagasEmpregoFragment extends Fragment {
     public void onStop() {
         super.onStop();
         firebase.removeEventListener(valueEventListenerVagas);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            Log.i("setUserVisibleHint", "Está visível para o usuário");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ConnectivityManager conexao = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (conexao.getNetworkInfo(0).isConnected()) {
+            Toast.makeText(getContext(), "Carregando vagas - Conexão 3G", Toast.LENGTH_SHORT).show();
+        } else if (conexao.getNetworkInfo(1).isConnected()) {
+            Toast.makeText(getContext(), "Carregando vagas - Conexão WIFi", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Carregando vagas - Desconectado", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -128,16 +156,14 @@ public class VagasEmpregoFragment extends Fragment {
 
                 // recupera dados a serem passados
                 Vaga vaga = vagas.get(position);
-                Toast.makeText(getContext(), vaga.getCargo()
-                                      + "\n" + vaga.getAreaProfissional()
-                                      + "\n" + vaga.getLocalizacao(), Toast.LENGTH_LONG).show();
-//
-//                // enviando dados para conversa activity
-//                intent.putExtra("nome", experiencia.getNomeDaEmpresa());
-//                intent.putExtra("email", experiencia.getCargo());
-//
-//                startActivity(intent);
 
+                // enviando dados para conversa activity
+                Intent intent = new Intent(getContext(), DetalhesVagaActivity.class);
+                intent.putExtra("vaga_cargo", vaga.getCargo());
+                intent.putExtra("vaga_localizacao", vaga.getLocalizacao());
+                intent.putExtra("vaga_descricao", vaga.getDescricao());
+
+                startActivity(intent);
             }
         });
 

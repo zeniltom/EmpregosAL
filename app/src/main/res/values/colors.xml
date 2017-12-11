@@ -11,4 +11,5 @@
     <color name="cinza">#939393</color>
     <color name="cinzaClaro">#cccccc</color>
     <color name="preto">#0a0a0a</color>
+    <color name="branco">#ffffff</color>
 </resources>
