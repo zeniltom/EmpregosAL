@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +33,6 @@ public class VagasEmpregoFragment extends Fragment {
 
     private ListView listView;
     private TextView vazia;
-    private FloatingActionButton fab;
     private ArrayAdapter adapter;
     private ArrayList<Vaga> vagas;
     private DatabaseReference firebase;
@@ -91,7 +89,6 @@ public class VagasEmpregoFragment extends Fragment {
 
         //Monta listview e adapter
         qtd_vaga = view.findViewById(R.id.qtd_vagas_empregos);
-        fab = view.findViewById(R.id.fabAddVagaEmprego);
         listView = (ListView) view.findViewById(R.id.lv_candidaturas);
         vazia = (TextView) view.findViewById(R.id.vazia_vaga_emprego);
         listView.setEmptyView(vazia);
@@ -140,20 +137,9 @@ public class VagasEmpregoFragment extends Fragment {
             }
         };
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), VagaActivity.class);
-//                startActivity(intent);
-            }
-        });
-
-        //Ao clicar na experiencia, editar
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Criar nova activity para editar os dados da experiencia
-
                 // recupera dados a serem passados
                 Vaga vaga = vagas.get(position);
 
