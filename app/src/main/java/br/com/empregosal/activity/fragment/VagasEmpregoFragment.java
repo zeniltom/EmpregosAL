@@ -162,6 +162,7 @@ public class VagasEmpregoFragment extends Fragment {
                 intent.putExtra("vaga_cargo", vaga.getCargo());
                 intent.putExtra("vaga_localizacao", vaga.getLocalizacao());
                 intent.putExtra("vaga_descricao", vaga.getDescricao());
+                intent.putExtra("vaga_data", vaga.getData());
 
                 startActivity(intent);
             }

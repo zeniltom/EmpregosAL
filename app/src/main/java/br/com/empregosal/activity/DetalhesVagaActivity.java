@@ -17,6 +17,7 @@ public class DetalhesVagaActivity extends AppCompatActivity {
     private TextView cargo;
     private TextView descricao;
     private TextView localizacao;
+    private TextView data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class DetalhesVagaActivity extends AppCompatActivity {
         cargo = findViewById(R.id.tv_cargo_detalhes);
         descricao = findViewById(R.id.tv_descricao_detalhes);
         localizacao = findViewById(R.id.tv_localizacao_detalhes);
+        data = findViewById(R.id.tv_data_anuncio_detalhes);
 
         Bundle dadosPassados = getIntent().getExtras();
 
@@ -41,6 +43,7 @@ public class DetalhesVagaActivity extends AppCompatActivity {
             cargo.setText(dadosPassados.getString("vaga_cargo"));
             localizacao.setText(dadosPassados.getString("vaga_localizacao"));
             descricao.setText(dadosPassados.getString("vaga_descricao"));
+            data.setText(dadosPassados.getString("vaga_data"));
         }
     }
 }
