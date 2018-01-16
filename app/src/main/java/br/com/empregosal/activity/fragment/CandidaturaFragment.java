@@ -64,6 +64,13 @@ public class CandidaturaFragment extends Fragment {
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Log.i("onHiddenChanged", "Está invisível para o usuário");
+        query.removeEventListener(valueEventListenerCandidaturas);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Instânciar objetos

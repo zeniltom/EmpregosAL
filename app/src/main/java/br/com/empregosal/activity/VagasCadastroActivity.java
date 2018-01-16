@@ -8,11 +8,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import br.com.empregosal.R;
 import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.helper.Preferencias;
+import br.com.empregosal.model.Empresa;
 import br.com.empregosal.model.Vaga;
 
 public class VagasCadastroActivity extends AppCompatActivity {
@@ -29,9 +40,13 @@ public class VagasCadastroActivity extends AppCompatActivity {
     private EditText qtd_vaga;
     private EditText faixa_salarial_vaga;
     private EditText localizacao_vaga;
-    private Vaga vaga;
     private String idUsuarioLogado;
     private DatabaseReference firebase;
+    private Empresa empresa;
+    private Vaga vaga;
+    private Query consultaEmpress;
+    private Empresa empresaPesquisda;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +74,40 @@ public class VagasCadastroActivity extends AppCompatActivity {
         Preferencias preferencias = new Preferencias(VagasCadastroActivity.this);
         idUsuarioLogado = preferencias.getIdentificador();
 
+        consultaEmpress = ConfiguracaoFirebase.getFirebase().child("empresas")
+                .orderByChild("idEmpresa")
+                .equalTo(idUsuarioLogado);
+
+        consultaEmpress.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+                    Empresa empresa = dados.getValue(Empresa.class);
+                    empresaPesquisda = empresa;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
         bt_salvar_vaga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                SimpleDateFormat formataData = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                Date data = new Date();
+                String dataFormatada = formataData.format(data);
+
+                Calendar c = Calendar.getInstance();
+                Locale brasil = new Locale("pt", "BR");
+                DateFormat dataBr = DateFormat.getDateInstance(DateFormat.FULL, brasil);
 
                 vaga = new Vaga();
                 vaga.setCargo(cargo.getText().toString());
@@ -75,6 +121,9 @@ public class VagasCadastroActivity extends AppCompatActivity {
                 vaga.setFaixaSalarial(faixa_salarial_vaga.getText().toString());
                 vaga.setLocalizacao(localizacao_vaga.getText().toString());
                 vaga.setIdEmpresa(idUsuarioLogado);
+                vaga.setNomeEmpresa(empresaPesquisda.getNome());
+                vaga.setData(dataFormatada.toString());
+                vaga.setDataAnuncio(dataBr.format(c.getTime()));
 
                 firebase = ConfiguracaoFirebase.getFirebase().child("vagas");
                 DatabaseReference autoId = firebase.push();

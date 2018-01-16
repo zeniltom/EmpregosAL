@@ -15,38 +15,35 @@
         android:textColor="@android:color/black"
         android:textSize="22sp" />
 
-    <TableLayout
+    <TextView
+        android:id="@+id/tv_vaga_emprego_empresa"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Empresa"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_vaga_emprego_localizacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="8dp"
+        android:text="Localização da Vaga"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tv_area_vaga_emprego"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:text="Área da Vaga"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/tv_vaga_emprego_localizacao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingRight="8dp"
-                android:text="Localização da Vaga"
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
-
-        </TableRow>
-
-    </TableLayout>
+    <TextView
+        android:id="@+id/tv_vaga_emprego_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="8dp"
+        android:text="Data da criação"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/bt_candidatar_se"

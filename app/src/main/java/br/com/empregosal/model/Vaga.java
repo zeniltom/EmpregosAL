@@ -9,6 +9,16 @@ public class Vaga {
     private String idVaga;
     private String idEmpresa;
     private String descricao;
+
+    public String getNomeEmpresa() {
+        return nomeEmpresa;
+    }
+
+    public void setNomeEmpresa(String nomeEmpresa) {
+        this.nomeEmpresa = nomeEmpresa;
+    }
+
+    private String nomeEmpresa;
     private String cargo;
     private String areaProfissional;
     private String tipoContrato;
@@ -17,9 +27,18 @@ public class Vaga {
     private String jornada;
     private String faixaSalarial;
     private String localizacao;
+    private String data;
     private String dataAnuncio;
     private String CEP;
     private String qtd;
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
 
     public String getIdEmpresa() {
         return idEmpresa;

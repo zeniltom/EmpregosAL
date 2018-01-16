@@ -15,7 +15,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import br.com.empregosal.R;
 import br.com.empregosal.config.ConfiguracaoFirebase;
@@ -63,8 +66,9 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
 
             // recupera elemento para exibição
             TextView vagaCargo = view.findViewById(R.id.tv_vaga_emprego_cargo);
-            TextView vagaArea = view.findViewById(R.id.tv_area_vaga_emprego);
+            TextView vagaEmpresa = view.findViewById(R.id.tv_vaga_emprego_empresa);
             TextView vagaLocalizacao = view.findViewById(R.id.tv_vaga_emprego_localizacao);
+            TextView vagaDataAnuncio = view.findViewById(R.id.tv_vaga_emprego_data);
             Button botaoCandidatar = view.findViewById(R.id.bt_candidatar_se);
 
             Preferencias preferencias = new Preferencias(getContext());
@@ -72,8 +76,42 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
 
             vaga = vagas.get(position);
             vagaCargo.setText(vaga.getCargo());
-            vagaArea.setText(vaga.getAreaProfissional());
+            vagaEmpresa.setText(vaga.getNomeEmpresa());
             vagaLocalizacao.setText(vaga.getLocalizacao());
+
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            String vd = vaga.getData();
+            Date dataHoje = new Date();
+            Date dataAnuncio = null;
+
+            try {
+                dataAnuncio = format.parse(vd.toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            long diferenca = (dataHoje.getTime() - dataAnuncio.getTime());
+            long diferencaSegundos = diferenca / (1000);
+            long diferencaMinutos = diferenca / (1000 * 60);
+            long diferencaHoras = diferenca / (1000 * 60 * 60);
+            long diferencaDias = diferenca / (1000 * 60 * 60 * 24);
+            long diferencaMeses = diferenca / (1000 * 60 * 60 * 24) / 30;
+
+            if (diferencaMeses > 0) {
+                vagaDataAnuncio.setText("Há " + diferencaMeses + " meses");
+
+            } else if (diferencaDias > 0) {
+                vagaDataAnuncio.setText("Há " + diferencaDias + " dias");
+
+            } else if (diferencaHoras > 0) {
+                vagaDataAnuncio.setText("Há " + diferencaHoras + " horas");
+
+            } else if (diferencaMinutos > 0) {
+                vagaDataAnuncio.setText("Há " + diferencaMinutos + " minutos");
+
+            } else if (diferencaSegundos > 0) {
+                vagaDataAnuncio.setText("Há alguns segundos");
+            }
 
             consultaUsuario = ConfiguracaoFirebase.getFirebase().child("usuarios")
                     .orderByChild("idUsuario")
@@ -115,7 +153,6 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
                 }
             });
 
-
             botaoCandidatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -152,12 +189,9 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
 
                 for (DataSnapshot dados : dataSnapshot.getChildren()) {
                     candidaturaP = dados.getValue(Candidatura.class);
-
-
-
                 }
 
-                if (candidaturaP == null){
+                if (candidaturaP == null) {
 
                     try {
 
@@ -171,7 +205,7 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
                         Toast.makeText(getContext(), "Erro ao candicatar na vaga", Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                     }
-                }else{
+                } else {
                     Toast.makeText(getContext(), "Já cadastrado na vaga " + candidaturaP.getNomeVaga(), Toast.LENGTH_LONG).show();
                 }
             }
