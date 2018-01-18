@@ -1,6 +1,7 @@
 package br.com.empregosal.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -153,6 +154,12 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
                 }
             });
 
+            if (analisarVaga(posicao, vaga) == true){
+                botaoCandidatar.setBackgroundColor(Color.GREEN);
+                botaoCandidatar.setEnabled(false);
+                botaoCandidatar.setText("Inscrito");
+            }
+
             botaoCandidatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -162,6 +169,36 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
             });
         }
         return view;
+    }
+
+    private boolean analisarVaga(final int posicao, Vaga vaga) {
+            vaga = vagas.get(posicao);
+            candidaturaP = null;
+
+            pesquisa = ConfiguracaoFirebase.getFirebase().child("candidaturas")
+                    .orderByChild("idVaga")
+                    .equalTo(vaga.getIdVaga());
+
+            pesquisa.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    for (DataSnapshot dados : dataSnapshot.getChildren()) {
+                        candidaturaP = dados.getValue(Candidatura.class);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        if (candidaturaP != null){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     private void candidatarVaga(int posicao, String idUsuarioLogado, Empresa empresaPesquisda, Usuario usuarioPesquisado, Vaga vaga) {
@@ -189,6 +226,13 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
 
                 for (DataSnapshot dados : dataSnapshot.getChildren()) {
                     candidaturaP = dados.getValue(Candidatura.class);
+                    System.out.println("CandidaturaP    " + candidaturaP.getIdVaga());
+                    System.out.println("Nome da Vaga    " + candidaturaP.getNomeVaga());
+                    System.out.println("ID do Usuario   " + candidaturaP.getIdUsuario());
+                    System.out.println("Nome do Usuario " + candidaturaP.getNomeUsuario());
+                    System.out.println("ID da Empresa   " + candidaturaP.getIdEmpresa());
+                    System.out.println("Nome da empresa " + candidaturaP.getNomeEmpresa());
+
                 }
 
                 if (candidaturaP == null) {
@@ -199,6 +243,13 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
                         firebase.push()
                                 .setValue(candidatura);
 
+                        System.out.println(candidatura.getIdVaga());
+                        System.out.println(candidatura.getNomeVaga());
+                        System.out.println(candidatura.getIdUsuario());
+                        System.out.println(candidatura.getNomeUsuario());
+                        System.out.println(candidatura.getIdEmpresa());
+                        System.out.println(candidatura.getNomeEmpresa());
+
                         Toast.makeText(getContext(), "Sucesso ao candidatar na vaga", Toast.LENGTH_LONG).show();
 
                     } catch (Exception e) {
@@ -207,6 +258,7 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
                     }
                 } else {
                     Toast.makeText(getContext(), "Já cadastrado na vaga " + candidaturaP.getNomeVaga(), Toast.LENGTH_LONG).show();
+
                 }
             }
 
