@@ -1,7 +1,6 @@
 package br.com.empregosal.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,11 +153,6 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
                 }
             });
 
-            if (analisarVaga(posicao, vaga) == true){
-                botaoCandidatar.setBackgroundColor(Color.GREEN);
-                botaoCandidatar.setEnabled(false);
-                botaoCandidatar.setText("Inscrito");
-            }
 
             botaoCandidatar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -167,38 +161,9 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
                     candidatarVaga(posicao, idUsuarioLogado, empresaPesquisda, usuarioPesquisado, vaga);
                 }
             });
+
         }
         return view;
-    }
-
-    private boolean analisarVaga(final int posicao, Vaga vaga) {
-            vaga = vagas.get(posicao);
-            candidaturaP = null;
-
-            pesquisa = ConfiguracaoFirebase.getFirebase().child("candidaturas")
-                    .orderByChild("idVaga")
-                    .equalTo(vaga.getIdVaga());
-
-            pesquisa.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    for (DataSnapshot dados : dataSnapshot.getChildren()) {
-                        candidaturaP = dados.getValue(Candidatura.class);
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        if (candidaturaP != null){
-            return true;
-        }else {
-            return false;
-        }
     }
 
     private void candidatarVaga(int posicao, String idUsuarioLogado, Empresa empresaPesquisda, Usuario usuarioPesquisado, Vaga vaga) {
@@ -258,7 +223,6 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
                     }
                 } else {
                     Toast.makeText(getContext(), "Já cadastrado na vaga " + candidaturaP.getNomeVaga(), Toast.LENGTH_LONG).show();
-
                 }
             }
 

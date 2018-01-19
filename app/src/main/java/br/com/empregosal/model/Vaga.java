@@ -2,22 +2,15 @@ package br.com.empregosal.model;
 
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.Serializable;
+
 import br.com.empregosal.config.ConfiguracaoFirebase;
 
-public class Vaga {
+public class Vaga implements Serializable {
 
     private String idVaga;
     private String idEmpresa;
     private String descricao;
-
-    public String getNomeEmpresa() {
-        return nomeEmpresa;
-    }
-
-    public void setNomeEmpresa(String nomeEmpresa) {
-        this.nomeEmpresa = nomeEmpresa;
-    }
-
     private String nomeEmpresa;
     private String cargo;
     private String areaProfissional;
@@ -31,6 +24,14 @@ public class Vaga {
     private String dataAnuncio;
     private String CEP;
     private String qtd;
+
+    public String getNomeEmpresa() {
+        return nomeEmpresa;
+    }
+
+    public void setNomeEmpresa(String nomeEmpresa) {
+        this.nomeEmpresa = nomeEmpresa;
+    }
 
     public String getData() {
         return data;

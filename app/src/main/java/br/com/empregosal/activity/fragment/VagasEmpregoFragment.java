@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +26,7 @@ import br.com.empregosal.activity.DetalhesVagaActivity;
 import br.com.empregosal.adapter.VagasEmpregoAdapter;
 import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.helper.Preferencias;
+import br.com.empregosal.model.Candidatura;
 import br.com.empregosal.model.Vaga;
 
 public class VagasEmpregoFragment extends Fragment {
@@ -35,6 +35,7 @@ public class VagasEmpregoFragment extends Fragment {
     private TextView vazia;
     private ArrayAdapter adapter;
     private ArrayList<Vaga> vagas;
+    private ArrayList<Candidatura> candidaturas;
     private DatabaseReference firebase;
     private ValueEventListener valueEventListenerVagas;
     private TextView qtd_vaga;
@@ -70,11 +71,11 @@ public class VagasEmpregoFragment extends Fragment {
         ConnectivityManager conexao = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (conexao.getNetworkInfo(0).isConnected()) {
-            Toast.makeText(getContext(), "Carregando vagas - Conexão 3G", Toast.LENGTH_SHORT).show();
+            Log.i("Conexão 3G", conexao.getNetworkInfo(0).toString());
         } else if (conexao.getNetworkInfo(1).isConnected()) {
-            Toast.makeText(getContext(), "Carregando vagas - Conexão WIFi", Toast.LENGTH_SHORT).show();
+            Log.i("Conexão WIFi", conexao.getNetworkInfo(1).toString());
         } else {
-            Toast.makeText(getContext(), "Carregando vagas - Desconectado", Toast.LENGTH_SHORT).show();
+            Log.i("Desconectado", conexao.getNetworkInfo(0).getState().name());
         }
     }
 
@@ -83,6 +84,7 @@ public class VagasEmpregoFragment extends Fragment {
                              Bundle savedInstanceState) {
         //Instânciar objetos
         vagas = new ArrayList<>();
+        candidaturas = new ArrayList<>();
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vagas_emprego, container, false);
@@ -149,6 +151,17 @@ public class VagasEmpregoFragment extends Fragment {
                 intent.putExtra("vaga_localizacao", vaga.getLocalizacao());
                 intent.putExtra("vaga_descricao", vaga.getDescricao());
                 intent.putExtra("vaga_data", vaga.getData());
+                intent.putExtra("vaga_tipo_contrato", vaga.getTipoContrato());
+                intent.putExtra("vaga_nome_empresa", vaga.getNomeEmpresa());
+                intent.putExtra("vaga_area_profissional", vaga.getAreaProfissional());
+                intent.putExtra("vaga_tipo_contrato", vaga.getTipoContrato());
+                intent.putExtra("vaga_nivel_hierarquico", vaga.getNivelHierarquico());
+                intent.putExtra("vaga_nivel_estudos", vaga.getNivelEstudos());
+                intent.putExtra("vaga_jornada", vaga.getJornada());
+                intent.putExtra("vaga_faixa_salarial", vaga.getFaixaSalarial());
+                intent.putExtra("vaga_cep", vaga.getCEP());
+                intent.putExtra("vaga_qtd", vaga.getQtd());
+                intent.putExtra("vaga", vaga);
 
                 startActivity(intent);
             }
