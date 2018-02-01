@@ -12,11 +12,24 @@
     <style name="botao_padrao" parent="Theme.AppCompat.Light">
         <item name="colorButtonNormal">@color/colorSecundary</item>
         <item name="colorControlHighlight">@color/colorPrimary</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>z
+    </style>
 
+    <style name="botao_padrao_secundario" parent="Theme.AppCompat.Light">
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorSecundary</item>
+        <item name="android:textColor">@android:color/white</item>z
     </style>
 
     <style name="SemBarra" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:itemBackground">@android:color/white</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="SemBarra2" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:itemBackground">@android:color/white</item>

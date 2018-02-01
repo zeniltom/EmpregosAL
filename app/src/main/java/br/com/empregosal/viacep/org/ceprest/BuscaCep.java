@@ -67,10 +67,10 @@ public class BuscaCep extends AppCompatActivity {
                     textViewComplemento.setText(viacep.getComplemento());
                     textViewBairro.setText(viacep.getBairro());
                     textViewLocalidade.setText(viacep.getLocalidade());
-                    textViewUF.setText(viacep.getUf());
+                    textViewUF.setText("UF: "+viacep.getUf());
                     textViewUnidade.setText(viacep.getUnidade());
                     textViewIBGE.setText(viacep.getIbge());
-                    textViewGIA.setText(viacep.getGia());
+                    textViewGIA.setText("GIA "+viacep.getGia());
                     break;
             }
         }

@@ -2,9 +2,10 @@ package br.com.empregosal.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,8 @@ import java.util.HashMap;
 import br.com.empregosal.R;
 import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.model.Empresa;
+import br.com.empregosal.viacep.org.ceprest.model.ViaCEP;
+import dmax.dialog.SpotsDialog;
 
 public class DadosEmpresaActivity extends AppCompatActivity {
 
@@ -42,6 +45,10 @@ public class DadosEmpresaActivity extends AppCompatActivity {
     private EditText complemento;
     private ValueEventListener valueEventListenerUsuario;
     private Button bt_alterar;
+    private SpotsDialog progressDialog;
+    private ViaCEP viacep;
+    private Button bt_consulta_cep;
+
 
     @Override
     protected void onStart() {
@@ -92,17 +99,36 @@ public class DadosEmpresaActivity extends AppCompatActivity {
         numero = findViewById(R.id.et_numero_empresa_alterar);
         complemento = findViewById(R.id.et_complemento_empresa_alterar);
         bt_alterar = findViewById(R.id.bt_alterar_dados_empresa);
+        bt_consulta_cep = findViewById(R.id.bt_consultar_cep_empresa);
 
         usuarioFirebase = ConfiguracaoFirebase.getFirebaseAutenticacao();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("EmpregosAL");
+        toolbar.setTitle("Edição Dados Empresariais");
         toolbar.setNavigationIcon(R.drawable.ic_action_arrow_left);
         setSupportActionBar(toolbar);
+
+        bt_consulta_cep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                progressDialog = new SpotsDialog(DadosEmpresaActivity.this, "Procurando...", R.style.dialogEmpregosAL);
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+
+                consultarCep();
+            }
+
+        });
 
         bt_alterar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                progressDialog = new SpotsDialog(DadosEmpresaActivity.this, "Salvando alterações...", R.style.dialogEmpregosAL);
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                consultarCep();
 
                 reference.child("empresas").child(usuarioFirebase.getCurrentUser().getUid()).
                         addListenerForSingleValueEvent(new ValueEventListener() {
@@ -124,8 +150,9 @@ public class DadosEmpresaActivity extends AppCompatActivity {
                                 dados.put("complemento", complemento.getText().toString());
 
                                 reference.child("empresas").child(usuarioFirebase.getCurrentUser().getUid()).updateChildren(dados);
+
+                                Toast.makeText(DadosEmpresaActivity.this, "Dados alterados com sucesso!", Toast.LENGTH_SHORT).show();
                                 finish();
-                                Toast.makeText(DadosEmpresaActivity.this, "Dados alterados com sucesso!", Toast.LENGTH_LONG).show();
                             }
 
                             @Override
@@ -137,20 +164,42 @@ public class DadosEmpresaActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.item_sair:
-                deslogarUsuario();
-                return true;
-            case R.id.item_configurações:
-                return true;
-            case R.id.item_pesquisa:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item); //Padrão para Android
+    private void consultarCep() {
+        final String cep_dados = cep.getText().toString();
+
+        if (!cep_dados.isEmpty()) {
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    viacep = new ViaCEP();
+                    viacep.buscar(cep_dados);
+
+                    handler.sendEmptyMessage(0);
+                }
+            }).start();
+        } else {
+            progressDialog.dismiss();
+            Toast.makeText(DadosEmpresaActivity.this, "Preencha o CEP", Toast.LENGTH_LONG).show();
         }
     }
+
+    Handler handler = new Handler() {
+        public void handleMessage(Message m) {
+            switch (m.what) {
+                case 0:
+                    estado.setText(viacep.getUf());
+                    cidade.setText(viacep.getLocalidade());
+
+                    if (viacep.getLocalidade() == null) {
+                        Toast.makeText(DadosEmpresaActivity.this, "CEP não encontrado!", Toast.LENGTH_SHORT).show();
+                    }
+                    progressDialog.dismiss();
+                    break;
+            }
+        }
+    };
+
 
     private void deslogarUsuario() {
 

@@ -6,10 +6,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,9 +37,7 @@ public class DadosUsuarioActivity extends AppCompatActivity {
     private EditText nome;
     private EditText cpf;
     private EditText datanasc;
-    private EditText estado_civil;
     private EditText nasc;
-    private EditText sexo;
     private EditText numero;
     private EditText endereco;
     private EditText uf;
@@ -50,6 +49,10 @@ public class DadosUsuarioActivity extends AppCompatActivity {
     private ViaCEP viacep;
     private EditText cidade;
     private SpotsDialog progressDialog;
+    private String[] genero = new String[]{"Selecione", "Masculino", "Feminino"};
+    private String[] estado_civil = new String[]{"Selecione", "Casado", "Divorciado", "Separado", "Solteiro", "Viúvo"};
+    private Spinner spinner_sexo;
+    private Spinner spinner_estado_civil;
 
     @Override
     protected void onStart() {
@@ -65,14 +68,14 @@ public class DadosUsuarioActivity extends AppCompatActivity {
                         cpf.setText(usuario.getCPF());
                         datanasc.setText(usuario.getData_nascimento());
                         nasc.setText(usuario.getNacionalidade());
-                        sexo.setText(usuario.getSexo());
-                        estado_civil.setText(usuario.getEstado_civ());
                         endereco.setText(usuario.getEndereco());
                         cep.setText(usuario.getCEP());
                         cidade.setText(usuario.getCidade());
                         uf.setText(usuario.getUf());
                         complemento.setText(usuario.getComplemento());
                         numero.setText(usuario.getNumero());
+
+                        carregarSpinners(usuario);
                     }
 
                     @Override
@@ -90,9 +93,7 @@ public class DadosUsuarioActivity extends AppCompatActivity {
         nome = findViewById(R.id.et_nome_alterar);
         cpf = findViewById(R.id.et_cpf_alterar);
         datanasc = findViewById(R.id.et_datanasc_alterar);
-        estado_civil = findViewById(R.id.et_estadocivil_alterar);
         nasc = findViewById(R.id.et_nac_alterar);
-        sexo = findViewById(R.id.et_sexo_alterar);
         cep = findViewById(R.id.et_cep_usuario_alterar);
         numero = findViewById(R.id.et_numero_usuario_alterar);
         endereco = findViewById(R.id.et_endereco_usuario_alterar);
@@ -101,6 +102,8 @@ public class DadosUsuarioActivity extends AppCompatActivity {
         complemento = findViewById(R.id.et_complemento_usuario_alterar);
         bt_alterar = findViewById(R.id.bt_alterar_dados);
         bt_consulta_cep = findViewById(R.id.bt_consultar_cep);
+        spinner_sexo = findViewById(R.id.spinner_sexo);
+        spinner_estado_civil = findViewById(R.id.spinner_estado_civil);
 
         usuarioFirebase = ConfiguracaoFirebase.getFirebaseAutenticacao();
 
@@ -109,14 +112,20 @@ public class DadosUsuarioActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_action_arrow_left);
         setSupportActionBar(toolbar);
 
+        ArrayAdapter<String> arrayAdapterGenero = new ArrayAdapter<String>(this, R.layout.spinner_item, genero);
+        arrayAdapterGenero.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        ArrayAdapter<String> arrayAdapterEstadoCivil = new ArrayAdapter<String>(this, R.layout.spinner_item, estado_civil);
+        arrayAdapterEstadoCivil.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+
+        spinner_sexo.setAdapter(arrayAdapterGenero);
+        spinner_sexo.setPrompt("Selecione");
+        spinner_estado_civil.setAdapter(arrayAdapterEstadoCivil);
+        spinner_estado_civil.setPrompt("Selecione");
+
         bt_consulta_cep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                progressDialog = new SpotsDialog(DadosUsuarioActivity.this, "Procurando...", R.style.dialogEmpregosAL);
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-
                 consultarCep();
             }
 
@@ -124,50 +133,70 @@ public class DadosUsuarioActivity extends AppCompatActivity {
 
         bt_alterar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                alterarDados();
+            }
+        });
+    }
 
-                progressDialog = new SpotsDialog(DadosUsuarioActivity.this, "Salvando alterações...", R.style.dialogEmpregosAL);
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-                consultarCep();
+    private void alterarDados() {
+        progressDialog = new SpotsDialog(DadosUsuarioActivity.this, "Salvando alterações...", R.style.dialogEmpregosAL);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        consultarCep();
 
-                reference.child("usuarios").child(usuarioFirebase.getCurrentUser()
-                        .getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Usuario usuario = dataSnapshot.getValue(Usuario.class);
+        reference.child("usuarios").child(usuarioFirebase.getCurrentUser()
+                .getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Usuario usuario = dataSnapshot.getValue(Usuario.class);
 
-                        HashMap<String, Object> dados = new HashMap<String, Object>();
-                        dados.put("nome", nome.getText().toString());
-                        dados.put("cpf", cpf.getText().toString());
-                        dados.put("data_nascimento", datanasc.getText().toString());
-                        dados.put("estado_civ", estado_civil.getText().toString());
-                        dados.put("nacionalidade", nasc.getText().toString());
-                        dados.put("sexo", sexo.getText().toString());
-                        dados.put("CEP", cep.getText().toString());
-                        dados.put("endereco", endereco.getText().toString());
-                        dados.put("cidade", cidade.getText().toString());
-                        dados.put("uf", uf.getText().toString());
-                        dados.put("complemento", complemento.getText().toString());
-                        dados.put("numero", numero.getText().toString());
-                        progressDialog.dismiss();
+                HashMap<String, Object> dados = new HashMap<String, Object>();
+                dados.put("nome", nome.getText().toString());
+                dados.put("cpf", cpf.getText().toString());
+                dados.put("data_nascimento", datanasc.getText().toString());
+//                dados.put("estado_civ", spinner_estado_civil.getSelectedItem().toString());
+                dados.put("nacionalidade", nasc.getText().toString());
+//                dados.put("sexo", spinner_sexo.getSelectedItem().toString());
+                dados.put("CEP", cep.getText().toString());
+                dados.put("endereco", endereco.getText().toString());
+                dados.put("cidade", cidade.getText().toString());
+                dados.put("uf", uf.getText().toString());
+                dados.put("complemento", complemento.getText().toString());
+                dados.put("numero", numero.getText().toString());
 
-                        reference.child("usuarios").child(usuarioFirebase.getCurrentUser().getUid()).updateChildren(dados);
-                        reference.keepSynced(true);
+                if (spinner_sexo.getSelectedItem().toString().equals("Selecione")) {
+                    dados.put("sexo", "");
+                } else {
+                    dados.put("sexo", spinner_sexo.getSelectedItem().toString());
+                }
 
-                        Toast.makeText(DadosUsuarioActivity.this, "Dados alterados com sucesso!", Toast.LENGTH_LONG).show();
-                        finish();
-                    }
+                if (spinner_estado_civil.getSelectedItem().toString().equals("Selecione")) {
+                    dados.put("estado_civ", "");
+                } else {
+                    dados.put("estado_civ", spinner_estado_civil.getSelectedItem().toString());
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                progressDialog.dismiss();
 
-                    }
-                });
+                reference.child("usuarios").child(usuarioFirebase.getCurrentUser().getUid()).updateChildren(dados);
+                reference.keepSynced(true);
+
+                Toast.makeText(DadosUsuarioActivity.this, "Dados alterados com sucesso!", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
 
     private void consultarCep() {
+        progressDialog = new SpotsDialog(DadosUsuarioActivity.this, "Procurando...", R.style.dialogEmpregosAL);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
         final String cep_dados = cep.getText().toString();
 
         if (!cep_dados.isEmpty()) {
@@ -203,18 +232,29 @@ public class DadosUsuarioActivity extends AppCompatActivity {
         }
     };
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.item_sair:
-                deslogarUsuario();
-                return true;
-            case R.id.item_configurações:
-                return true;
-            case R.id.item_pesquisa:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item); //Padrão para Android
+
+    private void carregarSpinners(Usuario usuario) {
+
+        if (usuario.getSexo().equals("Masculino")) {
+            spinner_sexo.setSelection(1);
+        } else if (usuario.getSexo().equals("Feminino")) {
+            spinner_sexo.setSelection(2);
+        } else {
+            spinner_sexo.setSelection(0);
+        }
+
+        if (usuario.getEstado_civ().equals("Casado")) {
+            spinner_estado_civil.setSelection(1);
+        } else if (usuario.getEstado_civ().equals("Divorciado")) {
+            spinner_estado_civil.setSelection(2);
+        } else if (usuario.getEstado_civ().equals("Separado")) {
+            spinner_estado_civil.setSelection(3);
+        } else if (usuario.getEstado_civ().equals("Solteiro")) {
+            spinner_estado_civil.setSelection(4);
+        } else if (usuario.getEstado_civ().equals("Viúvo")) {
+            spinner_estado_civil.setSelection(5);
+        } else {
+            spinner_sexo.setSelection(0);
         }
     }
 

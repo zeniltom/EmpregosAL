@@ -157,4 +157,9 @@ public class Vaga implements Serializable {
     public void setQtd(String qtd) {
         this.qtd = qtd;
     }
+
+    @Override
+    public String toString() {
+        return cargo;
+    }
 }

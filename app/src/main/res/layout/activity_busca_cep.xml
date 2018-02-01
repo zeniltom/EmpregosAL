@@ -20,14 +20,6 @@
         android:id="@+id/buttonPesquisar" />
 
     <TextView
-        android:text="--------------"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView18"
-        android:textSize="36sp"
-        android:textAlignment="center" />
-
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewUF"

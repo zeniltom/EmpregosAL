@@ -1,17 +1,40 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.empregosal.activity.fragment.InicioFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context="br.com.empregosal.activity.fragment.InicioFragment"
+    android:background="@color/cinzaClaro">
 
     <TextView
-        android:text="Tela do Usuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:layout_gravity="center"
-        android:textColor="@android:color/black" />
+        android:id="@+id/vazia_usuarios"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Sem usuários cadastrados"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp" />
 
-</FrameLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/lv_usuarios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:divider="@color/cinzaClaro"
+                android:dividerHeight="10.0sp"
+                android:padding="5dp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,6 +23,7 @@ import br.com.empregosal.helper.SlidingTabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String NS = "NETWORK STATUS: ";
     private Toolbar toolbar;
     private SlidingTabLayout slidingTabLayout;
     private ViewPager viewPager;
@@ -32,15 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ConnectivityManager conexao = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        if (conexao.getNetworkInfo(0).isConnected()) {
-            Toast.makeText(MainActivity.this, "Conexão 3G", Toast.LENGTH_SHORT).show();
-        } else if (conexao.getNetworkInfo(1).isConnected()) {
-            Toast.makeText(MainActivity.this, "Conexão WIFi", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(MainActivity.this, "Desconectado", Toast.LENGTH_SHORT).show();
-        }
+        conexao();
 
         usuarioFirebase = ConfiguracaoFirebase.getFirebaseAutenticacao();
 
@@ -62,21 +56,13 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(tabAdapter);
 
         slidingTabLayout.setViewPager(viewPager);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        ConnectivityManager conexao = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        if (conexao.getNetworkInfo(0).isConnected()) {
-            Toast.makeText(MainActivity.this, "Conexão 3G", Toast.LENGTH_SHORT).show();
-        } else if (conexao.getNetworkInfo(1).isConnected()) {
-            Toast.makeText(MainActivity.this, "Conexão WIFi", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(MainActivity.this, "Desconectado", Toast.LENGTH_SHORT).show();
-        }
+        conexao();
     }
 
     @Override
@@ -101,10 +87,16 @@ public class MainActivity extends AppCompatActivity {
                 abrirCurriculo();
                 return true;
             case R.id.item_pesquisa:
+                pesquisa();
                 return true;
             default:
                 return super.onOptionsItemSelected(item); //Padrão para Android
         }
+    }
+
+    private void pesquisa() {
+        Intent intent = new Intent(MainActivity.this, PesquisaActivity.class);
+        startActivity(intent);
     }
 
     private void abrirCurriculo() {
@@ -117,6 +109,18 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(MainActivity.this, DadosUsuarioActivity.class);
         startActivity(intent);
+    }
+
+    private void conexao() {
+        ConnectivityManager conexao = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (conexao.getNetworkInfo(0).isConnected()) {
+            Log.i("Conexão 3G", conexao.getNetworkInfo(0).toString());
+        } else if (conexao.getNetworkInfo(1).isConnected()) {
+            Log.i("Conexão WIFi", conexao.getNetworkInfo(1).toString());
+        } else {
+            Toast.makeText(MainActivity.this, "Desconectado", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void deslogarUsuario() {

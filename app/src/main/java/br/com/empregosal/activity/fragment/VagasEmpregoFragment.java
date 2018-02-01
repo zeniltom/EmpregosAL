@@ -82,34 +82,24 @@ public class VagasEmpregoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //Instânciar objetos
         vagas = new ArrayList<>();
         candidaturas = new ArrayList<>();
 
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vagas_emprego, container, false);
 
-        //Monta listview e adapter
         qtd_vaga = view.findViewById(R.id.qtd_vagas_empregos);
         listView = (ListView) view.findViewById(R.id.lv_candidaturas);
         vazia = (TextView) view.findViewById(R.id.vazia_vaga_emprego);
         listView.setEmptyView(vazia);
-        /*adapter = new ArrayAdapter(
-                getActivity(),;
-                R.layout.lista_contato,
-                contatos
-        );*/
         adapter = new VagasEmpregoAdapter(getActivity(), vagas);
         listView.setAdapter(adapter);
 
-        //Recuperar experiencias do firebase
         Preferencias preferencias = new Preferencias(getActivity());
         String identificadorUsuarioLogado = preferencias.getIdentificador();
 
         firebase = ConfiguracaoFirebase.getFirebase()
                 .child("vagas");
 
-        //Listener para recuperar experiencias
         valueEventListenerVagas = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

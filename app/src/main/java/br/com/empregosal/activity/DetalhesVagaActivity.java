@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -80,6 +82,12 @@ public class DetalhesVagaActivity extends AppCompatActivity {
         botaoCandidatar = findViewById(R.id.botao_detalhes_candidatar);
         botaoVerMais = findViewById(R.id.botao_ver_mais_detalhes);
         separador_detalhes = findViewById(R.id.separador_descricao_vaga_detalhes);
+
+        Animation animation = new TranslateAnimation(1000, 0, 0, 0);
+        animation.setDuration(500);
+        cartaoSobre.startAnimation(animation);
+        cartaoDescricao.startAnimation(animation);
+        cartaoDetalhes.startAnimation(animation);
 
         final Bundle dadosPassados = getIntent().getExtras();
 

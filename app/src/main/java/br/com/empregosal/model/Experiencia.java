@@ -105,4 +105,11 @@ public class Experiencia {
     public void setSalario(String salario) {
         this.salario = salario;
     }
+
+    @Override
+    public String toString() {
+        return cargo + ", " + nomeDaEmpresa + "\n" +
+                dataInicio + " até " + dataSaida + "\n" +
+                " -" + descricaoAtividades;
+    }
 }

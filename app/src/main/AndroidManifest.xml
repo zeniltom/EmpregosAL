@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.empregosal">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -12,7 +12,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/SemBarra">
@@ -107,11 +106,24 @@
                 android:value="br.com.empregosal.activity.MainEmpresaActivity" />
         </activity>
         <activity
+            android:name=".activity.DetalhesUsuarioActivity"
+            android:theme="@style/SemBarra">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.empregosal.activity.MainEmpresaActivity" />
+        </activity>
+        <activity
             android:name=".viacep.org.ceprest.BuscaCep"
             android:theme="@style/SemBarra">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.empregosal.activity.MainEmpresaActivity" />
+        </activity>
+        <activity
+            android:name=".activity.PesquisaActivity" android:theme="@style/SemBarra2">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.empregosal.activity.MainActivity" />
         </activity>
     </application>
 

@@ -12,17 +12,6 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:text="Dados do Usuário"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        android:textStyle="normal|bold" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -39,14 +28,14 @@
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_height="wrap_content"
+                    android:paddingRight="120dp"
                     android:text="Nome"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:layout_height="wrap_content"
+                    android:paddingRight="90dp"
                     android:text="CPF"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="15sp" />
@@ -58,25 +47,19 @@
 
                 <EditText
                     android:id="@+id/et_nome_alterar"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
                     android:inputType="textCapSentences|textPersonName"
+                    android:paddingRight="20dp"
                     android:textColor="@android:color/black"
                     android:textColorHint="@color/cinza"
-                    android:textSize="18sp"
-                    android:layout_marginRight="10dp"
-                    android:layout_width="200dp" />
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/et_cpf_alterar"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
+                    android:enabled="false"
                     android:inputType="number"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/cinza"
                     android:textColorHint="@color/cinza"
-                    android:textSize="18sp"
-                    android:layout_width="20dp"
-                    android:layout_marginRight="60dp" />
+                    android:textSize="18sp" />
             </TableRow>
 
             <TableRow
@@ -85,16 +68,12 @@
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:text="Data de Nascimento"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/textView4"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
                     android:text="Estado Civil"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="15sp" />
@@ -106,25 +85,17 @@
 
                 <EditText
                     android:id="@+id/et_datanasc_alterar"
-                    android:layout_height="match_parent"
-                    android:ems="10"
                     android:inputType="textPersonName"
                     android:textColor="@android:color/black"
                     android:textColorHint="@color/cinza"
-                    android:textSize="18sp"
-                    android:layout_width="50dp"
-                    android:layout_marginRight="60dp" />
+                    android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/et_estadocivil_alterar"
+                <Spinner
+                    android:id="@+id/spinner_estado_civil"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textCapSentences|textPersonName"
-                    android:textColor="@android:color/black"
-                    android:textColorHint="@color/cinza"
-                    android:textSize="18sp"
-                    android:layout_marginRight="60dp"
-                    android:layout_width="50dp" />
+                    android:spinnerMode="dialog" />
+
             </TableRow>
 
             <TableRow
@@ -133,16 +104,12 @@
 
                 <TextView
                     android:id="@+id/textView5"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
                     android:text="Nacionalidade"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/textView6"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
                     android:text="Sexo"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="15sp" />
@@ -154,77 +121,60 @@
 
                 <EditText
                     android:id="@+id/et_nac_alterar"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
                     android:inputType="textCapSentences|textPersonName"
                     android:textColor="@android:color/black"
                     android:textColorHint="@color/cinza"
-                    android:textSize="18sp"
-                    android:layout_width="80dp"
-                    android:layout_marginRight="70dp" />
+                    android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/et_sexo_alterar"
+                <Spinner
+                    android:id="@+id/spinner_sexo"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textCapSentences|textPersonName"
-                    android:textColor="@android:color/black"
-                    android:textColorHint="@color/cinza"
-                    android:textSize="18sp"
-                    android:layout_width="50dp"
-                    android:layout_marginRight="50dp" />
+                    android:spinnerMode="dialog" />
+
             </TableRow>
 
             <TextView
                 android:id="@+id/textView7"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
                 android:text="Endereço"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/et_endereco_usuario_alterar"
-                android:layout_height="wrap_content"
-                android:ems="10"
                 android:inputType="textCapSentences|textPersonName"
                 android:textColor="@android:color/black"
                 android:textColorHint="@color/cinza"
-                android:textSize="18sp"
-                android:layout_width="50dp"
-                android:layout_marginRight="60dp" />
+                android:textSize="18sp" />
 
             <TableRow>
+
                 <TextView
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
                     android:text="CEP"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="15sp" />
 
             </TableRow>
 
-            <TableRow android:layout_height="match_parent"
-                android:layout_width="match_parent">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
                 <EditText
                     android:id="@+id/et_cep_usuario_alterar"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="textCapSentences|textPersonName"
+                    android:layout_marginRight="90dp"
+                    android:inputType="number"
                     android:maxLength="8"
                     android:textColor="@android:color/black"
                     android:textColorHint="@color/cinza"
-                    android:textSize="18sp"
-                    android:layout_marginRight="70dp"
-                    android:layout_width="50dp" />
+                    android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/bt_consultar_cep"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ic_place"
-                    android:layout_marginRight="130dp"
-                    android:layout_width="10dp"
-                    android:layout_marginBottom="5dp" />
+                    android:layout_marginBottom="10dp"
+                    android:text="Pesquisar"
+                    android:theme="@style/botao_padrao_secundario" />
 
             </TableRow>
 
@@ -233,20 +183,15 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
                     android:text="Número"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
                     android:text="Complemento"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="15sp" />
             </TableRow>
-
 
 
             <TableRow
@@ -255,41 +200,30 @@
 
                 <EditText
                     android:id="@+id/et_numero_usuario_alterar"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
+                    android:layout_marginRight="90dp"
                     android:inputType="textCapSentences|textPersonName"
-                    android:maxLength="10"
+                    android:maxLength="5"
                     android:textColor="@android:color/black"
                     android:textColorHint="@color/cinza"
-                    android:textSize="18sp"
-                    android:layout_marginRight="120dp"
-                    android:layout_width="80dp" />
+                    android:textSize="18sp" />
 
 
                 <EditText
                     android:id="@+id/et_complemento_usuario_alterar"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
                     android:inputType="textCapSentences|textPersonName"
                     android:textColor="@android:color/black"
                     android:textColorHint="@color/cinza"
-                    android:textSize="18sp"
-                    android:layout_marginRight="60dp" />
+                    android:textSize="18sp" />
             </TableRow>
 
             <TableRow>
 
                 <TextView
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
                     android:text="Cidade"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
                     android:text="Estado"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="15sp" />
@@ -300,27 +234,21 @@
 
                 <EditText
                     android:id="@+id/et_cidade_usuario_alterar"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
                     android:inputType="textCapSentences|textPersonName"
                     android:textColor="@android:color/black"
                     android:textColorHint="@color/cinza"
-                    android:textSize="18sp"
-                    android:layout_width="50dp"
-                    android:layout_marginRight="10dp" />
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/et_uf_usuario_alterar"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
+                    android:layout_marginRight="50dp"
                     android:inputType="textCapSentences|textPersonName"
                     android:textColor="@android:color/black"
                     android:textColorHint="@color/cinza"
-                    android:textSize="18sp"
-                    android:layout_width="50dp"
-                    android:layout_marginRight="60dp" />
+                    android:textSize="18sp" />
 
             </TableRow>
+
             <Button
                 android:id="@+id/bt_alterar_dados"
                 android:layout_width="match_parent"
@@ -329,6 +257,17 @@
                 android:theme="@style/botao_padrao" />
         </TableLayout>
     </ScrollView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:text="Dados do Usuário"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="normal|bold" />
 
     <ScrollView
         android:layout_width="match_parent"

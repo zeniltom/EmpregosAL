@@ -2,9 +2,11 @@ package br.com.empregosal.model;
 
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.Serializable;
+
 import br.com.empregosal.config.ConfiguracaoFirebase;
 
-public class Usuario {
+public class Usuario implements Serializable{
 
     private String idUsuario;
     private String email;
@@ -172,5 +174,10 @@ public class Usuario {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    @Override
+    public String toString() {
+        return nome;
     }
 }

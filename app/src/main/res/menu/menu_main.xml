@@ -7,18 +7,19 @@
         android:icon="@drawable/ic_search"
         android:orderInCategory="100"
         android:title="Pesquisar"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/item_perfil"
-        android:orderInCategory="200"
-        android:title="@string/item_perfil"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/item_curriculo"
         android:icon="@drawable/ic_cv"
-        android:orderInCategory="300"
+        android:orderInCategory="200"
         android:title="Currículo"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/item_perfil"
+        android:orderInCategory="300"
+        android:title="@string/item_perfil"
         app:showAsAction="ifRoom" />
 
     <item

@@ -14,24 +14,24 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#ededed">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cartaoSobre"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
                 app:cardBackgroundColor="@color/branco"
                 app:cardCornerRadius="2dp"
-                app:cardElevation="10dp"
-                android:layout_marginTop="10dp">
+                app:cardElevation="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -42,6 +42,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingBottom="20dp"
                         android:text="Sobre a vaga"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
@@ -53,7 +54,16 @@
                         android:layout_height="wrap_content"
                         android:text="Cargo"
                         android:textColor="@android:color/black"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
+                        android:textStyle="normal|bold" />
+
+                    <TextView
+                        android:id="@+id/tv_nome_empresa_detalhes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Empresa"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
                         android:textStyle="normal" />
 
                     <TextView
@@ -83,6 +93,17 @@
                         android:textSize="18sp"
                         android:textStyle="normal" />
 
+                    <Button
+                        android:id="@+id/botao_detalhes_candidatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@color/colorSecundary"
+                        android:text="Candidatar-Me"
+                        android:textAlignment="center"
+                        android:textColor="@color/branco"
+                        android:textSize="18sp"
+                        android:textStyle="normal|bold" />
+
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
@@ -91,13 +112,12 @@
                 android:id="@+id/cartaoDescricao"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
                 app:cardBackgroundColor="@color/branco"
                 app:cardCornerRadius="2dp"
-                app:cardElevation="10dp"
-                android:layout_marginTop="5dp">
+                app:cardElevation="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -108,10 +128,20 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingBottom="20dp"
                         android:text="Descrição da vaga"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:textStyle="normal|bold" />
+
+                    <TextView
+                        android:id="@+id/botao_ver_mais_detalhes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@color/branco"
+                        android:text="VER MAIS"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_descricao_detalhes"
@@ -120,7 +150,25 @@
                         android:text="Descrição"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
-                        android:textStyle="normal" />
+                        android:textStyle="normal"
+                        android:visibility="gone" />
+
+                    <View
+                        android:id="@+id/separador_descricao_vaga_detalhes"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/cinzaClaro"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Contrato"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="normal|bold" />
 
                     <TextView
                         android:id="@+id/tv_contrato_detalhes"
@@ -131,23 +179,63 @@
                         android:textSize="18sp"
                         android:textStyle="normal" />
 
-                    <TextView
-                        android:id="@+id/tv_faixa_salarial_detalhes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Faixa Salarial"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp"
-                        android:textStyle="normal" />
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/cinzaClaro" />
 
-                    <TextView
-                        android:id="@+id/tv_qtd_detalhes"
-                        android:layout_width="match_parent"
+                    <TableLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Quantidade"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp"
-                        android:textStyle="normal" />
+                        android:orientation="horizontal">
+
+                        <TableRow>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Salario R$"
+                                android:textColor="@android:color/black"
+                                android:textSize="18sp"
+                                android:textStyle="normal|bold" />
+
+                            <TextView
+                                android:id="@+id/tv_faixa_salarial_detalhes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Faixa Salarial"
+                                android:textAlignment="center"
+                                android:textColor="@android:color/black"
+                                android:textSize="18sp"
+                                android:textStyle="normal" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Quantidade "
+                                android:textColor="@android:color/black"
+                                android:textSize="18sp"
+                                android:textStyle="normal|bold" />
+
+                            <TextView
+                                android:id="@+id/tv_qtd_detalhes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Quantidade"
+                                android:textAlignment="center"
+                                android:textColor="@android:color/black"
+                                android:textSize="18sp"
+                                android:textStyle="normal" />
+                        </TableRow>
+
+
+                    </TableLayout>
+
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -157,12 +245,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
                 app:cardBackgroundColor="@color/branco"
                 app:cardCornerRadius="2dp"
-                app:cardElevation="10dp"
-                android:layout_marginTop="5dp">
+                app:cardElevation="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -173,7 +261,16 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingBottom="20dp"
                         android:text="Detalhes da vaga"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="normal|bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Jornada"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:textStyle="normal|bold" />
@@ -187,6 +284,21 @@
                         android:textSize="18sp"
                         android:textStyle="normal" />
 
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/cinzaClaro" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Área Profissional"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="normal|bold" />
+
                     <TextView
                         android:id="@+id/tv_area_profissional_detalhes"
                         android:layout_width="match_parent"
@@ -196,6 +308,21 @@
                         android:textSize="18sp"
                         android:textStyle="normal" />
 
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/cinzaClaro" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nível Hierárquico"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="normal|bold" />
+
                     <TextView
                         android:id="@+id/tv_nivel_hierarquico__detalhes"
                         android:layout_width="match_parent"
@@ -204,6 +331,21 @@
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:textStyle="normal" />
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/cinzaClaro" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nível de Estudos"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="normal|bold" />
 
                     <TextView
                         android:id="@+id/tv_nivel_estudos_detalhes"

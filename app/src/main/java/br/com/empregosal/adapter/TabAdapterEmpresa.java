@@ -9,7 +9,7 @@ import br.com.empregosal.activity.fragment.InicioFragment;
 
 public class TabAdapterEmpresa extends FragmentStatePagerAdapter {
 
-    private String[] tituloAbas = {"INÍCIO", "GERENCIA"};
+    private String[] tituloAbas = {"CANDIDATOS", "MINHAS VAGAS"};
 
     public TabAdapterEmpresa(FragmentManager fm) {
         super(fm);
