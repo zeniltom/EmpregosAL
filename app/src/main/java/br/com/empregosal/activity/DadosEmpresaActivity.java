@@ -1,6 +1,5 @@
 package br.com.empregosal.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -124,44 +123,47 @@ public class DadosEmpresaActivity extends AppCompatActivity {
         bt_alterar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                progressDialog = new SpotsDialog(DadosEmpresaActivity.this, "Salvando alterações...", R.style.dialogEmpregosAL);
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-                consultarCep();
-
-                reference.child("empresas").child(usuarioFirebase.getCurrentUser().getUid()).
-                        addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Empresa empresa = dataSnapshot.getValue(Empresa.class);
-
-                                HashMap<String, Object> dados = new HashMap<String, Object>();
-                                dados.put("nome", nome.getText().toString());
-                                dados.put("cnpj", cnpj.getText().toString());
-                                dados.put("razaoSocial", razao_social.getText().toString());
-                                dados.put("descricao", descricao_empresa.getText().toString());
-                                dados.put("setor", setor.getText().toString());
-                                dados.put("cep", cep.getText().toString());
-                                dados.put("endereco", endereco.getText().toString());
-                                dados.put("estado", estado.getText().toString());
-                                dados.put("cidade", cidade.getText().toString());
-                                dados.put("numero", numero.getText().toString());
-                                dados.put("complemento", complemento.getText().toString());
-
-                                reference.child("empresas").child(usuarioFirebase.getCurrentUser().getUid()).updateChildren(dados);
-
-                                Toast.makeText(DadosEmpresaActivity.this, "Dados alterados com sucesso!", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
+                alterarDados();
             }
         });
+    }
+
+    private void alterarDados() {
+        progressDialog = new SpotsDialog(DadosEmpresaActivity.this, "Salvando alterações...", R.style.dialogEmpregosAL);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        consultarCep();
+
+        reference.child("empresas").child(usuarioFirebase.getCurrentUser().getUid()).
+                addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Empresa empresa = dataSnapshot.getValue(Empresa.class);
+
+                        HashMap<String, Object> dados = new HashMap<String, Object>();
+                        dados.put("nome", nome.getText().toString());
+                        dados.put("cnpj", cnpj.getText().toString());
+                        dados.put("razaoSocial", razao_social.getText().toString());
+                        dados.put("descricao", descricao_empresa.getText().toString());
+                        dados.put("setor", setor.getText().toString());
+                        dados.put("cep", cep.getText().toString());
+                        dados.put("endereco", endereco.getText().toString());
+                        dados.put("estado", estado.getText().toString());
+                        dados.put("cidade", cidade.getText().toString());
+                        dados.put("numero", numero.getText().toString());
+                        dados.put("complemento", complemento.getText().toString());
+
+                        reference.child("empresas").child(usuarioFirebase.getCurrentUser().getUid()).updateChildren(dados);
+
+                        Toast.makeText(DadosEmpresaActivity.this, "Dados alterados com sucesso!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     private void consultarCep() {
@@ -199,14 +201,4 @@ public class DadosEmpresaActivity extends AppCompatActivity {
             }
         }
     };
-
-
-    private void deslogarUsuario() {
-
-        usuarioFirebase.signOut();
-
-        Intent intent = new Intent(DadosEmpresaActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
 }

@@ -1,25 +1,40 @@
 package br.com.empregosal.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 
 import br.com.empregosal.R;
@@ -34,25 +49,16 @@ public class DadosUsuarioActivity extends AppCompatActivity {
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference firebase;
     private FirebaseAuth usuarioFirebase;
-    private EditText nome;
-    private EditText cpf;
-    private EditText datanasc;
-    private EditText nasc;
-    private EditText numero;
-    private EditText endereco;
-    private EditText uf;
-    private EditText complemento;
+    private EditText nome, cpf, datanasc, nasc, numero, endereco, uf, complemento, cep, cidade;
+    private ImageView imageView;
     private ValueEventListener valueEventListenerUsuario;
-    private Button bt_alterar;
-    private Button bt_consulta_cep;
-    private EditText cep;
+    private Button bt_alterar, bt_consulta_cep, bt_add_foto_perfil;
     private ViaCEP viacep;
-    private EditText cidade;
     private SpotsDialog progressDialog;
     private String[] genero = new String[]{"Selecione", "Masculino", "Feminino"};
     private String[] estado_civil = new String[]{"Selecione", "Casado", "Divorciado", "Separado", "Solteiro", "Viúvo"};
-    private Spinner spinner_sexo;
-    private Spinner spinner_estado_civil;
+    private Spinner spinner_sexo, spinner_estado_civil;
+    private Uri localImagemSelecionada;
 
     @Override
     protected void onStart() {
@@ -102,8 +108,11 @@ public class DadosUsuarioActivity extends AppCompatActivity {
         complemento = findViewById(R.id.et_complemento_usuario_alterar);
         bt_alterar = findViewById(R.id.bt_alterar_dados);
         bt_consulta_cep = findViewById(R.id.bt_consultar_cep);
+        bt_consulta_cep = findViewById(R.id.bt_consultar_cep);
+        bt_add_foto_perfil = findViewById(R.id.bt_add_foto_perfil);
         spinner_sexo = findViewById(R.id.spinner_sexo);
         spinner_estado_civil = findViewById(R.id.spinner_estado_civil);
+        imageView = findViewById(R.id.foto_perfil);
 
         usuarioFirebase = ConfiguracaoFirebase.getFirebaseAutenticacao();
 
@@ -117,6 +126,7 @@ public class DadosUsuarioActivity extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapterEstadoCivil = new ArrayAdapter<String>(this, R.layout.spinner_item, estado_civil);
         arrayAdapterEstadoCivil.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
+        downloadImagem();
 
         spinner_sexo.setAdapter(arrayAdapterGenero);
         spinner_sexo.setPrompt("Selecione");
@@ -136,6 +146,78 @@ public class DadosUsuarioActivity extends AppCompatActivity {
                 alterarDados();
             }
         });
+
+        bt_add_foto_perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                carregarFoto();
+            }
+        });
+    }
+
+
+    private void downloadImagem() {
+        StorageReference referenciaStorage = FirebaseStorage.getInstance().getReference();
+        StorageReference stream = referenciaStorage.
+                child("usuarios_imagens").
+                child(usuarioFirebase.getCurrentUser().getUid())
+                .child("perfil.png");
+
+        //disabling use of both the disk and memory caches
+        Glide.with(this)
+                .using(new FirebaseImageLoader())
+                .load(stream)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(imageView);
+    }
+
+    private void upload() {
+        StorageReference referenciaStorage = FirebaseStorage.getInstance().getReference();
+        StorageReference stream = referenciaStorage.
+                child("usuarios_imagens").
+                child(usuarioFirebase.getCurrentUser().getUid())
+                .child("perfil.png");
+
+        stream.putFile(localImagemSelecionada).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                Log.i("Progresso ->: " , progress + "% Upload");
+            }
+        });
+    }
+
+    private void carregarFoto() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 1);
+        imageView.setImageBitmap(null);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+
+            localImagemSelecionada = data.getData();
+            try {
+                Bitmap imagem = MediaStore.Images.Media.getBitmap(getContentResolver(),
+                        localImagemSelecionada);
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                imagem.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                imageView.setImageBitmap(imagem);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void alterarDados() {
@@ -163,6 +245,7 @@ public class DadosUsuarioActivity extends AppCompatActivity {
                 dados.put("uf", uf.getText().toString());
                 dados.put("complemento", complemento.getText().toString());
                 dados.put("numero", numero.getText().toString());
+                upload();
 
                 if (spinner_sexo.getSelectedItem().toString().equals("Selecione")) {
                     dados.put("sexo", "");
@@ -176,10 +259,7 @@ public class DadosUsuarioActivity extends AppCompatActivity {
                     dados.put("estado_civ", spinner_estado_civil.getSelectedItem().toString());
                 }
 
-                progressDialog.dismiss();
-
                 reference.child("usuarios").child(usuarioFirebase.getCurrentUser().getUid()).updateChildren(dados);
-                reference.keepSynced(true);
 
                 Toast.makeText(DadosUsuarioActivity.this, "Dados alterados com sucesso!", Toast.LENGTH_SHORT).show();
                 finish();
@@ -256,14 +336,5 @@ public class DadosUsuarioActivity extends AppCompatActivity {
         } else {
             spinner_sexo.setSelection(0);
         }
-    }
-
-    private void deslogarUsuario() {
-
-        usuarioFirebase.signOut();
-
-        Intent intent = new Intent(DadosUsuarioActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
     }
 }

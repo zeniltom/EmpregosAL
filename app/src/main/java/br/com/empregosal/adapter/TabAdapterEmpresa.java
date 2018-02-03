@@ -9,7 +9,7 @@ import br.com.empregosal.activity.fragment.InicioFragment;
 
 public class TabAdapterEmpresa extends FragmentStatePagerAdapter {
 
-    private String[] tituloAbas = {"CANDIDATOS", "MINHAS VAGAS"};
+    private String[] tituloAbas = {"MINHAS VAGAS", "CANDIDATOS"};
 
     public TabAdapterEmpresa(FragmentManager fm) {
         super(fm);
@@ -19,12 +19,12 @@ public class TabAdapterEmpresa extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) { //Retorna os fragmentos
         Fragment fragment = null;
 
-        switch (position){
+        switch (position) {
             case 0:
-               fragment = new InicioFragment();
+                fragment = new GerenciaFragment();
                 break;
             case 1:
-               fragment = new GerenciaFragment();
+                fragment = new InicioFragment();
                 break;
         }
         return fragment;

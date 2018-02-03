@@ -6,7 +6,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +22,7 @@ import br.com.empregosal.adapter.ExperienciasRecyclerAdapter;
 import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.model.Candidatura;
 import br.com.empregosal.model.Experiencia;
+import br.com.empregosal.model.Usuario;
 import br.com.empregosal.model.Vaga;
 
 public class DetalhesUsuarioActivity extends AppCompatActivity {
@@ -67,49 +67,44 @@ public class DetalhesUsuarioActivity extends AppCompatActivity {
         reciclerView = findViewById(R.id.recycler_view);
 
         experiencias = new ArrayList<>();
+        
+        Usuario usuario = (Usuario) getIntent().getSerializableExtra("usuario");
 
-        final Bundle dadosPassados = getIntent().getExtras();
+        nome.setText(usuario.getNome());
+        cidade.setText(usuario.getCidade());
+        uf.setText(usuario.getUf());
 
-        if (dadosPassados != null) {
+        adapter = new ExperienciasRecyclerAdapter(experiencias);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        reciclerView.setLayoutManager(mLayoutManager);
+        reciclerView.setItemAnimator(new DefaultItemAnimator());
+        reciclerView.setAdapter(adapter);
 
-            nome.setText(dadosPassados.getString("usuario_nome"));
-            cidade.setText(dadosPassados.getString("usuario_cidade"));
-            uf.setText(dadosPassados.getString("usuario_uf"));
+        firebase = ConfiguracaoFirebase.getFirebase()
+                .child("experiencias")
+                .child(usuario.getIdUsuario());
 
-            adapter =  new ExperienciasRecyclerAdapter(experiencias);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-            reciclerView.setLayoutManager(mLayoutManager);
-            reciclerView.setItemAnimator(new DefaultItemAnimator());
-            reciclerView.setAdapter(adapter);
+        //Listener para recuperar experiencias
+        valueEventListenerExperiencias = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Limpar lista
+                experiencias.clear();
 
-            firebase = ConfiguracaoFirebase.getFirebase()
-                    .child("experiencias")
-                    .child(dadosPassados.getString("usuario_idUsuario"));
+                //Listar experiencias
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
-            Log.i("Dados Recebidos -> ", dadosPassados.getString("usuario_idUsuario"));
-
-            //Listener para recuperar experiencias
-            valueEventListenerExperiencias = new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    //Limpar lista
-                    experiencias.clear();
-
-                    //Listar experiencias
-                    for (DataSnapshot dados : dataSnapshot.getChildren()) {
-
-                        Experiencia experiencia = dados.getValue(Experiencia.class);
-                        experiencias.add(experiencia);
-                    }
-                    adapter.notifyDataSetChanged();
+                    Experiencia experiencia = dados.getValue(Experiencia.class);
+                    experiencias.add(experiencia);
                 }
+                adapter.notifyDataSetChanged();
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            };
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
 
-        }
     }
 
     private void candidatarVaga(Vaga vaga, String idUsuarioLogado) {

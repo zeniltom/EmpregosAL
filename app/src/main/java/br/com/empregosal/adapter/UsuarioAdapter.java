@@ -30,10 +30,6 @@ public class UsuarioAdapter extends ArrayAdapter<Usuario> {
         this.context = c;
     }
 
-    public int Qtd() {
-        return usuarios.size();
-    }
-
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -43,10 +39,8 @@ public class UsuarioAdapter extends ArrayAdapter<Usuario> {
 
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 
-            // Monta view a partir do xml
             view = inflater.inflate(R.layout.lista_usuarios, parent, false);
 
-            // recupera elemento para exibição
             TextView usuarioNome = view.findViewById(R.id.tv_nome_usuario);
             TextView usuarioCidade = view.findViewById(R.id.tv_cidade_usuario);
             TextView usuarioUF = view.findViewById(R.id.tv_uf_usuario);
@@ -61,6 +55,7 @@ public class UsuarioAdapter extends ArrayAdapter<Usuario> {
                     .child("experiencias")
                     .child(usuario.getIdUsuario()).orderByChild("dataInicio").limitToFirst(1);
 
+            //Mostra a experiência do usuário na tela de "Candidatos" da Empresa
             experiencia.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

@@ -84,7 +84,7 @@ public class InicioFragment extends Fragment {
         DatabaseReference oneRef = ConfiguracaoFirebase.getFirebase();
 
         query = ConfiguracaoFirebase.getFirebase().child("usuarios")
-                .orderByChild("idUsuario");
+                .orderByChild("nome");
 
         valueEventListenerUsuarios = new ValueEventListener() {
             @Override

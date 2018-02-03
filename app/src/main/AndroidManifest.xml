@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.empregosal">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -120,11 +121,22 @@
                 android:value="br.com.empregosal.activity.MainEmpresaActivity" />
         </activity>
         <activity
-            android:name=".activity.PesquisaActivity" android:theme="@style/SemBarra2">
+            android:name=".activity.PesquisaActivity"
+            android:theme="@style/SemBarra2">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.empregosal.activity.MainActivity" />
         </activity>
+        <activity
+            android:name=".activity.SituacaoVagaActivity"
+            android:theme="@style/SemBarra">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.empregosal.activity.MainEmpresaActivity" />
+        </activity>
+        <activity
+            android:name=".activity.ListaCandidatosActivity"
+            android:theme="@style/SemBarra"/>
     </application>
 
 </manifest>

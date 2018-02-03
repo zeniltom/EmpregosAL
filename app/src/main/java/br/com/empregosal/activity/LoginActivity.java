@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     private ValueEventListener valueEventListenerEmpresa;
     private String[] permissoesNecessarias = new String[]{
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.INTERNET
+            Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE
     };
 
     @Override

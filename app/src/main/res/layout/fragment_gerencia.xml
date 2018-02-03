@@ -48,16 +48,4 @@
 
         </RelativeLayout>
     </ScrollView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabAddVaga"
-        app:fabSize="normal"
-        app:srcCompat="@android:drawable/ic_menu_add"
-        android:layout_width="136dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:clickable="true" />
-
 </RelativeLayout>

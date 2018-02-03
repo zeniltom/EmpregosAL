@@ -1,5 +1,6 @@
 package br.com.empregosal.activity.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import br.com.empregosal.R;
+import br.com.empregosal.activity.SituacaoVagaActivity;
 import br.com.empregosal.adapter.VagaAdapter;
 import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.helper.Preferencias;
@@ -64,7 +66,6 @@ public class GerenciaFragment extends Fragment {
 
         //Monta listview e adapter
         qtd_vaga = view.findViewById(R.id.qtd_vagas);
-        fab = view.findViewById(R.id.fabAddVaga);
         listView = (ListView) view.findViewById(R.id.lv_vagas);
         vazia = (TextView) view.findViewById(R.id.vazia_vaga);
         listView.setEmptyView(vazia);
@@ -116,29 +117,29 @@ public class GerenciaFragment extends Fragment {
             }
         };
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), VagaActivity.class);
-//                startActivity(intent);
-            }
-        });
-
-        //Ao clicar na experiencia, editar
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Criar nova activity para editar os dados da experiencia
+                Vaga vaga = vagas.get(position);
 
-//                // recupera dados a serem passados
-//                Experiencia experiencia = experiencias.get(position);
-//
-//                // enviando dados para conversa activity
-//                intent.putExtra("nome", experiencia.getNomeDaEmpresa());
-//                intent.putExtra("email", experiencia.getCargo());
-//
-//                startActivity(intent);
+                Intent intent = new Intent(getContext(), SituacaoVagaActivity.class);
+                intent.putExtra("vaga_cargo", vaga.getCargo());
+                intent.putExtra("vaga_localizacao", vaga.getLocalizacao());
+                intent.putExtra("vaga_descricao", vaga.getDescricao());
+                intent.putExtra("vaga_data", vaga.getData());
+                intent.putExtra("vaga_tipo_contrato", vaga.getTipoContrato());
+                intent.putExtra("vaga_nome_empresa", vaga.getNomeEmpresa());
+                intent.putExtra("vaga_area_profissional", vaga.getAreaProfissional());
+                intent.putExtra("vaga_tipo_contrato", vaga.getTipoContrato());
+                intent.putExtra("vaga_nivel_hierarquico", vaga.getNivelHierarquico());
+                intent.putExtra("vaga_nivel_estudos", vaga.getNivelEstudos());
+                intent.putExtra("vaga_jornada", vaga.getJornada());
+                intent.putExtra("vaga_faixa_salarial", vaga.getFaixaSalarial());
+                intent.putExtra("vaga_cep", vaga.getCEP());
+                intent.putExtra("vaga_qtd", vaga.getQtd());
+                intent.putExtra("vaga", vaga);
 
+                startActivity(intent);
             }
         });
 

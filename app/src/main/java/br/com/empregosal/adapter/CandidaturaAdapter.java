@@ -45,9 +45,9 @@ public class CandidaturaAdapter extends ArrayAdapter<Candidatura>{
             TextView nomeVaga = view.findViewById(R.id.tv_nome_vaga_candidatura);
             TextView nomeEmpresa = view.findViewById(R.id.tv_nome_empresa_vaga_candidatura);
 
-            Candidatura vaga = candidaturas.get(position);
-            nomeVaga.setText(vaga.getNomeVaga());
-            nomeEmpresa.setText(vaga.getNomeEmpresa());
+            Candidatura candidatura = candidaturas.get(position);
+            nomeVaga.setText(candidatura.getNomeVaga());
+            nomeEmpresa.setText(candidatura.getNomeEmpresa());
         }
 
         return view;

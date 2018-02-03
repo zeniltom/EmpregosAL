@@ -1,6 +1,7 @@
 package br.com.empregosal.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,8 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
     private Empresa empresaPesquisda;
     private Usuario usuarioPesquisado;
     private Candidatura candidaturaP;
+    Usuario user = null;
+    Vaga job = null;
 
     public VagasEmpregoAdapter(Context c, ArrayList<Vaga> objects) {
         super(c, 0, objects);
@@ -166,9 +169,11 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
         return view;
     }
 
-    private void candidatarVaga(int posicao, String idUsuarioLogado, Empresa empresaPesquisda, Usuario usuarioPesquisado, Vaga vaga) {
+    private void candidatarVaga(final int posicao, String idUsuarioLogado, Empresa empresaPesquisda, Usuario usuarioPesquisado, Vaga vaga) {
         vaga = vagas.get(posicao);
         candidaturaP = null;
+        job = vaga;
+        user = usuarioPesquisado;
 
         //Validar se já existe cadastro na vaga
 
@@ -185,19 +190,13 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
                 .orderByChild("idVaga")
                 .equalTo(vaga.getIdVaga());
 
+
         pesquisa.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot dados : dataSnapshot.getChildren()) {
                     candidaturaP = dados.getValue(Candidatura.class);
-                    System.out.println("CandidaturaP    " + candidaturaP.getIdVaga());
-                    System.out.println("Nome da Vaga    " + candidaturaP.getNomeVaga());
-                    System.out.println("ID do Usuario   " + candidaturaP.getIdUsuario());
-                    System.out.println("Nome do Usuario " + candidaturaP.getNomeUsuario());
-                    System.out.println("ID da Empresa   " + candidaturaP.getIdEmpresa());
-                    System.out.println("Nome da empresa " + candidaturaP.getNomeEmpresa());
-
                 }
 
                 if (candidaturaP == null) {
@@ -208,21 +207,31 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
                         firebase.push()
                                 .setValue(candidatura);
 
-                        System.out.println(candidatura.getIdVaga());
-                        System.out.println(candidatura.getNomeVaga());
-                        System.out.println(candidatura.getIdUsuario());
-                        System.out.println(candidatura.getNomeUsuario());
-                        System.out.println(candidatura.getIdEmpresa());
-                        System.out.println(candidatura.getNomeEmpresa());
-
-                        Toast.makeText(getContext(), "Sucesso ao candidatar na vaga", Toast.LENGTH_LONG).show();
+                        Log.i("#RESULTADO -> ", "Cria uma nova vaga se não existe");
+                        Toast.makeText(getContext(), "Sucesso ao candidatar na vaga", Toast.LENGTH_SHORT).show();
 
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Erro ao candicatar na vaga", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Erro ao candicatar na vaga", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
-                } else {
-                    Toast.makeText(getContext(), "Já cadastrado na vaga " + candidaturaP.getNomeVaga(), Toast.LENGTH_LONG).show();
+                }
+
+                if (candidaturaP != null && candidaturaP.getIdVaga().equals(job.getIdVaga())
+                        && candidaturaP.getIdUsuario().equals(user.getIdUsuario())
+                        && candidaturaP.getNomeUsuario().equals(user.getNome())) {
+
+                    Log.i("#RESULTADO -> ", "Existe candidatura para este usuário");
+                    Toast.makeText(getContext(), "Existe candidatura para este usuário", Toast.LENGTH_SHORT).show();
+                }
+
+                if (candidaturaP != null && candidaturaP.getIdVaga().equals(job.getIdVaga())
+                        && !(candidaturaP.getIdUsuario().equals(user.getIdUsuario()))
+                        && !(candidaturaP.getIdEmpresa().equals(job.getIdVaga()))) {
+                    Log.i("#RESULTADO -> ", "Existe candidatura, mas não para este usuário");
+                    Toast.makeText(getContext(), "Existe candidatura, mas não para este usuário", Toast.LENGTH_SHORT).show();
+                    firebase = ConfiguracaoFirebase.getFirebase().child("candidaturas");
+                    firebase.push()
+                            .setValue(candidatura);
                 }
             }
 

@@ -47,44 +47,4 @@
         </TableRow>
 
     </TableLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/cinzaClaro"
-        android:orientation="horizontal"
-        android:paddingTop="1dp">
-
-
-        <Button
-            android:id="@+id/bt_apagar_vaga"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:background="@color/textColorPrimary"
-            android:text="Apagar"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="normal|bold" />
-
-        <Button
-            android:id="@+id/bt_visualizar_vaga"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:background="@color/textColorPrimary"
-            android:text="Visualizar"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="normal|bold" />
-
-        <Button
-            android:id="@+id/bt_editar_vaga"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:background="@color/textColorPrimary"
-            android:text="Editar"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="normal|bold" />
-
-    </LinearLayout>
 </LinearLayout>
