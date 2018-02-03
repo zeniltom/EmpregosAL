@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +35,6 @@ import br.com.empregosal.model.Vaga;
 
 public class ListaCandidatosActivity extends AppCompatActivity {
 
-    private EditText textoPesquisa;
     private TextView vazio;
     private ListView listaPesquisa;
     private Toolbar toolbar;
@@ -50,7 +48,7 @@ public class ListaCandidatosActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        pesquisarPalavra("", vaga);
+        listarUsuarios("", vaga);
     }
 
     @Override
@@ -58,7 +56,6 @@ public class ListaCandidatosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_candidatos);
 
-        textoPesquisa = findViewById(R.id.et_pesquisa);
         listaPesquisa = findViewById(R.id.lv_pesquisa);
         vazio = findViewById(R.id.tv_pesquisa_vaga_vazio);
 
@@ -77,22 +74,22 @@ public class ListaCandidatosActivity extends AppCompatActivity {
         listaPesquisa.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                clicarItem(position);
+                selecionarCandidato(position);
             }
         });
     }
 
-    private void clicarItem(int position) {
+    private void selecionarCandidato(int position) {
         Usuario usuario = usuarioLista.get(position);
 
-        Intent intent = new Intent(getApplicationContext(), DetalhesUsuarioActivity.class);
+        Intent intent = new Intent(getApplicationContext(), DetalhesCandidatoActivity.class);
         intent.putExtra("usuario_idUsuario", usuario.getIdUsuario());
         intent.putExtra("usuario", usuario);
 
         startActivity(intent);
     }
 
-    private void pesquisarPalavra(String palavra, Vaga vaga) {
+    private void listarUsuarios(String palavra, Vaga vaga) {
         Query query;
         candidaturaP = null;
 
@@ -169,8 +166,6 @@ public class ListaCandidatosActivity extends AppCompatActivity {
 //
 //            }
 //        });
-
-
     }
 
     private void inicializarFirebase() {
@@ -181,53 +176,73 @@ public class ListaCandidatosActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_pesquisa, menu);
+        inflater.inflate(R.menu.menu_candidato, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String palavra = textoPesquisa.getText().toString().trim();
         switch (item.getItemId()) {
-
-            case R.id.item_filtrar_data:
-                filtrarPorData(palavra);
-                return true;
-            case R.id.item_filtrar_localizacao:
-                filtrarPorLocalizacao(palavra);
-                return true;
-            case R.id.item_filtrar_area:
-                filtrarPorArea(palavra);
+            case R.id.item_filtrar_nome:
+                filtrarPorArea();
                 return true;
             default:
                 return super.onOptionsItemSelected(item); //Padrão para Android
         }
     }
 
-    private void filtrarPorArea(String palavra) {
+    private void filtrarPorArea() {
         Query query;
-        query = databaseReference.child("vagas")
-                .orderByChild("areaProfissional");
+        candidaturaP = null;
+        query = databaseReference.child("candidaturas").
+                orderByChild("idVaga").equalTo(vaga.getIdVaga());
 
         usuarioLista.clear();
-
-        Toast.makeText(getApplicationContext(), "Filtrado por Data", Toast.LENGTH_SHORT).show();
-
-        query.addValueEventListener(new ValueEventListener() {
+        query.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
-                    Usuario v = objSnapshot.getValue(Usuario.class);
-                    usuarioLista.add(v);
-                }
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                usuarioArrayAdapter = new UsuarioAdapter(getApplicationContext(), usuarioLista);
+                Query queryUsuario = databaseReference.child("usuarios")
+                        .orderByChild("nome")
+                        .equalTo((String) dataSnapshot.child("nomeUsuario").getValue());
 
+                queryUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
+                            Usuario u = objSnapshot.getValue(Usuario.class);
+                            usuarioLista.add(u);
+                        }
 
-                listaPesquisa.setAdapter(usuarioArrayAdapter);
-                vazio.setText("Sem resultados");
-                listaPesquisa.setEmptyView(vazio);
-                usuarioArrayAdapter.notifyDataSetChanged();
+                        usuarioArrayAdapter = new UsuarioAdapter(getApplicationContext(), usuarioLista);
+
+                        listaPesquisa.setAdapter(usuarioArrayAdapter);
+                        vazio.setText("Sem resultados");
+                        listaPesquisa.setEmptyView(vazio);
+                        usuarioArrayAdapter.notifyDataSetChanged();
+                        Toast.makeText(getApplicationContext(), "Filtrado por nome", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
@@ -237,7 +252,7 @@ public class ListaCandidatosActivity extends AppCompatActivity {
         });
     }
 
-    private void filtrarPorLocalizacao(String palavra) {
+    private void filtrarPorLocalizacao() {
         Query query;
         query = databaseReference.child("vagas").orderByChild("localizacao");
 
@@ -269,7 +284,7 @@ public class ListaCandidatosActivity extends AppCompatActivity {
         });
     }
 
-    private void filtrarPorData(String palavra) {
+    private void filtrarPorData() {
         Query query;
         query = databaseReference.child("vagas").orderByChild("data");
 

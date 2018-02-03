@@ -5,12 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -44,12 +50,27 @@ public class UsuarioAdapter extends ArrayAdapter<Usuario> {
             TextView usuarioNome = view.findViewById(R.id.tv_nome_usuario);
             TextView usuarioCidade = view.findViewById(R.id.tv_cidade_usuario);
             TextView usuarioUF = view.findViewById(R.id.tv_uf_usuario);
+            ImageView imageView = view.findViewById(R.id.imgUser);
             final TextView usuarioXP = view.findViewById(R.id.tv_xp_usuario);
 
             final Usuario usuario = usuarios.get(position);
             usuarioNome.setText(usuario.getNome());
             usuarioCidade.setText(usuario.getCidade());
             usuarioUF.setText(usuario.getUf());
+
+            StorageReference referenciaStorage = FirebaseStorage.getInstance().getReference();
+            StorageReference stream = referenciaStorage.
+                    child("usuarios_imagens").
+                    child(usuario.getIdUsuario())
+                    .child("perfil.png");
+
+            //disabling use of both the disk and memory caches
+            Glide.with(getContext().getApplicationContext())
+                    .using(new FirebaseImageLoader())
+                    .load(stream)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(imageView);
 
             Query experiencia = ConfiguracaoFirebase.getFirebase()
                     .child("experiencias")
@@ -59,7 +80,7 @@ public class UsuarioAdapter extends ArrayAdapter<Usuario> {
             experiencia.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot dados : dataSnapshot.getChildren()){
+                    for (DataSnapshot dados : dataSnapshot.getChildren()) {
                         Experiencia xp = dados.getValue(Experiencia.class);
                         usuarioXP.setText(xp.getCargo());
                     }

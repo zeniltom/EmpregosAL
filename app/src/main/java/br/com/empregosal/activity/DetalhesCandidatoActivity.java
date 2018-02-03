@@ -6,8 +6,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -29,12 +32,13 @@ import br.com.empregosal.model.Candidatura;
 import br.com.empregosal.model.Experiencia;
 import br.com.empregosal.model.Usuario;
 
-public class DetalhesUsuarioActivity extends AppCompatActivity {
+public class DetalhesCandidatoActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView nome;
     private TextView cidade;
     private TextView uf;
+    private Button botaoContratar;
     private ImageView imageView;
     private ArrayList<Experiencia> experiencias;
     private Candidatura candidaturaP;
@@ -59,21 +63,22 @@ public class DetalhesUsuarioActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detalhe_usuario);
+        setContentView(R.layout.activity_detalhe_candidato);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Detalhes do Usuário");
+        toolbar.setTitle("Detalhes do Candidato");
         toolbar.setNavigationIcon(R.drawable.ic_action_arrow_left);
         setSupportActionBar(toolbar);
 
         nome = findViewById(R.id.tv_detalhes_nome_usuario);
         cidade = findViewById(R.id.tv_detalhes_cidade_usuario);
         uf = findViewById(R.id.tv_detalhes_uf_usuario);
+        botaoContratar = findViewById(R.id.botao_contratar);
         imageView = findViewById(R.id.imgUser);
         reciclerView = findViewById(R.id.recycler_view);
 
         experiencias = new ArrayList<>();
-
+        
         Usuario usuario = (Usuario) getIntent().getSerializableExtra("usuario");
 
         nome.setText(usuario.getNome());
@@ -87,6 +92,13 @@ public class DetalhesUsuarioActivity extends AppCompatActivity {
         reciclerView.setLayoutManager(mLayoutManager);
         reciclerView.setItemAnimator(new DefaultItemAnimator());
         reciclerView.setAdapter(adapter);
+
+        botaoContratar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                contratar();
+            }
+        });
 
         firebase = ConfiguracaoFirebase.getFirebase()
                 .child("experiencias")
@@ -112,6 +124,10 @@ public class DetalhesUsuarioActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         };
+    }
+
+    private void contratar() {
+        Toast.makeText(getApplicationContext(), "Contratado!", Toast.LENGTH_SHORT).show();
     }
 
     private void carregarFotoPerfil(Usuario usuario) {
