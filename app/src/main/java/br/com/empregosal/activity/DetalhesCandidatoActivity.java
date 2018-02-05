@@ -1,6 +1,8 @@
 package br.com.empregosal.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +20,6 @@ import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -31,6 +32,7 @@ import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.model.Candidatura;
 import br.com.empregosal.model.Experiencia;
 import br.com.empregosal.model.Usuario;
+import br.com.empregosal.model.Vaga;
 
 public class DetalhesCandidatoActivity extends AppCompatActivity {
 
@@ -42,11 +44,11 @@ public class DetalhesCandidatoActivity extends AppCompatActivity {
     private ImageView imageView;
     private ArrayList<Experiencia> experiencias;
     private Candidatura candidaturaP;
-    private Query pesquisa;
     private DatabaseReference firebase;
     private ValueEventListener valueEventListenerExperiencias;
     private RecyclerView reciclerView;
     private RecyclerView.Adapter adapter;
+    private AlertDialog.Builder dialog;
 
     @Override
     public void onStart() {
@@ -78,8 +80,10 @@ public class DetalhesCandidatoActivity extends AppCompatActivity {
         reciclerView = findViewById(R.id.recycler_view);
 
         experiencias = new ArrayList<>();
-        
+
         Usuario usuario = (Usuario) getIntent().getSerializableExtra("usuario");
+        final Vaga vaga = (Vaga) getIntent().getSerializableExtra("vaga");
+        final String candidaturaId = getIntent().getStringExtra("candidaturaID");
 
         nome.setText(usuario.getNome());
         cidade.setText(usuario.getCidade());
@@ -96,7 +100,7 @@ public class DetalhesCandidatoActivity extends AppCompatActivity {
         botaoContratar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                contratar();
+                contratar(vaga);
             }
         });
 
@@ -126,8 +130,63 @@ public class DetalhesCandidatoActivity extends AppCompatActivity {
         };
     }
 
-    private void contratar() {
-        Toast.makeText(getApplicationContext(), "Contratado!", Toast.LENGTH_SHORT).show();
+    private void contratar(final Vaga vaga) {
+        dialog = new AlertDialog.Builder(DetalhesCandidatoActivity.this, R.style.dialogEmpregosAL)
+                .setTitle("Confirmação")
+                .setMessage("Deseja contratar este candidato para a vaga de " + vaga.getCargo() + "?");
+
+        dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Usar uma Thread a parte para realizar este processamento
+                //Contrata o usuário para a vaga, e excluir os referentes
+                // a vaga nos nós de 'vagas' e 'candidaturas'
+
+                DatabaseReference queryCandidatura = ConfiguracaoFirebase.getFirebase();
+                DatabaseReference queryVaga = ConfiguracaoFirebase.getFirebase();
+
+                queryCandidatura.child("candidaturas").orderByChild("idVaga")//Deleta as  candidaturas
+                        .equalTo(vaga.getIdVaga()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot dados : dataSnapshot.getChildren()) {
+                            dados.getRef().removeValue();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                queryVaga.child("vagas").orderByChild("idVaga")//Deleta a vaga específica
+                        .equalTo(vaga.getIdVaga()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot dados : dataSnapshot.getChildren()) {
+                            dados.getRef().removeValue();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                Toast.makeText(getApplicationContext(), "Contratado", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.create();
+        dialog.show();
     }
 
     private void carregarFotoPerfil(Usuario usuario) {

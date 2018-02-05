@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import br.com.empregosal.R;
 import br.com.empregosal.adapter.UsuarioAdapter;
 import br.com.empregosal.config.ConfiguracaoFirebase;
-import br.com.empregosal.model.Candidatura;
 import br.com.empregosal.model.Usuario;
 import br.com.empregosal.model.Vaga;
 
@@ -43,13 +42,7 @@ public class ListaCandidatosActivity extends AppCompatActivity {
     private ArrayList<Usuario> usuarioLista = new ArrayList<Usuario>();
     private ArrayAdapter usuarioArrayAdapter;
     private Vaga vaga;
-    private Candidatura candidaturaP;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        listarUsuarios("", vaga);
-    }
+    private String candidaturaId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,28 +67,33 @@ public class ListaCandidatosActivity extends AppCompatActivity {
         listaPesquisa.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selecionarCandidato(position);
+                selecionarCandidato(position, vaga, candidaturaId);
             }
         });
     }
 
-    private void selecionarCandidato(int position) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listarUsuarios("", vaga);
+    }
+
+    private void selecionarCandidato(int position, Vaga vaga, String candidaturaP) {
         Usuario usuario = usuarioLista.get(position);
 
         Intent intent = new Intent(getApplicationContext(), DetalhesCandidatoActivity.class);
         intent.putExtra("usuario_idUsuario", usuario.getIdUsuario());
         intent.putExtra("usuario", usuario);
+        intent.putExtra("vaga", vaga);
+        intent.putExtra("candidaturaID", candidaturaId);
 
         startActivity(intent);
     }
 
     private void listarUsuarios(String palavra, Vaga vaga) {
         Query query;
-        candidaturaP = null;
-
         query = databaseReference.child("candidaturas").
                 orderByChild("idVaga").equalTo(vaga.getIdVaga());
-
 
         //A PARTIR DESTA CANDIDATURA, LISTA OS USUÁRIOS QUE POSSUEM ESSA CANDIDATURA
 
@@ -103,6 +101,8 @@ public class ListaCandidatosActivity extends AppCompatActivity {
         query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.i("#CANDIDATURA ID - > ", dataSnapshot.getKey());
+                candidaturaId = dataSnapshot.getKey();
 
                 Query queryUsuario = databaseReference.child("usuarios")
                         .orderByChild("idUsuario")
@@ -193,7 +193,6 @@ public class ListaCandidatosActivity extends AppCompatActivity {
 
     private void filtrarPorArea() {
         Query query;
-        candidaturaP = null;
         query = databaseReference.child("candidaturas").
                 orderByChild("idVaga").equalTo(vaga.getIdVaga());
 

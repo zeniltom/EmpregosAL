@@ -4,47 +4,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bordas"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/tv_vaga_cargo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
         android:text="Cargo da Vaga"
         android:textColor="@android:color/black"
-        android:textSize="22sp" />
+        android:textSize="20sp" />
 
-    <TableLayout
+    <TextView
+        android:id="@+id/tv_vaga_empresa"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:text="Empresa"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_area_vaga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Área da Vaga"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tv_area_vaga"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="8dp"
-                android:text="Área da Vaga"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
+    <TextView
+        android:id="@+id/tv_vaga_localizacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Localização da Vaga"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tv_vaga_localizacao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingRight="8dp"
-                android:text="Localização da Vaga"
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
-
-        </TableRow>
-
-    </TableLayout>
+    <TextView
+        android:id="@+id/tv_vaga_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Data da criação"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
 </LinearLayout>

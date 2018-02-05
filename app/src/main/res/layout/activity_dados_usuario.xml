@@ -21,7 +21,7 @@
         android:paddingTop="10dp"
         android:text="Dados do Usuário"
         android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="normal|bold" />
 
     <ScrollView
@@ -60,7 +60,7 @@
                         android:inputType="textCapSentences|textPersonName"
                         android:textColor="@android:color/black"
                         android:textColorHint="@color/cinza"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:paddingLeft="10dp"
                         android:layout_marginRight="20dp" />
 
@@ -82,8 +82,9 @@
                         android:inputType="number"
                         android:textColor="@color/cinza"
                         android:textColorHint="@color/cinza"
-                        android:textSize="18sp"
-                        android:paddingLeft="10dp" />
+                        android:textSize="16sp"
+                        android:paddingLeft="10dp"
+                        android:layout_marginRight="20dp" />
 
                 </LinearLayout>
 
@@ -105,7 +106,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@color/branco"
-                        android:text="Foto"
+                        android:text="Alterar"
                         android:textColor="@color/colorPrimary"
                         android:layout_width="100dp"
                         android:elevation="0dp" />
@@ -133,7 +134,7 @@
                         android:id="@+id/textView3"
                         android:text="Data de Nascimento"
                         android:textColor="?attr/colorPrimary"
-                        android:textSize="15sp" />
+                        android:textSize="15sp" android:paddingRight="10dp" />
 
                     <TextView
                         android:id="@+id/textView4"
@@ -151,7 +152,7 @@
                         android:inputType="textPersonName"
                         android:textColor="@android:color/black"
                         android:textColorHint="@color/cinza"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <Spinner
                         android:id="@+id/spinner_estado_civil"
@@ -187,7 +188,7 @@
                         android:inputType="textCapSentences|textPersonName"
                         android:textColor="@android:color/black"
                         android:textColorHint="@color/cinza"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <Spinner
                         android:id="@+id/spinner_sexo"
@@ -208,7 +209,7 @@
                     android:inputType="textCapSentences|textPersonName"
                     android:textColor="@android:color/black"
                     android:textColorHint="@color/cinza"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <TableRow>
 
@@ -225,12 +226,12 @@
 
                     <EditText
                         android:id="@+id/et_cep_usuario_alterar"
-                        android:layout_marginRight="90dp"
                         android:inputType="number"
                         android:maxLength="8"
                         android:textColor="@android:color/black"
                         android:textColorHint="@color/cinza"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" 
+                        android:layout_marginRight="20dp"/>
 
                     <Button
                         android:id="@+id/bt_consultar_cep"
@@ -268,7 +269,7 @@
                         android:maxLength="5"
                         android:textColor="@android:color/black"
                         android:textColorHint="@color/cinza"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
 
                     <EditText
@@ -276,7 +277,7 @@
                         android:inputType="textCapSentences|textPersonName"
                         android:textColor="@android:color/black"
                         android:textColorHint="@color/cinza"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </TableRow>
 
                 <TableRow>
@@ -300,7 +301,7 @@
                         android:inputType="textCapSentences|textPersonName"
                         android:textColor="@android:color/black"
                         android:textColorHint="@color/cinza"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/et_uf_usuario_alterar"
@@ -308,7 +309,7 @@
                         android:inputType="textCapSentences|textPersonName"
                         android:textColor="@android:color/black"
                         android:textColorHint="@color/cinza"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                 </TableRow>
 

@@ -370,7 +370,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/branco"
                         android:textSize="18sp"
-                        android:textStyle="normal|bold" />
+                        android:textStyle="normal|bold" android:elevation="4dp"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>

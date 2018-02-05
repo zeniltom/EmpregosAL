@@ -123,20 +123,6 @@ public class GerenciaFragment extends Fragment {
                 Vaga vaga = vagas.get(position);
 
                 Intent intent = new Intent(getContext(), SituacaoVagaActivity.class);
-                intent.putExtra("vaga_cargo", vaga.getCargo());
-                intent.putExtra("vaga_localizacao", vaga.getLocalizacao());
-                intent.putExtra("vaga_descricao", vaga.getDescricao());
-                intent.putExtra("vaga_data", vaga.getData());
-                intent.putExtra("vaga_tipo_contrato", vaga.getTipoContrato());
-                intent.putExtra("vaga_nome_empresa", vaga.getNomeEmpresa());
-                intent.putExtra("vaga_area_profissional", vaga.getAreaProfissional());
-                intent.putExtra("vaga_tipo_contrato", vaga.getTipoContrato());
-                intent.putExtra("vaga_nivel_hierarquico", vaga.getNivelHierarquico());
-                intent.putExtra("vaga_nivel_estudos", vaga.getNivelEstudos());
-                intent.putExtra("vaga_jornada", vaga.getJornada());
-                intent.putExtra("vaga_faixa_salarial", vaga.getFaixaSalarial());
-                intent.putExtra("vaga_cep", vaga.getCEP());
-                intent.putExtra("vaga_qtd", vaga.getQtd());
                 intent.putExtra("vaga", vaga);
 
                 startActivity(intent);

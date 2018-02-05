@@ -143,7 +143,11 @@
         </activity>
         <activity
             android:name=".activity.ListaCandidatosActivity"
-            android:theme="@style/SemBarra" />
+            android:theme="@style/SemBarra">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.empregosal.activity.SituacaoVagaActivity" />
+        </activity>
     </application>
 
 </manifest>

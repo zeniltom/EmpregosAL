@@ -19,7 +19,7 @@
         android:paddingTop="10dp"
         android:text="Dados da Empresa"
         android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="normal|bold" />
 
     <ScrollView
@@ -41,18 +41,18 @@
                     android:layout_height="wrap_content"
                     android:text="Nome Fantasia"
                     android:textColor="?attr/colorPrimary"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_height="wrap_content"
                     android:text="CNPJ"
                     android:textColor="?attr/colorPrimary"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
             </TableRow>
 
             <TableRow
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <EditText
@@ -62,7 +62,7 @@
                     android:paddingRight="20dp"
                     android:textColor="@android:color/black"
                     android:textColorHint="@color/cinza"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
 
                 <EditText
                     android:id="@+id/et_cnpj_alterar"
@@ -70,31 +70,32 @@
                     android:clickable="false"
                     android:contextClickable="false"
                     android:enabled="true"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
+                    android:maxLength="11"
                     android:textColor="@color/cinza"
                     android:textColorHint="@color/cinza"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
             </TableRow>
 
             <TextView
                 android:layout_height="wrap_content"
                 android:text="Razão Social"
                 android:textColor="?attr/colorPrimary"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/et_razao_social_alterar"
                 android:inputType="textCapSentences|textPersonName"
                 android:textColor="@android:color/black"
                 android:textColorHint="@color/cinza"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_height="wrap_content"
                 android:text="Descricao da Empresa"
                 android:textColor="?attr/colorPrimary"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/et_descricao_empresa_alterar"
@@ -104,7 +105,7 @@
                 android:maxLength="160"
                 android:textColor="@android:color/black"
                 android:textColorHint="@color/cinza"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
 
             <TextView
@@ -112,14 +113,15 @@
                 android:layout_height="wrap_content"
                 android:text="Setor da Empresa"
                 android:textColor="?attr/colorPrimary"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/et_setor_alterar"
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords|textPersonName"
                 android:textColor="@android:color/black"
-                android:textColorHint="@color/cinza" />
+                android:textColorHint="@color/cinza"
+                android:textSize="16sp" />
 
             <TableRow
                 android:layout_width="match_parent"
@@ -130,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:text="CEP"
                     android:textColor="?attr/colorPrimary"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
             </TableRow>
 
             <TableRow
@@ -139,13 +141,12 @@
 
                 <EditText
                     android:id="@+id/ed_cep_empresa_alterar"
-                    android:layout_height="match_parent"
                     android:inputType="number"
                     android:maxLength="8"
                     android:textColor="@android:color/black"
                     android:textColorHint="@color/cinza"
-                    android:textSize="18sp"
-                    android:layout_marginRight="80dp"/>
+                    android:textSize="16sp"
+                    android:layout_marginRight="70dp"/>
 
                 <Button
                     android:id="@+id/bt_consultar_cep_empresa"
@@ -159,14 +160,15 @@
                 android:layout_height="wrap_content"
                 android:text="Endereço"
                 android:textColor="?attr/colorPrimary"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/ed_endereco_empresa_alterar"
                 android:layout_height="wrap_content"
                 android:inputType="textCapSentences|textPersonName"
                 android:textColor="@android:color/black"
-                android:textColorHint="@color/cinza" />
+                android:textColorHint="@color/cinza"
+                android:textSize="16dp" />
 
             <TableRow>
 
@@ -174,13 +176,13 @@
                     android:layout_height="wrap_content"
                     android:text="Estado"
                     android:textColor="?attr/colorPrimary"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_height="wrap_content"
                     android:text="Cidade"
                     android:textColor="?attr/colorPrimary"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
             </TableRow>
 
             <TableRow>
@@ -188,17 +190,19 @@
                 <EditText
                     android:id="@+id/et_uf_empresa_alterar"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="50dp"
                     android:inputType="textCapSentences|textPersonName"
                     android:textColor="@android:color/black"
                     android:textColorHint="@color/cinza"
-                    android:layout_marginRight="50dp"/>
+                    android:textSize="16sp" />
 
                 <EditText
                     android:id="@+id/et_cidade_empresa_alterar"
                     android:layout_height="wrap_content"
                     android:inputType="textCapSentences|textPersonName"
                     android:textColor="@android:color/black"
-                    android:textColorHint="@color/cinza" />
+                    android:textColorHint="@color/cinza"
+                    android:textSize="16sp" />
             </TableRow>
 
             <TableRow>
@@ -208,13 +212,13 @@
                     android:layout_height="wrap_content"
                     android:text="Número"
                     android:textColor="?attr/colorPrimary"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_height="wrap_content"
                     android:text="Complemento"
                     android:textColor="?attr/colorPrimary"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
             </TableRow>
 
             <TableRow>
@@ -222,18 +226,20 @@
                 <EditText
                     android:id="@+id/et_numero_empresa_alterar"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="90dp"
                     android:inputType="textPersonName|number"
-                    android:maxLength="10"
+                    android:maxLength="5"
                     android:textColor="@android:color/black"
                     android:textColorHint="@color/cinza"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
 
                 <EditText
                     android:id="@+id/et_complemento_empresa_alterar"
                     android:layout_height="wrap_content"
                     android:inputType="textCapSentences|textPersonName"
                     android:textColor="@android:color/black"
-                    android:textColorHint="@color/cinza" />
+                    android:textColorHint="@color/cinza"
+                    android:textSize="16sp" />
             </TableRow>
 
             <Button

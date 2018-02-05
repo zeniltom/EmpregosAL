@@ -21,6 +21,7 @@ public class SituacaoVagaActivity extends AppCompatActivity {
     private TextView descricao;
     private TextView botaoVerMais;
     private View separador_detalhes;
+    private Vaga vaga;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,56 +49,54 @@ public class SituacaoVagaActivity extends AppCompatActivity {
         botaoVerMais = findViewById(R.id.botao_ver_mais_detalhes);
         separador_detalhes = findViewById(R.id.separador_descricao_vaga_detalhes);
 
-        final Bundle dadosPassados = getIntent().getExtras();
+        vaga = (Vaga) getIntent().getSerializableExtra("vaga");
 
-        if (dadosPassados != null) {
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String vd = String.valueOf(vaga.getData());
+        Date dataHoje = new Date();
+        Date dataAnuncio = null;
 
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-            String vd = String.valueOf(dadosPassados.get("vaga_data"));
-            Date dataHoje = new Date();
-            Date dataAnuncio = null;
-
-            try {
-                dataAnuncio = format.parse(vd);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            long diferenca = (dataHoje.getTime() - dataAnuncio.getTime());
-            long diferencaSegundos = diferenca / (1000);
-            long diferencaMinutos = diferenca / (1000 * 60);
-            long diferencaHoras = diferenca / (1000 * 60 * 60);
-            long diferencaDias = diferenca / (1000 * 60 * 60 * 24);
-            long diferencaMeses = diferenca / (1000 * 60 * 60 * 24) / 30;
-
-            if (diferencaMeses > 0) {
-                data.setText("Há " + diferencaMeses + " meses");
-
-            } else if (diferencaDias > 0) {
-                data.setText("Há " + diferencaDias + " dias");
-
-            } else if (diferencaHoras > 0) {
-                data.setText("Há " + diferencaHoras + " horas");
-
-            } else if (diferencaMinutos > 0) {
-                data.setText("Há " + diferencaMinutos + " minutos");
-
-            } else if (diferencaSegundos > 0) {
-                data.setText("Há alguns segundos");
-            }
-
-            cargo.setText(dadosPassados.getString("vaga_cargo"));
-            localizacao.setText(dadosPassados.getString("vaga_localizacao"));
-            descricao.setText(dadosPassados.getString("vaga_descricao"));
-            area_proficional.setText(dadosPassados.getString("vaga_area_profissional"));
-            tipo_contrato.setText(dadosPassados.getString("vaga_tipo_contrato"));
-            nivel_hierarquico.setText(dadosPassados.getString("vaga_nivel_hierarquico"));
-            nivel_estudos.setText(dadosPassados.getString("vaga_nivel_estudos"));
-            jornada.setText(dadosPassados.getString("vaga_jornada"));
-            faixa_salarial.setText(dadosPassados.getString("vaga_faixa_salarial"));
-            cep.setText(dadosPassados.getString("vaga_cep"));
-            qtd.setText(dadosPassados.getString("vaga_qtd"));
+        try {
+            dataAnuncio = format.parse(vd);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
+        long diferenca = (dataHoje.getTime() - dataAnuncio.getTime());
+        long diferencaSegundos = diferenca / (1000);
+        long diferencaMinutos = diferenca / (1000 * 60);
+        long diferencaHoras = diferenca / (1000 * 60 * 60);
+        long diferencaDias = diferenca / (1000 * 60 * 60 * 24);
+        long diferencaMeses = diferenca / (1000 * 60 * 60 * 24) / 30;
+
+        if (diferencaMeses > 0) {
+            data.setText("Há " + diferencaMeses + " meses");
+
+        } else if (diferencaDias > 0) {
+            data.setText("Há " + diferencaDias + " dias");
+
+        } else if (diferencaHoras > 0) {
+            data.setText("Há " + diferencaHoras + " horas");
+
+        } else if (diferencaMinutos > 0) {
+            data.setText("Há " + diferencaMinutos + " minutos");
+
+        } else if (diferencaSegundos > 0) {
+            data.setText("Há alguns segundos");
+        }
+
+        cargo.setText(vaga.getCargo());
+        localizacao.setText(vaga.getLocalizacao());
+        descricao.setText(vaga.getDescricao());
+        area_proficional.setText(vaga.getAreaProfissional());
+        tipo_contrato.setText(vaga.getTipoContrato());
+        nivel_hierarquico.setText(vaga.getNivelHierarquico());
+        nivel_estudos.setText(vaga.getNivelEstudos());
+        jornada.setText(vaga.getJornada());
+        faixa_salarial.setText(vaga.getFaixaSalarial());
+        cep.setText(vaga.getCEP());
+        qtd.setText(vaga.getQtd());
+
 
         botaoVerMais.setOnClickListener(new View.OnClickListener() {
             @Override
