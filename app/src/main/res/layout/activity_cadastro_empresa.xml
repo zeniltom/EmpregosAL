@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:gravity="center_vertical|center_horizontal"
-    tools:context="br.com.empregosal.activity.CadastroEmpresaActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="br.com.empregosal.activity.CadastroEmpresaActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -16,85 +16,91 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="16dp"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/ic_person_add" />
-
-        <EditText
-            android:id="@+id/edit_cadastro_nome_empresa"
-            android:layout_width="325dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/imageView2"
-            android:ems="10"
-            android:hint="Nome Fantasia"
-            android:inputType="textCapSentences"
-            android:textColor="@color/textColorPrimary"
-            android:textColorHint="?android:attr/textColorHintInverse"
-            android:textSize="18sp" />
+            android:orientation="vertical"
+            android:paddingBottom="16dp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp">
 
-        <EditText
-            android:id="@+id/edit_cadastro_email_empresa"
-            android:layout_width="325dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/edit_cadastro_nome_empresa"
-            android:ems="10"
-            android:hint="E-Mail"
-            android:textColor="@color/textColorPrimary"
-            android:textColorHint="?android:attr/textColorHintInverse"
-            android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                app:srcCompat="@drawable/ic_person_add" />
 
-        <EditText
-            android:id="@+id/edit_cadastro_senha_empresa"
-            android:layout_width="325dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/edit_cadastro_email_empresa"
-            android:ems="10"
-            android:hint="Senha"
-            android:textColor="@color/textColorPrimary"
-            android:textColorHint="?android:attr/textColorHintInverse"
-            android:textSize="18sp" />
+            <EditText
+                android:id="@+id/edit_cadastro_nome_empresa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/imageView2"
+                android:ems="10"
+                android:hint="Nome Fantasia"
+                android:inputType="textCapSentences"
+                android:textColor="@color/textColorPrimary"
+                android:textColorHint="?android:attr/textColorHintInverse"
+                android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/edit_cadastro_cnpj"
-            android:layout_width="325dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/edit_cadastro_senha_empresa"
-            android:ems="10"
-            android:hint="CNPJ"
-            android:textColor="@color/textColorPrimary"
-            android:textColorHint="?android:attr/textColorHintInverse"
-            android:textSize="18sp" />
+            <EditText
+                android:id="@+id/edit_cadastro_email_empresa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/edit_cadastro_nome_empresa"
+                android:ems="10"
+                android:hint="E-Mail"
+                android:textColor="@color/textColorPrimary"
+                android:textColorHint="?android:attr/textColorHintInverse"
+                android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/bt_cadastrar_empresa"
-            android:layout_width="325dp"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/edit_cadastro_cnpj"
-            android:layout_marginTop="12dp"
-            android:text="@string/botao_cadastrar"
-            android:textSize="18sp"
-            android:theme="@style/botao_padrao" />
-    </RelativeLayout>
+            <EditText
+                android:id="@+id/edit_cadastro_senha_empresa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/edit_cadastro_email_empresa"
+                android:ems="10"
+                android:hint="Senha"
+                android:textColor="@color/textColorPrimary"
+                android:textColorHint="?android:attr/textColorHintInverse"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edit_cadastro_cnpj"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/edit_cadastro_senha_empresa"
+                android:ems="10"
+                android:hint="CNPJ"
+                android:textColor="@color/textColorPrimary"
+                android:textColorHint="?android:attr/textColorHintInverse"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/bt_cadastrar_empresa"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/edit_cadastro_cnpj"
+                android:layout_marginTop="12dp"
+                android:text="@string/botao_cadastrar"
+                android:textSize="18sp"
+                android:theme="@style/botao_padrao" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -3,94 +3,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:gravity="center_vertical|center_horizontal"
-    android:paddingLeft="50dp"
-    android:paddingRight="50dp"
+    android:orientation="vertical"
+    tools:context="br.com.empregosal.activity.LoginActivity">
 
-    tools:context="br.com.empregosal.activity.LoginActivity"
-    android:orientation="vertical">
-
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="30dp">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="@dimen/largura_logo"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/logo"
-            android:contentDescription=""
-            tools:ignore="ContentDescription"
-            android:layout_height="200dp"
-            android:layout_marginBottom="20dp" />
-
-        <EditText
-            android:id="@+id/edit_login_email"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@id/imageView"
-            android:layout_centerVertical="true"
-            android:hint="@string/texto_email"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/textColorPrimary"
-            android:textColorHint="?android:attr/textColorHintInverse"
-            android:textSize="20sp" />
+            android:orientation="vertical"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="20dp">
 
-        <EditText
-            android:id="@+id/edit_login_senha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/edit_login_email"
-            android:hint="@string/texto_senha"
-            android:inputType="textPassword"
-            android:textColor="@color/textColorPrimary"
-            android:textColorHint="?android:attr/textColorHintInverse"
-            android:textSize="20sp" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="@dimen/largura_logo"
+                android:layout_height="@dimen/altura_logo"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/logo"
+                android:contentDescription=""
+                tools:ignore="ContentDescription" />
 
-        <Button
-            android:id="@+id/bt_logar"
-            android:layout_width="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/edit_login_senha"
-            android:text="@string/botao_logar"
-            android:theme="@style/botao_padrao"
-            android:textSize="20sp"
-            android:layout_height="50dp" />
+            <EditText
+                android:id="@+id/edit_login_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/texto_email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/textColorPrimary"
+                android:textColorHint="?android:attr/textColorHintInverse"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/tv_cadastre_se"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/bt_logar"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:onClick="abrirCadastroUsuario"
-            android:text="@string/texto_cadastre"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/white"
-            android:textAlignment="center"
-            android:textSize="18sp" />
+            <EditText
+                android:id="@+id/edit_login_senha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/texto_senha"
+                android:inputType="textPassword"
+                android:textColor="@color/textColorPrimary"
+                android:textColorHint="?android:attr/textColorHintInverse"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/tv_cadastre_se_empresa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_cadastre_se"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:onClick="abrirCadastroEmpresa"
-            android:text="@string/texto_cadastro"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/white"
-            android:textAlignment="center"
-            android:textSize="18sp" />
-    </RelativeLayout>
+            <Button
+                android:id="@+id/bt_logar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="@string/botao_logar"
+                android:textSize="20sp"
+                android:theme="@style/botao_padrao" />
+
+            <TextView
+                android:id="@+id/tv_cadastre_se"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:onClick="abrirCadastroUsuario"
+                android:text="@string/texto_cadastre"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_cadastre_se_empresa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:onClick="abrirCadastroEmpresa"
+                android:text="@string/texto_cadastro"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
