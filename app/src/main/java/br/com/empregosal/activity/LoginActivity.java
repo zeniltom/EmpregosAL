@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                                     //Salvando nas preferencias do usuario
                                     Preferencias preferencias = new Preferencias(LoginActivity.this);
 
-                                    //TENTE USAR UM IF AQUI EM BAIXO PARA VERIFICAR O GETTIPO SE É NULO MANDE PARA EMPRESA
+                                    //Se o getTipo do usuário for null, manda para empresa
                                     if (usuarioRecuperado == null) {
                                         firebase = ConfiguracaoFirebase.getFirebase()
                                                 .child("empresas")
