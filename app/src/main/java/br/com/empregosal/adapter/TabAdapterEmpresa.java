@@ -6,10 +6,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import br.com.empregosal.activity.fragment.GerenciaFragment;
 import br.com.empregosal.activity.fragment.InicioFragment;
+import br.com.empregosal.activity.fragment.RegistroFragment;
 
 public class TabAdapterEmpresa extends FragmentStatePagerAdapter {
 
-    private String[] tituloAbas = {"MINHAS VAGAS", "CANDIDATOS"};
+    private String[] tituloAbas = {"VAGAS", "REGISTROS", "CANDIDATOS"};
 
     public TabAdapterEmpresa(FragmentManager fm) {
         super(fm);
@@ -24,6 +25,9 @@ public class TabAdapterEmpresa extends FragmentStatePagerAdapter {
                 fragment = new GerenciaFragment();
                 break;
             case 1:
+                fragment = new RegistroFragment();
+                break;
+            case 2:
                 fragment = new InicioFragment();
                 break;
         }

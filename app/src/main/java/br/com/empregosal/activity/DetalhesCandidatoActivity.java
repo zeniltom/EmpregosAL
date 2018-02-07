@@ -37,6 +37,7 @@ import br.com.empregosal.model.Experiencia;
 import br.com.empregosal.model.Formacao;
 import br.com.empregosal.model.Idioma;
 import br.com.empregosal.model.Objetivo;
+import br.com.empregosal.model.Registro;
 import br.com.empregosal.model.Usuario;
 import br.com.empregosal.model.Vaga;
 
@@ -103,7 +104,7 @@ public class DetalhesCandidatoActivity extends AppCompatActivity {
         idiomas = new ArrayList<>();
         objetivos = new ArrayList<>();
 
-        Usuario usuario = (Usuario) getIntent().getSerializableExtra("usuario");
+        final Usuario usuario = (Usuario) getIntent().getSerializableExtra("usuario");
         final Vaga vaga = (Vaga) getIntent().getSerializableExtra("vaga");
 
         nome.setText(usuario.getNome());
@@ -111,110 +112,22 @@ public class DetalhesCandidatoActivity extends AppCompatActivity {
         uf.setText(usuario.getUf());
 
         carregarFotoPerfil(usuario);
+        carregarAdapters(reciclerViewEx, reciclerVieFo, reciclerVieOj, reciclerVieId);
 
-        adapterExperiencia = new ExperienciasRecyclerAdapter(experiencias);
-        adapterFormacao = new FormacaoRecyclerAdapter(formacoes);
-        adapterObjetivo = new ObjetivoRecyclerAdapter(objetivos);
-        adapterIdioma= new IdiomaRecyclerAdapter(idiomas);
-        RecyclerView.LayoutManager layoutManagerExp = new LinearLayoutManager(getApplicationContext());
-        RecyclerView.LayoutManager layoutManagerFor = new LinearLayoutManager(getApplicationContext());
-        RecyclerView.LayoutManager layoutManagerIdi = new LinearLayoutManager(getApplicationContext());
-        RecyclerView.LayoutManager layoutManagerObj = new LinearLayoutManager(getApplicationContext());
-        reciclerViewEx.setLayoutManager(layoutManagerExp);
-        reciclerViewEx.setItemAnimator(new DefaultItemAnimator());
-        reciclerViewEx.setAdapter(adapterExperiencia);
-        reciclerVieFo.setLayoutManager(layoutManagerFor);
-        reciclerVieFo.setItemAnimator(new DefaultItemAnimator());
-        reciclerVieFo.setAdapter(adapterFormacao);
-        reciclerVieId.setLayoutManager(layoutManagerIdi);
-        reciclerVieId.setItemAnimator(new DefaultItemAnimator());
-        reciclerVieId.setAdapter(adapterIdioma);
-        reciclerVieOj.setLayoutManager(layoutManagerObj);
-        reciclerVieOj.setItemAnimator(new DefaultItemAnimator());
-        reciclerVieOj.setAdapter(adapterObjetivo);
+        consultaExperiencia(usuario);
+        consultaFormacao(usuario);
+        consultaIdioma(usuario);
+        consultaObjetivo(usuario);
 
         botaoContratar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                contratar(vaga);
+                contratar(vaga, usuario);
             }
         });
+    }
 
-        firebaseExp = ConfiguracaoFirebase.getFirebase()
-                .child("experiencias")
-                .child(usuario.getIdUsuario());
-
-        //Listener para recuperar experiencias
-        valueEventListenerExperiencias = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //Limpar lista
-                experiencias.clear();
-
-                //Listar experiencias
-                for (DataSnapshot dados : dataSnapshot.getChildren()) {
-
-                    Experiencia experiencia = dados.getValue(Experiencia.class);
-                    experiencias.add(experiencia);
-                }
-                adapterExperiencia.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
-
-        firebaseFor = ConfiguracaoFirebase.getFirebase()
-                .child("formacao")
-                .child(usuario.getIdUsuario());
-
-        //Listener para recuperar experiencias
-        valueEventListenerFormacoes = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //Limpar lista
-                formacoes.clear();
-
-                //Listar experiencias
-                for (DataSnapshot dados : dataSnapshot.getChildren()) {
-
-                    Formacao formacao = dados.getValue(Formacao.class);
-                    formacoes.add(formacao);
-                }
-                adapterFormacao.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
-
-        firebaseIdi = ConfiguracaoFirebase.getFirebase()
-                .child("idiomas")
-                .child(usuario.getIdUsuario());
-
-        //Listener para recuperar experiencias
-        valueEventListenerIdioma = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //Limpar lista
-                idiomas.clear();
-
-                //Listar experiencias
-                for (DataSnapshot dados : dataSnapshot.getChildren()) {
-
-                    Idioma idioma = dados.getValue(Idioma.class);
-                    idiomas.add(idioma);
-                }
-                adapterIdioma.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
-
+    private void consultaObjetivo(Usuario usuario) {
         firebaseObj = ConfiguracaoFirebase.getFirebase()
                 .child("objetivo")
                 .child(usuario.getIdUsuario());
@@ -241,7 +154,111 @@ public class DetalhesCandidatoActivity extends AppCompatActivity {
         };
     }
 
-    private void contratar(final Vaga vaga) {
+    private void consultaIdioma(Usuario usuario) {
+        firebaseIdi = ConfiguracaoFirebase.getFirebase()
+                .child("idiomas")
+                .child(usuario.getIdUsuario());
+
+        //Listener para recuperar experiencias
+        valueEventListenerIdioma = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Limpar lista
+                idiomas.clear();
+
+                //Listar experiencias
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+
+                    Idioma idioma = dados.getValue(Idioma.class);
+                    idiomas.add(idioma);
+                }
+                adapterIdioma.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+    }
+
+    private void consultaFormacao(Usuario usuario) {
+        firebaseFor = ConfiguracaoFirebase.getFirebase()
+                .child("formacao")
+                .child(usuario.getIdUsuario());
+
+        //Listener para recuperar experiencias
+        valueEventListenerFormacoes = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Limpar lista
+                formacoes.clear();
+
+                //Listar experiencias
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+
+                    Formacao formacao = dados.getValue(Formacao.class);
+                    formacoes.add(formacao);
+                }
+                adapterFormacao.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+    }
+
+    private void consultaExperiencia(Usuario usuario) {
+        firebaseExp = ConfiguracaoFirebase.getFirebase()
+                .child("experiencias")
+                .child(usuario.getIdUsuario());
+
+        //Listener para recuperar experiencias
+        valueEventListenerExperiencias = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Limpar lista
+                experiencias.clear();
+
+                //Listar experiencias
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+
+                    Experiencia experiencia = dados.getValue(Experiencia.class);
+                    experiencias.add(experiencia);
+                }
+                adapterExperiencia.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+    }
+
+    private void carregarAdapters(RecyclerView reciclerViewEx, RecyclerView reciclerVieFo, RecyclerView reciclerVieOj, RecyclerView reciclerVieId) {
+        adapterExperiencia = new ExperienciasRecyclerAdapter(experiencias);
+        adapterFormacao = new FormacaoRecyclerAdapter(formacoes);
+        adapterObjetivo = new ObjetivoRecyclerAdapter(objetivos);
+        adapterIdioma = new IdiomaRecyclerAdapter(idiomas);
+        RecyclerView.LayoutManager layoutManagerExp = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManagerFor = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManagerIdi = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManagerObj = new LinearLayoutManager(getApplicationContext());
+        reciclerViewEx.setLayoutManager(layoutManagerExp);
+        reciclerViewEx.setItemAnimator(new DefaultItemAnimator());
+        reciclerViewEx.setAdapter(adapterExperiencia);
+        reciclerVieFo.setLayoutManager(layoutManagerFor);
+        reciclerVieFo.setItemAnimator(new DefaultItemAnimator());
+        reciclerVieFo.setAdapter(adapterFormacao);
+        reciclerVieId.setLayoutManager(layoutManagerIdi);
+        reciclerVieId.setItemAnimator(new DefaultItemAnimator());
+        reciclerVieId.setAdapter(adapterIdioma);
+        reciclerVieOj.setLayoutManager(layoutManagerObj);
+        reciclerVieOj.setItemAnimator(new DefaultItemAnimator());
+        reciclerVieOj.setAdapter(adapterObjetivo);
+    }
+
+    private void contratar(final Vaga vaga, final Usuario usuario) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(DetalhesCandidatoActivity.this, R.style.dialogEmpregosAL)
                 .setTitle("Confirmação")
                 .setMessage("Deseja contratar este candidato para a vaga de "
@@ -254,8 +271,32 @@ public class DetalhesCandidatoActivity extends AppCompatActivity {
                 //Contrata o usuário para a vaga, e excluir os referentes
                 // a vaga nos nós de 'vagas' e 'candidaturas'
 
+                Registro registro = new Registro();
+                registro.setIdUsuario(usuario.getIdUsuario());
+                registro.setIdEmpresa(vaga.getIdEmpresa());
+                registro.setNomeUsuario(usuario.getNome());
+                registro.setNomeEmpresa(vaga.getNomeEmpresa());
+                registro.setNomeVaga(vaga.getCargo());
+                registro.setIdVaga(vaga.getIdVaga());
+                registro.setDescricao(vaga.getDescricao());
+                registro.setCargo(vaga.getCargo());
+                registro.setAreaProfissional(vaga.getAreaProfissional());
+                registro.setTipoContrato(vaga.getTipoContrato());
+                registro.setNivelHierarquico(vaga.getNivelHierarquico());
+                registro.setNivelEstudos(vaga.getNivelEstudos());
+                registro.setJornada(vaga.getJornada());
+                registro.setFaixaSalarial(vaga.getFaixaSalarial());
+                registro.setLocalizacao(vaga.getLocalizacao());
+                registro.setData(vaga.getData());
+                registro.setDataAnuncio(vaga.getDataAnuncio());
+                registro.setCEP(vaga.getCEP());
+                registro.setQtd(vaga.getQtd());
+
                 DatabaseReference queryCandidatura = ConfiguracaoFirebase.getFirebase();
                 DatabaseReference queryVaga = ConfiguracaoFirebase.getFirebase();
+                DatabaseReference registros = ConfiguracaoFirebase.getFirebase().child("registro");
+
+                registros.push().setValue(registro);
 
                 queryCandidatura.child("candidaturas").orderByChild("idVaga")//Deleta as candidaturas
                         .equalTo(vaga.getIdVaga()).addValueEventListener(new ValueEventListener() {

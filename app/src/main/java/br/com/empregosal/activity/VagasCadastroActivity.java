@@ -122,6 +122,7 @@ public class VagasCadastroActivity extends AppCompatActivity {
                 vaga.setLocalizacao(localizacao_vaga.getText().toString());
                 vaga.setIdEmpresa(idUsuarioLogado);
                 vaga.setNomeEmpresa(empresaPesquisda.getNome());
+                vaga.setCEP(empresaPesquisda.getCEP());
                 vaga.setData(dataFormatada.toString());
                 vaga.setDataAnuncio(dataBr.format(c.getTime()));
 
