@@ -27,6 +27,7 @@
         <item name="android:itemBackground">@android:color/white</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorSecundary</item>
     </style>
 
     <style name="SemBarra2" parent="Theme.AppCompat.Light.NoActionBar">

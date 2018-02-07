@@ -8,43 +8,48 @@
 
     <TextView
         android:id="@+id/tv_vaga_emprego_cargo"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cargo da Vaga"
         android:textColor="@android:color/black"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:paddingLeft="10dp" />
 
     <TextView
         android:id="@+id/tv_vaga_emprego_empresa"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Empresa"
         android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:paddingLeft="10dp" />
 
     <TextView
         android:id="@+id/tv_vaga_emprego_localizacao"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Localização da Vaga"
         android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:paddingLeft="10dp" />
 
     <TextView
         android:id="@+id/tv_vaga_emprego_data"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Data da criação"
         android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:paddingLeft="10dp" />
 
     <Button
         android:id="@+id/bt_candidatar_se"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:elevation="4dp"
+        android:layout_height="wrap_content"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:text="Candidatar-Me"
+        android:paddingLeft="120dp"
+        android:drawableLeft="@drawable/ic_check"
         android:theme="@style/botao_padrao" />
 </LinearLayout>

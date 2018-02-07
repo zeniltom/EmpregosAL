@@ -126,6 +126,7 @@ public class VagasEmpregoFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         };
 

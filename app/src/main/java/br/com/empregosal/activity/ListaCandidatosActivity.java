@@ -36,13 +36,12 @@ public class ListaCandidatosActivity extends AppCompatActivity {
 
     private TextView vazio;
     private ListView listaPesquisa;
-    private Toolbar toolbar;
     private DatabaseReference databaseReference;
-    private FirebaseDatabase firebaseDatabase;
-    private ArrayList<Usuario> usuarioLista = new ArrayList<Usuario>();
+    private ArrayList<Usuario> usuarioLista = new ArrayList<>();
     private ArrayAdapter usuarioArrayAdapter;
     private Vaga vaga;
     private String candidaturaId;
+    private TextView resultado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +50,9 @@ public class ListaCandidatosActivity extends AppCompatActivity {
 
         listaPesquisa = findViewById(R.id.lv_pesquisa);
         vazio = findViewById(R.id.tv_pesquisa_vaga_vazio);
+        resultado = findViewById(R.id.tv_resultado_vaga);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Lista de Candidatos");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
@@ -67,7 +67,7 @@ public class ListaCandidatosActivity extends AppCompatActivity {
         listaPesquisa.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selecionarCandidato(position, vaga, candidaturaId);
+                selecionarCandidato(position, vaga);
             }
         });
     }
@@ -75,10 +75,10 @@ public class ListaCandidatosActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        listarUsuarios("", vaga);
+        listarUsuarios(vaga);
     }
 
-    private void selecionarCandidato(int position, Vaga vaga, String candidaturaP) {
+    private void selecionarCandidato(int position, Vaga vaga) {
         Usuario usuario = usuarioLista.get(position);
 
         Intent intent = new Intent(getApplicationContext(), DetalhesCandidatoActivity.class);
@@ -90,7 +90,7 @@ public class ListaCandidatosActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void listarUsuarios(String palavra, Vaga vaga) {
+    private void listarUsuarios(final Vaga vaga) {
         Query query;
         query = databaseReference.child("candidaturas").
                 orderByChild("idVaga").equalTo(vaga.getIdVaga());
@@ -115,11 +115,10 @@ public class ListaCandidatosActivity extends AppCompatActivity {
                             Usuario u = objSnapshot.getValue(Usuario.class);
                             usuarioLista.add(u);
                         }
-
                         usuarioArrayAdapter = new UsuarioAdapter(getApplicationContext(), usuarioLista);
+                        resultado.setText("Resultado(s) da vaga: "+ usuarioArrayAdapter.getCount()+"\n"+ vaga.getCargo());
 
                         listaPesquisa.setAdapter(usuarioArrayAdapter);
-                        vazio.setText("Sem resultados");
                         listaPesquisa.setEmptyView(vazio);
                         usuarioArrayAdapter.notifyDataSetChanged();
                     }
@@ -169,7 +168,7 @@ public class ListaCandidatosActivity extends AppCompatActivity {
     }
 
     private void inicializarFirebase() {
-        firebaseDatabase = ConfiguracaoFirebase.getFirebase().getDatabase();
+        FirebaseDatabase firebaseDatabase = ConfiguracaoFirebase.getFirebase().getDatabase();
         databaseReference = firebaseDatabase.getReference();
     }
 
@@ -184,14 +183,14 @@ public class ListaCandidatosActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_filtrar_nome:
-                filtrarPorArea();
+                filtrarPorNome();
                 return true;
             default:
                 return super.onOptionsItemSelected(item); //Padrão para Android
         }
     }
 
-    private void filtrarPorArea() {
+    private void filtrarPorNome() {
         Query query;
         query = databaseReference.child("candidaturas").
                 orderByChild("idVaga").equalTo(vaga.getIdVaga());
@@ -214,10 +213,8 @@ public class ListaCandidatosActivity extends AppCompatActivity {
                         }
 
                         usuarioArrayAdapter = new UsuarioAdapter(getApplicationContext(), usuarioLista);
-
-                        listaPesquisa.setAdapter(usuarioArrayAdapter);
-                        vazio.setText("Sem resultados");
                         listaPesquisa.setEmptyView(vazio);
+                        listaPesquisa.setAdapter(usuarioArrayAdapter);
                         usuarioArrayAdapter.notifyDataSetChanged();
                         Toast.makeText(getApplicationContext(), "Filtrado por nome", Toast.LENGTH_SHORT).show();
                     }
@@ -251,67 +248,4 @@ public class ListaCandidatosActivity extends AppCompatActivity {
         });
     }
 
-    private void filtrarPorLocalizacao() {
-        Query query;
-        query = databaseReference.child("vagas").orderByChild("localizacao");
-
-        usuarioLista.clear();
-
-        Toast.makeText(getApplicationContext(), "Filtrado por Data", Toast.LENGTH_SHORT).show();
-
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
-                    Usuario v = objSnapshot.getValue(Usuario.class);
-                    usuarioLista.add(v);
-                }
-
-                usuarioArrayAdapter = new UsuarioAdapter(getApplicationContext(), usuarioLista);
-
-
-                listaPesquisa.setAdapter(usuarioArrayAdapter);
-                vazio.setText("Sem resultados");
-                listaPesquisa.setEmptyView(vazio);
-                usuarioArrayAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void filtrarPorData() {
-        Query query;
-        query = databaseReference.child("vagas").orderByChild("data");
-
-        usuarioLista.clear();
-
-        Toast.makeText(getApplicationContext(), "Filtrado por Data", Toast.LENGTH_SHORT).show();
-
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
-                    Usuario v = objSnapshot.getValue(Usuario.class);
-                    usuarioLista.add(v);
-                }
-
-                usuarioArrayAdapter = new UsuarioAdapter(getApplicationContext(), usuarioLista);
-
-
-                listaPesquisa.setAdapter(usuarioArrayAdapter);
-                vazio.setText("Sem resultados");
-                listaPesquisa.setEmptyView(vazio);
-                usuarioArrayAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 }

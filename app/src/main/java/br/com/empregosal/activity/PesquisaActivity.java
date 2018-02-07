@@ -36,11 +36,8 @@ public class PesquisaActivity extends AppCompatActivity {
     private EditText textoPesquisa;
     private TextView vazio;
     private ListView listaPesquisa;
-    private Button botao_pesquisa;
-    private Toolbar toolbar;
     private DatabaseReference databaseReference;
-    private FirebaseDatabase firebaseDatabase;
-    private ArrayList<Vaga> vagaLista = new ArrayList<Vaga>();
+    private ArrayList<Vaga> vagaLista = new ArrayList<>();
     private ArrayAdapter vagaArrayAdapter;
 
     @Override
@@ -50,10 +47,10 @@ public class PesquisaActivity extends AppCompatActivity {
 
         textoPesquisa = findViewById(R.id.et_pesquisa);
         listaPesquisa = findViewById(R.id.lv_pesquisa);
-        botao_pesquisa = findViewById(R.id.bt_pesquisa_vaga);
+        Button botao_pesquisa = findViewById(R.id.bt_pesquisa_vaga);
         vazio = findViewById(R.id.tv_pesquisa_vaga_vazio);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Pesquisa de Vagas");
         toolbar.setNavigationIcon(R.drawable.ic_action_arrow_left);
         toolbar.setTitleTextColor(Color.WHITE);
@@ -102,6 +99,12 @@ public class PesquisaActivity extends AppCompatActivity {
     }
 
     private void pesquisarPalavra(String palavra) {
+        consultarVagaCargo(palavra);
+
+        consultarVagaLocalizade(palavra);
+    }
+
+    private void consultarVagaCargo(String palavra) {
         Query query; // 5º passo - cria o objeto que ira receber os dados da pesquisa
         if (palavra.equals("")) {
 
@@ -141,6 +144,39 @@ public class PesquisaActivity extends AppCompatActivity {
         });
     }
 
+    private void consultarVagaLocalizade(String palavra) {
+        Query queryLocalidade;
+        if (palavra.equals("")) {
+            queryLocalidade = databaseReference.child("vagas");
+        } else {
+            queryLocalidade = databaseReference.child("vagas")
+                    .orderByChild("localizacao").startAt(palavra).endAt(palavra + "\uf8ff");
+        }
+
+        vagaLista.clear();
+
+        queryLocalidade.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot objSnapshot : dataSnapshot.getChildren()) {
+                    Vaga v = objSnapshot.getValue(Vaga.class);
+                    vagaLista.add(v);
+                }
+
+                vagaArrayAdapter = new VagasEmpregoAdapter(getApplicationContext(), vagaLista);
+                listaPesquisa.setAdapter(vagaArrayAdapter);
+                vazio.setText("Sem resultados");
+                listaPesquisa.setEmptyView(vazio);
+                vagaArrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -148,7 +184,7 @@ public class PesquisaActivity extends AppCompatActivity {
     }
 
     private void inicializarFirebase() {
-        firebaseDatabase = ConfiguracaoFirebase.getFirebase().getDatabase();
+        FirebaseDatabase firebaseDatabase = ConfiguracaoFirebase.getFirebase().getDatabase();
         databaseReference = firebaseDatabase.getReference();
     }
 
@@ -161,31 +197,30 @@ public class PesquisaActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String palavra = textoPesquisa.getText().toString().trim();
         switch (item.getItemId()) {
 
             case R.id.item_filtrar_data:
-                filtrarPorData(palavra);
+                filtrarPorData();
                 return true;
             case R.id.item_filtrar_localizacao:
-                filtrarPorLocalizacao(palavra);
+                filtrarPorLocalizacao();
                 return true;
             case R.id.item_filtrar_area:
-                filtrarPorArea(palavra);
+                filtrarPorArea();
                 return true;
             default:
                 return super.onOptionsItemSelected(item); //Padrão para Android
         }
     }
 
-    private void filtrarPorArea(String palavra) {
+    private void filtrarPorArea() {
         Query query;
         query = databaseReference.child("vagas")
                 .orderByChild("areaProfissional");
 
         vagaLista.clear();
 
-        Toast.makeText(getApplicationContext(), "Filtrado por Data", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Filtrado por Área", Toast.LENGTH_SHORT).show();
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -211,7 +246,7 @@ public class PesquisaActivity extends AppCompatActivity {
         });
     }
 
-    private void filtrarPorLocalizacao(String palavra) {
+    private void filtrarPorLocalizacao() {
         Query query;
         query = databaseReference.child("vagas").orderByChild("localizacao");
 
@@ -243,9 +278,9 @@ public class PesquisaActivity extends AppCompatActivity {
         });
     }
 
-    private void filtrarPorData(String palavra) {
+    private void filtrarPorData() {
         Query query;
-        query = databaseReference.child("vagas").orderByChild("data");
+        query = databaseReference.child("vagas").orderByChild("data").limitToLast(10);
 
         vagaLista.clear();
 

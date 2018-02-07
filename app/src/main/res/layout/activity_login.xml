@@ -23,6 +23,7 @@
                 android:layout_width="@dimen/largura_logo"
                 android:layout_height="@dimen/altura_logo"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/logo"
                 android:contentDescription=""

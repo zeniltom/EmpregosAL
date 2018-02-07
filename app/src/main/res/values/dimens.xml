@@ -2,8 +2,8 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="largura_logo">200dp</dimen>
-    <dimen name="altura_logo">163dp</dimen>
+    <dimen name="largura_logo">180dp</dimen>
+    <dimen name="altura_logo">160dp</dimen>
     <dimen name="bt_texto_tamanho">22dp</dimen>
     <dimen name="ed_texto_tamanho">22dp</dimen>
     <dimen name="tv_texto_tamanho">18dp</dimen>
