@@ -1,7 +1,6 @@
 package br.com.empregosal.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,23 +34,14 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
     private Context context;
     private Vaga vaga;
     private DatabaseReference firebase;
-    private Query pesquisa;
-    private Query consultaUsuario;
-    private Query consultaEmpress;
     private Empresa empresaPesquisda;
     private Usuario usuarioPesquisado;
     private Candidatura candidaturaP;
-    Usuario user = null;
-    Vaga job = null;
 
     public VagasEmpregoAdapter(Context c, ArrayList<Vaga> objects) {
         super(c, 0, objects);
         this.vagas = objects;
         this.context = c;
-    }
-
-    public int Qtd() {
-        return vagas.size();
     }
 
     @Override
@@ -67,128 +57,136 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
 
             view = inflater.inflate(R.layout.lista_vagas_usuario, parent, false);
 
-            // recupera elemento para exibição
             TextView vagaCargo = view.findViewById(R.id.tv_vaga_emprego_cargo);
             TextView vagaEmpresa = view.findViewById(R.id.tv_vaga_emprego_empresa);
             TextView vagaLocalizacao = view.findViewById(R.id.tv_vaga_emprego_localizacao);
             TextView vagaDataAnuncio = view.findViewById(R.id.tv_vaga_emprego_data);
             Button botaoCandidatar = view.findViewById(R.id.bt_candidatar_se);
-
             Preferencias preferencias = new Preferencias(getContext());
-            final String idUsuarioLogado = preferencias.getIdentificador();
+            String idUsuarioLogado = preferencias.getIdentificador();
 
             vaga = vagas.get(position);
             vagaCargo.setText(vaga.getCargo());
             vagaEmpresa.setText(vaga.getNomeEmpresa());
             vagaLocalizacao.setText(vaga.getLocalizacao());
 
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-            String vd = vaga.getData();
-            Date dataHoje = new Date();
-            Date dataAnuncio = null;
+            dataPostagem(vagaDataAnuncio);
 
-            try {
-                dataAnuncio = format.parse(vd.toString());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            consultaUsuario(idUsuarioLogado);
 
-            long diferenca = (dataHoje.getTime() - dataAnuncio.getTime());
-            long diferencaSegundos = diferenca / (1000);
-            long diferencaMinutos = diferenca / (1000 * 60);
-            long diferencaHoras = diferenca / (1000 * 60 * 60);
-            long diferencaDias = diferenca / (1000 * 60 * 60 * 24);
-            long diferencaMeses = diferenca / (1000 * 60 * 60 * 24) / 30;
-
-            if (diferencaMeses > 0) {
-                vagaDataAnuncio.setText("Há " + diferencaMeses + " meses");
-
-            } else if (diferencaDias > 0) {
-                vagaDataAnuncio.setText("Há " + diferencaDias + " dias");
-
-            } else if (diferencaHoras > 0) {
-                vagaDataAnuncio.setText("Há " + diferencaHoras + " horas");
-
-            } else if (diferencaMinutos > 0) {
-                vagaDataAnuncio.setText("Há " + diferencaMinutos + " minutos");
-
-            } else if (diferencaSegundos > 0) {
-                vagaDataAnuncio.setText("Há alguns segundos");
-            }
-
-            consultaUsuario = ConfiguracaoFirebase.getFirebase().child("usuarios")
-                    .orderByChild("idUsuario")
-                    .equalTo(idUsuarioLogado);
-
-            consultaUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    for (DataSnapshot dados : dataSnapshot.getChildren()) {
-                        Usuario usuario = dados.getValue(Usuario.class);
-                        usuarioPesquisado = usuario;
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-            consultaEmpress = ConfiguracaoFirebase.getFirebase().child("empresas")
-                    .orderByChild("idEmpresa")
-                    .equalTo(vaga.getIdEmpresa());
-
-            consultaEmpress.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    for (DataSnapshot dados : dataSnapshot.getChildren()) {
-                        Empresa empresa = dados.getValue(Empresa.class);
-                        empresaPesquisda = empresa;
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
+            consultaEmpresa();
 
             botaoCandidatar.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    //Função de vincular vaga ao usuário logado
-                    candidatarVaga(posicao, idUsuarioLogado, empresaPesquisda, usuarioPesquisado, vaga);
+                public void onClick(View v) {//Função de vincular vaga ao usuário logado
+                    candidatarVaga(posicao, empresaPesquisda, usuarioPesquisado);
                 }
             });
-
         }
+
         return view;
     }
 
-    private void candidatarVaga(final int posicao, String idUsuarioLogado, Empresa empresaPesquisda, Usuario usuarioPesquisado, Vaga vaga) {
-        vaga = vagas.get(posicao);
+    private void consultaEmpresa() {
+        Query consultaEmpress = ConfiguracaoFirebase.getFirebase().child("empresas")
+                .orderByChild("idEmpresa")
+                .equalTo(vaga.getIdEmpresa());
+
+        consultaEmpress.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+                    empresaPesquisda = dados.getValue(Empresa.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void consultaUsuario(String idUsuarioLogado) {
+        Query consultaUsuario = ConfiguracaoFirebase.getFirebase().child("usuarios")
+                .orderByChild("idUsuario")
+                .equalTo(idUsuarioLogado);
+
+        consultaUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+                    usuarioPesquisado = dados.getValue(Usuario.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void dataPostagem(TextView vagaDataAnuncio) {
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String vd = vaga.getData();
+        Date dataHoje = new Date();
+        Date dataAnuncio = null;
+
+        try {
+            dataAnuncio = format.parse(vd);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        long diferenca = 0;
+        if (dataAnuncio != null) {
+            diferenca = (dataHoje.getTime() - dataAnuncio.getTime());
+        }
+        long diferencaSegundos = diferenca / (1000);
+        long diferencaMinutos = diferenca / (1000 * 60);
+        long diferencaHoras = diferenca / (1000 * 60 * 60);
+        long diferencaDias = diferenca / (1000 * 60 * 60 * 24);
+        long diferencaMeses = diferenca / (1000 * 60 * 60 * 24) / 30;
+
+        if (diferencaMeses > 0) {
+            vagaDataAnuncio.setText("Há " + diferencaMeses + " meses");
+
+        } else if (diferencaDias > 0) {
+            vagaDataAnuncio.setText("Há " + diferencaDias + " dias");
+
+        } else if (diferencaHoras > 0) {
+            vagaDataAnuncio.setText("Há " + diferencaHoras + " horas");
+
+        } else if (diferencaMinutos > 0) {
+            vagaDataAnuncio.setText("Há " + diferencaMinutos + " minutos");
+
+        } else if (diferencaSegundos > 0) {
+            vagaDataAnuncio.setText("Há alguns segundos");
+        }
+    }
+
+    private void candidatarVaga(final int posicao, Empresa empresaPesquisda, Usuario usuarioPesquisado) {
+        Vaga vaga = vagas.get(posicao);
+
         candidaturaP = null;
-        job = vaga;
-        user = usuarioPesquisado;
+        final String unico = vaga.getIdVaga() + usuarioPesquisado.getIdUsuario();
 
-        //Validar se já existe cadastro na vaga
-
-        String idEmpresa = vaga.getIdEmpresa();
+        final String idEmpresa = vaga.getIdEmpresa();
         final Candidatura candidatura = new Candidatura();
-        candidatura.setIdUsuario(idUsuarioLogado);
+        candidatura.setIdUsuario(usuarioPesquisado.getIdUsuario());
         candidatura.setIdEmpresa(idEmpresa);
         candidatura.setNomeUsuario(usuarioPesquisado.getNome());
         candidatura.setNomeEmpresa(empresaPesquisda.getNome());
         candidatura.setNomeVaga(vaga.getCargo());
         candidatura.setIdVaga(vaga.getIdVaga());
+        candidatura.setIdVagaUsuario(unico);
 
-        pesquisa = ConfiguracaoFirebase.getFirebase().child("candidaturas")
-                .orderByChild("idVaga")
-                .equalTo(vaga.getIdVaga());
+        Query pesquisa = ConfiguracaoFirebase.getFirebase().child("candidaturas")
+                .orderByChild("idVagaUsuario")
+                .equalTo(unico);
 
 
         pesquisa.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -201,37 +199,16 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
 
                 if (candidaturaP == null) {
 
-                    try {
-
-                        firebase = ConfiguracaoFirebase.getFirebase().child("candidaturas");
-                        firebase.push()
-                                .setValue(candidatura);
-
-                        Log.i("#RESULTADO -> ", "Cria uma nova vaga se não existe");
-                        Toast.makeText(getContext(), "Sucesso ao candidatar na vaga", Toast.LENGTH_SHORT).show();
-
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "Erro ao candicatar na vaga", Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                    }
-                }
-
-                if (candidaturaP != null && candidaturaP.getIdVaga().equals(job.getIdVaga())
-                        && candidaturaP.getIdUsuario().equals(user.getIdUsuario())
-                        && candidaturaP.getNomeUsuario().equals(user.getNome())) {
-
-                    Log.i("#RESULTADO -> ", "Existe candidatura para este usuário");
-                    Toast.makeText(getContext(), "Existe candidatura para este usuário", Toast.LENGTH_SHORT).show();
-                }
-
-                if (candidaturaP != null && candidaturaP.getIdVaga().equals(job.getIdVaga())
-                        && !(candidaturaP.getIdUsuario().equals(user.getIdUsuario()))
-                        && !(candidaturaP.getIdEmpresa().equals(job.getIdVaga()))) {
-                    Log.i("#RESULTADO -> ", "Existe candidatura, mas não para este usuário");
-                    Toast.makeText(getContext(), "Existe candidatura, mas não para este usuário", Toast.LENGTH_SHORT).show();
                     firebase = ConfiguracaoFirebase.getFirebase().child("candidaturas");
-                    firebase.push()
-                            .setValue(candidatura);
+                    firebase.child(unico).setValue(candidatura);
+
+                    Toast.makeText(getContext(), "Inscrição realizada com sucesso na vaga "
+                            + candidatura.getNomeVaga(), Toast.LENGTH_SHORT).show();
+                }
+
+                if (candidaturaP != null && candidaturaP.getIdVagaUsuario().equals(unico)) {
+                    Toast.makeText(getContext(), "Já Inscrito na vaga "
+                            + candidatura.getNomeVaga(), Toast.LENGTH_SHORT).show();
                 }
             }
 
