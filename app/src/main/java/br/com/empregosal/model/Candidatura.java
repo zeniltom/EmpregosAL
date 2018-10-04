@@ -1,19 +1,24 @@
 package br.com.empregosal.model;
 
-import com.google.firebase.database.DatabaseReference;
-
-import br.com.empregosal.config.ConfiguracaoFirebase;
-
 public class Candidatura {
 
     private String idCandidatura;
     private String idVaga;
     private String idEmpresa;
     private String idUsuario;
+    private String idVagaUsuario;
     private String nomeVaga;
     private String nomeUsuario;
     private String nomeEmpresa;
 
+
+    public String getIdVagaUsuario() {
+        return idVagaUsuario;
+    }
+
+    public void setIdVagaUsuario(String idVagaUsuario) {
+        this.idVagaUsuario = idVagaUsuario;
+    }
 
     public String getIdUsuario() {
         return idUsuario;
@@ -67,11 +72,6 @@ public class Candidatura {
 
     public void setNomeUsuario(String nomeUsuario) {
         this.nomeUsuario = nomeUsuario;
-    }
-
-    public void salvar() {
-        DatabaseReference referenciaFirebase = ConfiguracaoFirebase.getFirebase();
-        referenciaFirebase.child("candidaturas").child(getIdCandidatura()).setValue(this);
     }
 
     public String getIdCandidatura() {

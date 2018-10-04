@@ -15,13 +15,13 @@ public class IdiomaRecyclerAdapter extends RecyclerView.Adapter<IdiomaRecyclerAd
 
     private ArrayList<Idioma> idiomas;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView idiomaIdioma, idiomaNivel;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView idiomaIdioma, idiomaNivel;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
-            idiomaIdioma = (TextView) view.findViewById(R.id.idioma_idioma);
-            idiomaNivel = (TextView) view.findViewById(R.id.idioma_nivel);
+            idiomaIdioma = view.findViewById(R.id.idioma_idioma);
+            idiomaNivel = view.findViewById(R.id.idioma_nivel);
         }
     }
 

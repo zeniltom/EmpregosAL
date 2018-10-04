@@ -26,12 +26,10 @@ import br.com.empregosal.adapter.FormacaoAdapter;
 import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.helper.Preferencias;
 import br.com.empregosal.model.Formacao;
+import dmax.dialog.SpotsDialog;
 
 public class FormacaoFragment extends Fragment {
 
-    private ListView listView;
-    private TextView vazia;
-    private FloatingActionButton fab;
     private ArrayAdapter adapter;
     private ArrayList<Formacao> formacoes;
     private DatabaseReference firebase;
@@ -65,9 +63,9 @@ public class FormacaoFragment extends Fragment {
 
         //Monta listview e adapter
         qtd_formacao = view.findViewById(R.id.qtd_formacoes);
-        fab = view.findViewById(R.id.fabAddFormacao);
-        listView = (ListView) view.findViewById(R.id.lv_formacoes);
-        vazia = (TextView) view.findViewById(R.id.vazia_formacao);
+        FloatingActionButton fab = view.findViewById(R.id.fabAddFormacao);
+        ListView listView = view.findViewById(R.id.lv_formacoes);
+        TextView vazia = view.findViewById(R.id.vazia_formacao);
         listView.setEmptyView(vazia);
         /*adapter = new ArrayAdapter(
                 getActivity(),;
@@ -86,34 +84,7 @@ public class FormacaoFragment extends Fragment {
                 .child(identificadorUsuarioLogado);
 
         //Listener para recuperar experiencias
-        valueEventListenerFormacoes = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //Limpar lista
-                formacoes.clear();
-
-                //Listar experiencias
-                for (DataSnapshot dados : dataSnapshot.getChildren()) {
-
-                    Formacao formacao = dados.getValue(Formacao.class);
-                    formacoes.add(formacao);
-
-                    //Se não possui experiências, o TextView qtd_experiencia some
-                    if (formacoes.size() == 0) qtd_formacao.setVisibility(View.GONE);
-
-                    if (formacoes.size() == 1)
-                        qtd_formacao.setText(String.valueOf(formacoes.size()) + " Formação");
-
-                    if (formacoes.size() > 1)
-                        qtd_formacao.setText(String.valueOf(formacoes.size()) + " Formações");
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
+        carregarFormacoes();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +113,42 @@ public class FormacaoFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void carregarFormacoes() {
+        final SpotsDialog dialog = new SpotsDialog(getContext(), "Carregando...", R.style.dialogEmpregosAL);
+        dialog.setCancelable(false);
+        dialog.show();
+
+        valueEventListenerFormacoes = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Limpar lista
+                formacoes.clear();
+
+                //Listar experiencias
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+
+                    Formacao formacao = dados.getValue(Formacao.class);
+                    formacoes.add(formacao);
+
+                    //Se não possui experiências, o TextView qtd_experiencia some
+                    if (formacoes.size() == 0) qtd_formacao.setVisibility(View.GONE);
+
+                    if (formacoes.size() == 1)
+                        qtd_formacao.setText(String.valueOf(formacoes.size()) + " Formação");
+
+                    if (formacoes.size() > 1)
+                        qtd_formacao.setText(String.valueOf(formacoes.size()) + " Formações");
+                }
+                dialog.dismiss();
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
     }
 
 }

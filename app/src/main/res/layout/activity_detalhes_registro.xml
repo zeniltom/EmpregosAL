@@ -112,6 +112,44 @@
                         android:textSize="18sp"
                         android:textColor="@color/preto" />
 
+                    <TextView
+                        android:text="E-mail:"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginTop="10dp"
+                        android:textSize="18sp"
+                        android:textStyle="normal|bold"
+                        android:textColor="@color/preto" />
+
+                    <TextView
+                        android:text="Email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_candidato_email"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:textColor="@color/preto" />
+
+                    <TextView
+                        android:text="Telefone:"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginTop="10dp"
+                        android:textSize="18sp"
+                        android:textStyle="normal|bold"
+                        android:textColor="@color/preto" />
+
+                    <TextView
+                        android:text="Telefone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_candidato_telefone"
+                        android:layout_weight="1"
+                        android:textSize="18sp"
+                        android:textColor="@color/preto" />
+
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>

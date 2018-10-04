@@ -21,17 +21,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import br.com.empregosal.R;
+import br.com.empregosal.activity.EditarExperienciaActivity;
 import br.com.empregosal.activity.ExperienciaActivity;
 import br.com.empregosal.adapter.ExperienciaAdapter;
 import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.helper.Preferencias;
 import br.com.empregosal.model.Experiencia;
+import dmax.dialog.SpotsDialog;
 
 public class ExperienciaFragment extends Fragment {
 
-    private ListView listView;
-    private TextView vazia;
-    private FloatingActionButton fab;
     private ArrayAdapter adapter;
     private ArrayList<Experiencia> experiencias;
     private DatabaseReference firebase;
@@ -66,9 +65,9 @@ public class ExperienciaFragment extends Fragment {
 
         //Monta listview e adapter
         qtd_experiencia = view.findViewById(R.id.qtd_experiencias);
-        fab = view.findViewById(R.id.fabAddExperiencia);
-        listView = (ListView) view.findViewById(R.id.lv_experiencias);
-        vazia = (TextView) view.findViewById(R.id.vazia);
+        FloatingActionButton fab = view.findViewById(R.id.fabAddExperiencia);
+        ListView listView = view.findViewById(R.id.lv_experiencias);
+        TextView vazia = view.findViewById(R.id.vazia);
         listView.setEmptyView(vazia);
         /*adapter = new ArrayAdapter(
                 getActivity(),;
@@ -85,6 +84,39 @@ public class ExperienciaFragment extends Fragment {
         firebase = ConfiguracaoFirebase.getFirebase()
                 .child("experiencias")
                 .child(identificadorUsuarioLogado);
+
+        carregarExperiencias();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ExperienciaActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //Ao clicar na experiencia, editar
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Criar nova activity para editar os dados da experiencia
+
+                Experiencia experiencia = experiencias.get(position);
+
+                Intent intent = new Intent(getContext(), EditarExperienciaActivity.class);
+                intent.putExtra("experiencia", experiencia);
+                startActivity(intent);
+
+            }
+        });
+
+        return view;
+    }
+
+    private void carregarExperiencias() {
+        final SpotsDialog dialog = new SpotsDialog(getContext(), "Carregando...", R.style.dialogEmpregosAL);
+        dialog.setCancelable(false);
+        dialog.show();
 
         //Listener para recuperar experiencias
         valueEventListenerExperiencias = new ValueEventListener() {
@@ -108,6 +140,7 @@ public class ExperienciaFragment extends Fragment {
                     if (experiencias.size() > 1)
                         qtd_experiencia.setText(String.valueOf(experiencias.size()) + " Experiencias");
                 }
+                dialog.dismiss();
                 adapter.notifyDataSetChanged();
             }
 
@@ -115,33 +148,5 @@ public class ExperienciaFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
             }
         };
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ExperienciaActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //Ao clicar na experiencia, editar
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Criar nova activity para editar os dados da experiencia
-
-//                // recupera dados a serem passados
-//                Experiencia experiencia = experiencias.get(position);
-//
-//                // enviando dados para conversa activity
-//                intent.putExtra("nome", experiencia.getNomeDaEmpresa());
-//                intent.putExtra("email", experiencia.getCargo());
-//
-//                startActivity(intent);
-
-            }
-        });
-
-        return view;
     }
 }

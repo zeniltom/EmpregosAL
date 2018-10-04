@@ -3,6 +3,7 @@ package br.com.empregosal.model;
 import com.google.firebase.database.DatabaseReference;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 import br.com.empregosal.config.ConfiguracaoFirebase;
 
@@ -162,4 +163,5 @@ public class Vaga implements Serializable {
     public String toString() {
         return cargo;
     }
+
 }

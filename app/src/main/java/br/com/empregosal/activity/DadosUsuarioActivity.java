@@ -49,7 +49,7 @@ public class DadosUsuarioActivity extends AppCompatActivity {
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference firebase;
     private FirebaseAuth usuarioFirebase;
-    private EditText nome, cpf, datanasc, nasc, numero, endereco, uf, complemento, cep, cidade;
+    private EditText nome, cpf, datanasc, nasc, numero, endereco, uf, complemento, cep, cidade, telefone;
     private ImageView imageView;
     private ValueEventListener valueEventListenerUsuario;
     private Button bt_alterar, bt_consulta_cep, bt_add_foto_perfil;
@@ -67,6 +67,9 @@ public class DadosUsuarioActivity extends AppCompatActivity {
                 addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        final SpotsDialog dialog = new SpotsDialog(DadosUsuarioActivity.this, "Carregando...", R.style.dialogEmpregosAL);
+                        dialog.setCancelable(false);
+                        dialog.show();
 
                         Usuario usuario = dataSnapshot.getValue(Usuario.class);
 
@@ -80,8 +83,10 @@ public class DadosUsuarioActivity extends AppCompatActivity {
                         uf.setText(usuario.getUf());
                         complemento.setText(usuario.getComplemento());
                         numero.setText(usuario.getNumero());
+                        telefone.setText(usuario.getTelefone());
 
                         carregarSpinners(usuario);
+                        dialog.dismiss();
                     }
 
                     @Override
@@ -96,6 +101,7 @@ public class DadosUsuarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dados_usuario);
 
+        telefone = findViewById(R.id.et_telefone_usuario_alterar);
         nome = findViewById(R.id.et_nome_alterar);
         cpf = findViewById(R.id.et_cpf_alterar);
         datanasc = findViewById(R.id.et_datanasc_alterar);
@@ -179,18 +185,22 @@ public class DadosUsuarioActivity extends AppCompatActivity {
                 child(usuarioFirebase.getCurrentUser().getUid())
                 .child("perfil.png");
 
-        stream.putFile(localImagemSelecionada).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+        try {
+            stream.putFile(localImagemSelecionada).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.i("Progresso ->: " , progress + "% Upload");
-            }
-        });
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                    Log.i("Progresso ->: ", progress + "% Upload");
+                }
+            });
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     private void carregarFoto() {
@@ -224,7 +234,7 @@ public class DadosUsuarioActivity extends AppCompatActivity {
         progressDialog = new SpotsDialog(DadosUsuarioActivity.this, "Salvando alterações...", R.style.dialogEmpregosAL);
         progressDialog.setCancelable(false);
         progressDialog.show();
-        consultarCep();
+        pegarCep();
 
         reference.child("usuarios").child(usuarioFirebase.getCurrentUser()
                 .getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -245,6 +255,7 @@ public class DadosUsuarioActivity extends AppCompatActivity {
                 dados.put("uf", uf.getText().toString());
                 dados.put("complemento", complemento.getText().toString());
                 dados.put("numero", numero.getText().toString());
+                dados.put("telefone", telefone.getText().toString());
                 upload();
 
                 if (spinner_sexo.getSelectedItem().toString().equals("Selecione")) {
@@ -271,6 +282,27 @@ public class DadosUsuarioActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void pegarCep() {
+        final String cep_dados = cep.getText().toString();
+
+        if (!cep_dados.isEmpty()) {
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    viacep = new ViaCEP();
+                    viacep.buscar(cep_dados);
+
+                    handler.sendEmptyMessage(0);
+                }
+            }).start();
+        } else {
+            progressDialog.dismiss();
+            Toast.makeText(DadosUsuarioActivity.this, "Preencha o CEP", Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     private void consultarCep() {
         progressDialog = new SpotsDialog(DadosUsuarioActivity.this, "Procurando...", R.style.dialogEmpregosAL);
@@ -315,26 +347,31 @@ public class DadosUsuarioActivity extends AppCompatActivity {
 
     private void carregarSpinners(Usuario usuario) {
 
-        if (usuario.getSexo().equals("Masculino")) {
-            spinner_sexo.setSelection(1);
-        } else if (usuario.getSexo().equals("Feminino")) {
-            spinner_sexo.setSelection(2);
-        } else {
-            spinner_sexo.setSelection(0);
-        }
+        try {
+            if (usuario.getSexo().equals("Masculino")) {
+                spinner_sexo.setSelection(1);
+            } else if (usuario.getSexo().equals("Feminino")) {
+                spinner_sexo.setSelection(2);
+            } else {
+                spinner_sexo.setSelection(0);
+            }
 
-        if (usuario.getEstado_civ().equals("Casado")) {
-            spinner_estado_civil.setSelection(1);
-        } else if (usuario.getEstado_civ().equals("Divorciado")) {
-            spinner_estado_civil.setSelection(2);
-        } else if (usuario.getEstado_civ().equals("Separado")) {
-            spinner_estado_civil.setSelection(3);
-        } else if (usuario.getEstado_civ().equals("Solteiro")) {
-            spinner_estado_civil.setSelection(4);
-        } else if (usuario.getEstado_civ().equals("Viúvo")) {
-            spinner_estado_civil.setSelection(5);
-        } else {
-            spinner_sexo.setSelection(0);
+            if (usuario.getEstado_civ().equals("Casado")) {
+                spinner_estado_civil.setSelection(1);
+            } else if (usuario.getEstado_civ().equals("Divorciado")) {
+                spinner_estado_civil.setSelection(2);
+            } else if (usuario.getEstado_civ().equals("Separado")) {
+                spinner_estado_civil.setSelection(3);
+            } else if (usuario.getEstado_civ().equals("Solteiro")) {
+                spinner_estado_civil.setSelection(4);
+            } else if (usuario.getEstado_civ().equals("Viúvo")) {
+                spinner_estado_civil.setSelection(5);
+            } else {
+                spinner_sexo.setSelection(0);
+            }
+        } catch (NullPointerException e) {
+            Toast.makeText(DadosUsuarioActivity.this, "Sem dados", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
     }
 }

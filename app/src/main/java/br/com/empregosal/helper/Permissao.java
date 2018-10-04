@@ -19,7 +19,7 @@ public class Permissao {
 
         if (Build.VERSION.SDK_INT >= 23){
 
-            List<String> listaPermissoes = new ArrayList<String>();
+            List<String> listaPermissoes = new ArrayList<>();
 
             //Percorre as permissões passadas, verificando uma a uma se já tem a permissão liberada
             for (String permissao : permissoes){

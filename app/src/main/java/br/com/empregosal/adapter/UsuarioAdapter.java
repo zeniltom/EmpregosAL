@@ -82,7 +82,9 @@ public class UsuarioAdapter extends ArrayAdapter<Usuario> {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot dados : dataSnapshot.getChildren()) {
                         Experiencia xp = dados.getValue(Experiencia.class);
-                        usuarioXP.setText(xp.getCargo());
+                        if (xp != null) {
+                            usuarioXP.setText(xp.getCargo());
+                        }
                     }
                 }
 

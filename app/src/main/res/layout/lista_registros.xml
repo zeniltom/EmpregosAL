@@ -10,36 +10,60 @@
         android:id="@+id/tv_registro_emprego_cargo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
         android:text="Cargo da Vaga"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:paddingLeft="10dp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tv_registro_emprego_empresa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
         android:text="Empresa"
         android:textColor="@android:color/black"
-        android:textSize="16sp"
-        android:paddingLeft="10dp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_registro_emprego_localizacao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
         android:text="Localização da Vaga"
         android:textColor="@android:color/black"
-        android:textSize="16sp"
-        android:paddingLeft="10dp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_registro_emprego_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
         android:text="Data da criação"
         android:textColor="@android:color/black"
-        android:textSize="16sp"
-        android:paddingLeft="10dp" />
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:text="Candidato: "
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_registro_candidato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Nome"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
 
 </LinearLayout>

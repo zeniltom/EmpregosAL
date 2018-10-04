@@ -12,13 +12,13 @@
     <style name="botao_padrao" parent="Theme.AppCompat.Light">
         <item name="colorButtonNormal">@color/colorSecundary</item>
         <item name="colorControlHighlight">@color/colorPrimary</item>
-        <item name="android:textColor">@android:color/white</item>z
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="botao_padrao_secundario" parent="Theme.AppCompat.Light">
         <item name="colorButtonNormal">@color/colorPrimary</item>
         <item name="colorControlHighlight">@color/colorSecundary</item>
-        <item name="android:textColor">@android:color/white</item>z
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="SemBarra" parent="Theme.AppCompat.NoActionBar">

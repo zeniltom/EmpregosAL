@@ -26,6 +26,7 @@ import br.com.empregosal.adapter.VagaAdapter;
 import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.helper.Preferencias;
 import br.com.empregosal.model.Vaga;
+import dmax.dialog.SpotsDialog;
 
 public class GerenciaFragment extends Fragment {
 
@@ -86,6 +87,28 @@ public class GerenciaFragment extends Fragment {
         query = ConfiguracaoFirebase.getFirebase().child("vagas")
                 .orderByChild("idEmpresa")
                 .equalTo(identificadorUsuarioLogado);
+        carregarVagas();
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Vaga vaga = vagas.get(position);
+
+                Intent intent = new Intent(getContext(), SituacaoVagaActivity.class);
+                intent.putExtra("vaga", vaga);
+
+                startActivity(intent);
+            }
+        });
+
+        return view;
+    }
+
+    private void carregarVagas() {
+        final SpotsDialog dialog = new SpotsDialog(getContext(), "Carregando...", R.style.dialogEmpregosAL);
+        dialog.setCancelable(false);
+        dialog.show();
 
         //Listener para recuperar experiencias
         valueEventListenerVagas = new ValueEventListener() {
@@ -109,6 +132,7 @@ public class GerenciaFragment extends Fragment {
                     if (vagas.size() > 1)
                         qtd_vaga.setText(String.valueOf(vagas.size()) + " Vagas");
                 }
+                dialog.dismiss();
                 adapter.notifyDataSetChanged();
             }
 
@@ -116,20 +140,5 @@ public class GerenciaFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
             }
         };
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Vaga vaga = vagas.get(position);
-
-                Intent intent = new Intent(getContext(), SituacaoVagaActivity.class);
-                intent.putExtra("vaga", vaga);
-
-                startActivity(intent);
-            }
-        });
-
-        return view;
     }
 }
-

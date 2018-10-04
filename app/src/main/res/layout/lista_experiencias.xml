@@ -64,42 +64,4 @@
 
     </TableLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:background="@color/cinzaClaro"
-        android:layout_height="wrap_content" android:paddingTop="1dp">
-
-        <Button
-            android:text="Apagar"
-            android:layout_width="wrap_content"
-            android:id="@+id/bt_apagar_experiencia"
-            android:layout_weight="1"
-            android:background="@color/textColorPrimary"
-            android:textStyle="normal|bold"
-            android:textColor="@color/colorPrimary"
-            android:layout_height="30dp" />
-
-        <Button
-            android:text="Visualizar"
-            android:layout_width="wrap_content"
-            android:id="@+id/bt_visualizar_experiencia"
-            android:layout_weight="1"
-            android:background="@color/textColorPrimary"
-            android:textStyle="normal|bold"
-            android:textColor="@color/colorPrimary"
-            android:layout_height="30dp" />
-
-        <Button
-            android:text="Editar"
-            android:layout_width="wrap_content"
-            android:id="@+id/bt_editar_experiencia"
-            android:layout_weight="1"
-            android:background="@color/textColorPrimary"
-            android:textStyle="normal|bold"
-            android:textColor="@color/colorPrimary"
-            android:layout_height="30dp" />
-
-    </LinearLayout>
-
 </LinearLayout>

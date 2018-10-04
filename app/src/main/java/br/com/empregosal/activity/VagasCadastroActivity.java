@@ -18,7 +18,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import br.com.empregosal.R;
 import br.com.empregosal.config.ConfiguracaoFirebase;
@@ -93,8 +95,6 @@ public class VagasCadastroActivity extends AppCompatActivity {
 
             }
         });
-
-
 
 
         bt_salvar_vaga.setOnClickListener(new View.OnClickListener() {

@@ -30,6 +30,8 @@ public class DetalhesRegistroActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         TextView candidato = findViewById(R.id.tv_candidato_nome);
+        TextView telefone = findViewById(R.id.tv_candidato_telefone);
+        TextView email = findViewById(R.id.tv_candidato_email);
         TextView cargo = findViewById(R.id.tv_cargo_detalhes);
         TextView localizacao = findViewById(R.id.tv_localizacao_detalhes);
         descricao = findViewById(R.id.tv_descricao_detalhes);
@@ -47,7 +49,6 @@ public class DetalhesRegistroActivity extends AppCompatActivity {
         separador_detalhes = findViewById(R.id.separador_descricao_vaga_detalhes);
 
         Registro registro = (Registro) getIntent().getSerializableExtra("registro");
-
 
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String vd = String.valueOf(registro.getData());
@@ -96,6 +97,9 @@ public class DetalhesRegistroActivity extends AppCompatActivity {
         cep.setText(registro.getCEP());
         qtd.setText(registro.getQtd());
         nome_empresa.setText(registro.getNomeEmpresa());
+        telefone.setText(registro.getTelefone());
+        email.setText(registro.getEmail_usuario());
+
 
         botaoVerMais.setOnClickListener(new View.OnClickListener() {
             @Override

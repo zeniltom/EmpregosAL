@@ -15,10 +15,10 @@ public class FormacaoRecyclerAdapter extends RecyclerView.Adapter<FormacaoRecycl
 
     private ArrayList<Formacao> formacoes;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nomeInstituicao, nomeCurso, nivelCurso, estadoCurso, dataInicio, dataConclusao;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView nomeInstituicao, nomeCurso, nivelCurso, estadoCurso, dataInicio, dataConclusao;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             nomeInstituicao = view.findViewById(R.id.formacao_instituicao);
             nomeCurso = view.findViewById(R.id.formacao_nome_curso);

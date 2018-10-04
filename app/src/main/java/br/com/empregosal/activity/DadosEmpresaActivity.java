@@ -52,6 +52,9 @@ public class DadosEmpresaActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        final SpotsDialog dialog = new SpotsDialog(DadosEmpresaActivity.this, "Carregando...", R.style.dialogEmpregosAL);
+        dialog.setCancelable(false);
+        dialog.show();
         reference.child("empresas").child(usuarioFirebase.getCurrentUser().getUid()).
                 addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -72,6 +75,7 @@ public class DadosEmpresaActivity extends AppCompatActivity {
                         complemento.setText(empresa.getComplemento());
 
                         toolbar.setTitle("Edição Dados Pessoais");
+                        dialog.dismiss();
                     }
 
                     @Override

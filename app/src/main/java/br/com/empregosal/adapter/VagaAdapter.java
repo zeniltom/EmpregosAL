@@ -26,10 +26,6 @@ public class VagaAdapter extends ArrayAdapter<Vaga>{
         this.context = c;
     }
 
-    public int Qtd(){
-        return vagas.size();
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -64,12 +60,15 @@ public class VagaAdapter extends ArrayAdapter<Vaga>{
             Date dataAnuncio = null;
 
             try {
-                dataAnuncio = format.parse(vd.toString());
+                dataAnuncio = format.parse(vd);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            long diferenca = (dataHoje.getTime() - dataAnuncio.getTime());
+            long diferenca = 0;
+            if (dataAnuncio != null) {
+                diferenca = (dataHoje.getTime() - dataAnuncio.getTime());
+            }
             long diferencaSegundos = diferenca / (1000);
             long diferencaMinutos = diferenca / (1000 * 60);
             long diferencaHoras = diferenca / (1000 * 60 * 60);

@@ -1,6 +1,8 @@
 package br.com.empregosal.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,6 +22,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import br.com.empregosal.R;
 import br.com.empregosal.config.ConfiguracaoFirebase;
@@ -34,9 +39,13 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
     private Context context;
     private Vaga vaga;
     private DatabaseReference firebase;
+    private DatabaseReference marcarVaga;
     private Empresa empresaPesquisda;
     private Usuario usuarioPesquisado;
     private Candidatura candidaturaP;
+    private Button botaoCandidatar;
+    private String unico;
+    private Candidatura candidaturaAchada;
 
     public VagasEmpregoAdapter(Context c, ArrayList<Vaga> objects) {
         super(c, 0, objects);
@@ -61,9 +70,9 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
             TextView vagaEmpresa = view.findViewById(R.id.tv_vaga_emprego_empresa);
             TextView vagaLocalizacao = view.findViewById(R.id.tv_vaga_emprego_localizacao);
             TextView vagaDataAnuncio = view.findViewById(R.id.tv_vaga_emprego_data);
-            Button botaoCandidatar = view.findViewById(R.id.bt_candidatar_se);
+            botaoCandidatar = view.findViewById(R.id.bt_candidatar_se);
             Preferencias preferencias = new Preferencias(getContext());
-            String idUsuarioLogado = preferencias.getIdentificador();
+            final String idUsuarioLogado = preferencias.getIdentificador();
 
             vaga = vagas.get(position);
             vagaCargo.setText(vaga.getCargo());
@@ -75,6 +84,8 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
             consultaUsuario(idUsuarioLogado);
 
             consultaEmpresa();
+
+            //TODO SEMPRE QUE O CANDIDADO SE CANDIDATAR
 
             botaoCandidatar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -168,8 +179,8 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
         }
     }
 
-    private void candidatarVaga(final int posicao, Empresa empresaPesquisda, Usuario usuarioPesquisado) {
-        Vaga vaga = vagas.get(posicao);
+    private void candidatarVaga(final int posicao, Empresa empresaPesquisda, final Usuario usuarioPesquisado) {
+        final Vaga vaga = vagas.get(posicao);
 
         candidaturaP = null;
         final String unico = vaga.getIdVaga() + usuarioPesquisado.getIdUsuario();
@@ -188,7 +199,6 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
                 .orderByChild("idVagaUsuario")
                 .equalTo(unico);
 
-
         pesquisa.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -202,8 +212,6 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
                     firebase = ConfiguracaoFirebase.getFirebase().child("candidaturas");
                     firebase.child(unico).setValue(candidatura);
 
-                    Toast.makeText(getContext(), "Inscrição realizada com sucesso na vaga "
-                            + candidatura.getNomeVaga(), Toast.LENGTH_SHORT).show();
                 }
 
                 if (candidaturaP != null && candidaturaP.getIdVagaUsuario().equals(unico)) {
@@ -219,3 +227,4 @@ public class VagasEmpregoAdapter extends ArrayAdapter<Vaga> {
         });
     }
 }
+

@@ -3,6 +3,7 @@ package br.com.empregosal.activity.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import br.com.empregosal.adapter.CandidaturaAdapter;
 import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.helper.Preferencias;
 import br.com.empregosal.model.Candidatura;
+import dmax.dialog.SpotsDialog;
 
 public class CandidaturaFragment extends Fragment {
 
@@ -101,6 +103,51 @@ public class CandidaturaFragment extends Fragment {
         query = firebase.child("candidaturas")
                 .orderByChild("idUsuario")
                 .equalTo(identificadorUsuarioLogado);
+        carregarCandidaturas();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                final Candidatura candidatura = candidaturas.get(position);
+                Preferencias preferencias = new Preferencias(getActivity());
+                String identificadorUsuarioLogado = preferencias.getIdentificador();
+
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.dialogEmpregosAL);
+                builder.setTitle("STATUS da Candidatura")
+                        .setMessage("Candidatura " + candidatura.getNomeUsuario());
+
+                DatabaseReference reference = ConfiguracaoFirebase.getFirebase();
+                Query queryCandidatura = reference.child("candidaturas")
+                        .orderByChild("idUsuario")
+                        .equalTo(identificadorUsuarioLogado);
+
+                queryCandidatura.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            builder.setMessage("Em Andamento").show();
+                        } else {
+                            builder.setMessage("Finalizada").show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
+
+        return view;
+    }
+
+    private void carregarCandidaturas() {
+        final SpotsDialog dialog = new SpotsDialog(getContext(), "Carregando...", R.style.dialogEmpregosAL);
+        dialog.setCancelable(false);
+        dialog.show();
 
         //Listener para recuperar experiencias
         valueEventListenerCandidaturas = new ValueEventListener() {
@@ -124,6 +171,7 @@ public class CandidaturaFragment extends Fragment {
                     if (candidaturas.size() > 1)
                         qtd_candidaturas.setText(String.valueOf(candidaturas.size()) + " Candidaturas");
                 }
+                dialog.dismiss();
                 adapter.notifyDataSetChanged();
             }
 
@@ -131,25 +179,5 @@ public class CandidaturaFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
             }
         };
-
-        //Ao clicar na experiencia, editar
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Criar nova activity para editar os dados da experiencia
-
-//                // recupera dados a serem passados
-//                Experiencia experiencia = experiencias.get(position);
-//
-//                // enviando dados para conversa activity
-//                intent.putExtra("nome", experiencia.getNomeDaEmpresa());
-//                intent.putExtra("email", experiencia.getCargo());
-//
-//                startActivity(intent);
-
-            }
-        });
-
-        return view;
     }
 }

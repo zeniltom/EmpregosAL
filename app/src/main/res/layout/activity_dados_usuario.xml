@@ -48,44 +48,44 @@
                         android:id="@+id/textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
                         android:paddingRight="140dp"
                         android:text="Nome"
                         android:textColor="?attr/colorPrimary"
-                        android:textSize="15sp"
-                        android:paddingLeft="10dp" />
+                        android:textSize="15sp" />
 
                     <EditText
                         android:id="@+id/et_nome_alterar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
                         android:inputType="textCapSentences|textPersonName"
+                        android:paddingLeft="10dp"
                         android:textColor="@android:color/black"
                         android:textColorHint="@color/cinza"
-                        android:textSize="16sp"
-                        android:paddingLeft="10dp"
-                        android:layout_marginRight="20dp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/textView2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
                         android:paddingRight="90dp"
                         android:text="CPF"
                         android:textColor="?attr/colorPrimary"
-                        android:textSize="15sp"
-                        android:paddingLeft="10dp" />
+                        android:textSize="15sp" />
 
                     <EditText
                         android:id="@+id/et_cpf_alterar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
                         android:enabled="false"
                         android:inputType="number"
+                        android:paddingLeft="10dp"
                         android:textColor="@color/cinza"
                         android:textColorHint="@color/cinza"
-                        android:textSize="16sp"
-                        android:paddingLeft="10dp"
-                        android:layout_marginRight="20dp" />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -96,21 +96,21 @@
 
                     <ImageView
                         android:id="@+id/foto_perfil"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:scaleType="fitXY"
-                        app:srcCompat="@color/cinzaClaro"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp" />
+                        app:srcCompat="@color/cinzaClaro" />
 
                     <Button
                         android:id="@+id/bt_add_foto_perfil"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@color/branco"
+                        android:elevation="0dp"
                         android:text="Alterar"
-                        android:textColor="@color/colorPrimary"
-                        android:layout_width="100dp"
-                        android:elevation="0dp" />
+                        android:textColor="@color/colorPrimary" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -133,9 +133,10 @@
 
                     <TextView
                         android:id="@+id/textView3"
+                        android:paddingRight="10dp"
                         android:text="Data de Nascimento"
                         android:textColor="?attr/colorPrimary"
-                        android:textSize="15sp" android:paddingRight="10dp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/textView4"
@@ -212,6 +213,21 @@
                     android:textColorHint="@color/cinza"
                     android:textSize="16sp" />
 
+                <TextView
+                    android:text="Telefone"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/et_telefone_usuario_alterar"
+                    android:layout_marginRight="120dp"
+                    android:inputType="textPersonName|phone"
+                    android:maxLength="12"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@color/cinza"
+                    android:textSize="16sp" />
+
+
                 <TableRow>
 
                     <TextView
@@ -227,12 +243,12 @@
 
                     <EditText
                         android:id="@+id/et_cep_usuario_alterar"
+                        android:layout_marginRight="20dp"
                         android:inputType="number"
                         android:maxLength="8"
                         android:textColor="@android:color/black"
                         android:textColorHint="@color/cinza"
-                        android:textSize="16sp" 
-                        android:layout_marginRight="20dp"/>
+                        android:textSize="16sp" />
 
                     <Button
                         android:id="@+id/bt_consultar_cep"

@@ -25,6 +25,7 @@ import br.com.empregosal.adapter.RegistroAdapter;
 import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.helper.Preferencias;
 import br.com.empregosal.model.Registro;
+import dmax.dialog.SpotsDialog;
 
 public class RegistroFragment extends Fragment {
 
@@ -75,6 +76,26 @@ public class RegistroFragment extends Fragment {
 
         Log.i("#Registro", identificadorUsuarioLogado);
 
+        carregarRegistros();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Registro registro = registros.get(position);
+
+                Intent intent = new Intent(getContext(), DetalhesRegistroActivity.class);
+                intent.putExtra("registro", registro);
+                startActivity(intent);
+            }
+        });
+
+        return view;
+    }
+
+    private void carregarRegistros() {
+        final SpotsDialog dialog = new SpotsDialog(getContext(), "Carregando...", R.style.dialogEmpregosAL);
+        dialog.setCancelable(false);
+        dialog.show();
         valueEventListenerRegistros = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -97,6 +118,7 @@ public class RegistroFragment extends Fragment {
                     if (registros.size() > 1)
                         qtd_registro.setText(String.valueOf(registros.size()) + " Registros");
                 }
+                dialog.dismiss();
                 adapter.notifyDataSetChanged();
             }
 
@@ -105,19 +127,6 @@ public class RegistroFragment extends Fragment {
 
             }
         };
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Registro registro = registros.get(position);
-
-                Intent intent = new Intent(getContext(), DetalhesRegistroActivity.class);
-                intent.putExtra("registro", registro);
-                startActivity(intent);
-            }
-        });
-
-        return view;
     }
 }
 

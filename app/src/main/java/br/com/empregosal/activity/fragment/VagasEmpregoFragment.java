@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -25,9 +26,9 @@ import br.com.empregosal.R;
 import br.com.empregosal.activity.DetalhesVagaActivity;
 import br.com.empregosal.adapter.VagasEmpregoAdapter;
 import br.com.empregosal.config.ConfiguracaoFirebase;
-import br.com.empregosal.helper.Preferencias;
 import br.com.empregosal.model.Candidatura;
 import br.com.empregosal.model.Vaga;
+import dmax.dialog.SpotsDialog;
 
 public class VagasEmpregoFragment extends Fragment {
 
@@ -36,7 +37,7 @@ public class VagasEmpregoFragment extends Fragment {
     private ArrayAdapter adapter;
     private ArrayList<Vaga> vagas;
     private ArrayList<Candidatura> candidaturas;
-    private DatabaseReference firebase;
+    private Query firebase;
     private ValueEventListener valueEventListenerVagas;
     private TextView qtd_vaga;
 
@@ -88,47 +89,16 @@ public class VagasEmpregoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_vagas_emprego, container, false);
 
         qtd_vaga = view.findViewById(R.id.qtd_vagas_empregos);
-        listView = (ListView) view.findViewById(R.id.lv_candidaturas);
-        vazia = (TextView) view.findViewById(R.id.vazia_vaga_emprego);
+        listView = view.findViewById(R.id.lv_candidaturas);
+        vazia = view.findViewById(R.id.vazia_vaga_emprego);
         listView.setEmptyView(vazia);
         adapter = new VagasEmpregoAdapter(getActivity(), vagas);
         listView.setAdapter(adapter);
 
-        Preferencias preferencias = new Preferencias(getActivity());
-        String identificadorUsuarioLogado = preferencias.getIdentificador();
-
         firebase = ConfiguracaoFirebase.getFirebase()
                 .child("vagas");
 
-        valueEventListenerVagas = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //Limpar lista
-                vagas.clear();
-
-                //Listar experiencias
-                for (DataSnapshot dados : dataSnapshot.getChildren()) {
-
-                    Vaga vaga = dados.getValue(Vaga.class);
-                    vagas.add(vaga);
-
-                    //Se não possui experiências, o TextView qtd_experiencia some
-                    if (vagas.size() == 0) qtd_vaga.setVisibility(View.GONE);
-
-                    if (vagas.size() == 1)
-                        qtd_vaga.setText(String.valueOf(vagas.size()) + " Vaga");
-
-                    if (vagas.size() > 1)
-                        qtd_vaga.setText(String.valueOf(vagas.size()) + " Vagas");
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
+        carregarVagasEmpregos();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -159,6 +129,43 @@ public class VagasEmpregoFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void carregarVagasEmpregos() {
+        final SpotsDialog dialog = new SpotsDialog(getContext(), "Carregando...", R.style.dialogEmpregosAL);
+        dialog.setCancelable(false);
+        dialog.show();
+
+        valueEventListenerVagas = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Limpar lista
+                vagas.clear();
+
+                //Listar experiencias
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+
+                    Vaga vaga = dados.getValue(Vaga.class);
+                    vagas.add(vaga);
+
+                    //Se não possui experiências, o TextView qtd_experiencia some
+                    if (vagas.size() == 0) qtd_vaga.setVisibility(View.GONE);
+
+                    if (vagas.size() == 1)
+                        qtd_vaga.setText(String.valueOf(vagas.size()) + " Vaga");
+
+                    if (vagas.size() > 1)
+                        qtd_vaga.setText(String.valueOf(vagas.size()) + " Vagas");
+                }
+                dialog.dismiss();
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
     }
 }
 

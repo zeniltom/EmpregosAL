@@ -23,10 +23,6 @@ public class ExperienciaAdapter extends ArrayAdapter<Experiencia>{
         this.context = c;
     }
 
-    public int Qtd(){
-        return experiencias.size();
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

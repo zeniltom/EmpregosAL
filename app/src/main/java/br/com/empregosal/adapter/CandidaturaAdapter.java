@@ -23,10 +23,6 @@ public class CandidaturaAdapter extends ArrayAdapter<Candidatura>{
         this.context = c;
     }
 
-    public int Qtd(){
-        return candidaturas.size();
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

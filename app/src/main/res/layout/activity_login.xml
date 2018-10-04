@@ -1,86 +1,128 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:orientation="vertical"
+
+    android:fillViewport="true"
     tools:context="br.com.empregosal.activity.LoginActivity">
 
-    <ScrollView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/largura_logo"
+            android:layout_height="@dimen/altura_logo"
+            android:layout_gravity="center"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/logo"
+            android:contentDescription=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <EditText
+            android:id="@+id/edit_login_email"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
-            android:paddingTop="20dp">
+            android:layout_marginEnd="72dp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="72dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/estilo_container"
+            android:hint="@string/texto_email"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/textColorPrimary"
+            android:textColorHint="?android:attr/textColorHintInverse"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="@dimen/largura_logo"
-                android:layout_height="@dimen/altura_logo"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/logo"
-                android:contentDescription=""
-                tools:ignore="ContentDescription" />
+        <EditText
+            android:id="@+id/edit_login_senha"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="72dp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="72dp"
+            android:layout_marginStart="72dp"
+            android:background="@drawable/estilo_container"
+            android:hint="@string/texto_senha"
+            android:inputType="textPassword"
+            android:textColor="@color/textColorPrimary"
+            android:textColorHint="?android:attr/textColorHintInverse"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_login_email" />
 
-            <EditText
-                android:id="@+id/edit_login_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/texto_email"
-                android:inputType="textEmailAddress"
-                android:textColor="@color/textColorPrimary"
-                android:textColorHint="?android:attr/textColorHintInverse"
-                android:textSize="20sp" />
+        <Button
+            android:id="@+id/bt_logar"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="72dp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="72dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/estilo_botao"
+            android:text="@string/botao_logar"
+            android:textSize="20sp"
+            android:theme="@style/botao_padrao"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_login_senha" />
 
-            <EditText
-                android:id="@+id/edit_login_senha"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/texto_senha"
-                android:inputType="textPassword"
-                android:textColor="@color/textColorPrimary"
-                android:textColorHint="?android:attr/textColorHintInverse"
-                android:textSize="20sp" />
+        <TextView
+            android:id="@+id/tv_cadastre_se"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_marginEnd="73dp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="73dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="8dp"
+            android:onClick="abrirCadastroUsuario"
+            android:text="@string/texto_cadastre"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt_logar" />
 
-            <Button
-                android:id="@+id/bt_logar"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="@string/botao_logar"
-                android:textSize="20sp"
-                android:theme="@style/botao_padrao" />
-
-            <TextView
-                android:id="@+id/tv_cadastre_se"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:onClick="abrirCadastroUsuario"
-                android:text="@string/texto_cadastre"
-                android:textAlignment="center"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/tv_cadastre_se_empresa"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:onClick="abrirCadastroEmpresa"
-                android:text="@string/texto_cadastro"
-                android:textAlignment="center"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
-        </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_cadastre_se_empresa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="72dp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="72dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="8dp"
+            android:onClick="abrirCadastroEmpresa"
+            android:text="@string/texto_cadastro"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_cadastre_se"
+            app:layout_constraintVertical_bias="0.0" />
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

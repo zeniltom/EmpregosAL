@@ -30,6 +30,7 @@ import br.com.empregosal.adapter.UsuarioAdapter;
 import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.helper.Preferencias;
 import br.com.empregosal.model.Usuario;
+import dmax.dialog.SpotsDialog;
 
 public class InicioFragment extends Fragment {
     private ListView listView;
@@ -86,23 +87,7 @@ public class InicioFragment extends Fragment {
         query = ConfiguracaoFirebase.getFirebase().child("usuarios")
                 .orderByChild("nome");
 
-        valueEventListenerUsuarios = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                usuarios.clear();
-
-                for (DataSnapshot dados : dataSnapshot.getChildren()) {
-
-                    Usuario usuario = dados.getValue(Usuario.class);
-                    usuarios.add(usuario);
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
+        carregarCandidatos();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -131,6 +116,31 @@ public class InicioFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void carregarCandidatos() {
+        final SpotsDialog dialog = new SpotsDialog(getContext(), "Carregando...", R.style.dialogEmpregosAL);
+        dialog.setCancelable(false);
+        dialog.show();
+
+        valueEventListenerUsuarios = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                usuarios.clear();
+
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+
+                    Usuario usuario = dados.getValue(Usuario.class);
+                    usuarios.add(usuario);
+                }
+                dialog.dismiss();
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
     }
 
     private void conexao() {

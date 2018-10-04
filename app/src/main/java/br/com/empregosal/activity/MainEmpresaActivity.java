@@ -16,11 +16,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import br.com.empregosal.R;
 import br.com.empregosal.adapter.TabAdapterEmpresa;
@@ -35,24 +32,6 @@ public class MainEmpresaActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
     private FirebaseAuth usuarioFirebase;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        reference.child("empresas").child(usuarioFirebase.getCurrentUser().getUid()).child("nome").
-                addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        String nome = dataSnapshot.getValue(String.class);
-                        toolbar.setTitle(nome);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-    }
 
     @Override
     protected void onResume() {

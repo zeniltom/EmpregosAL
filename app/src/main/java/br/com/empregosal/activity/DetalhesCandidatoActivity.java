@@ -90,6 +90,8 @@ public class DetalhesCandidatoActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         TextView nome = findViewById(R.id.tv_detalhes_nome_usuario);
+        TextView email = findViewById(R.id.tv_detalhes_email_usuario);
+        TextView telefone = findViewById(R.id.tv_detalhes_telefone_usuario);
         TextView cidade = findViewById(R.id.tv_detalhes_cidade_usuario);
         TextView uf = findViewById(R.id.tv_detalhes_uf_usuario);
         Button botaoContratar = findViewById(R.id.botao_contratar);
@@ -110,6 +112,8 @@ public class DetalhesCandidatoActivity extends AppCompatActivity {
         nome.setText(usuario.getNome());
         cidade.setText(usuario.getCidade());
         uf.setText(usuario.getUf());
+        email.setText(usuario.getEmail());
+        telefone.setText(usuario.getTelefone());
 
         carregarFotoPerfil(usuario);
         carregarAdapters(reciclerViewEx, reciclerVieFo, reciclerVieOj, reciclerVieId);
@@ -291,6 +295,8 @@ public class DetalhesCandidatoActivity extends AppCompatActivity {
                 registro.setDataAnuncio(vaga.getDataAnuncio());
                 registro.setCEP(vaga.getCEP());
                 registro.setQtd(vaga.getQtd());
+                registro.setTelefone(usuario.getTelefone());
+                registro.setEmail_usuario(usuario.getEmail());
 
                 DatabaseReference queryCandidatura = ConfiguracaoFirebase.getFirebase();
                 DatabaseReference queryVaga = ConfiguracaoFirebase.getFirebase();

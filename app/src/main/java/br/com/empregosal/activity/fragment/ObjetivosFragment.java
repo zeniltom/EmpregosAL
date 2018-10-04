@@ -22,6 +22,7 @@ import br.com.empregosal.R;
 import br.com.empregosal.activity.ObjetivosActivity;
 import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.model.Objetivo;
+import dmax.dialog.SpotsDialog;
 
 public class ObjetivosFragment extends Fragment {
 
@@ -30,7 +31,6 @@ public class ObjetivosFragment extends Fragment {
     private EditText tipo_contrato;
     private EditText nivel_hierarquico_objetivos;
     private EditText salario_mensal_desejado;
-    private FloatingActionButton fab;
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
     private FirebaseAuth usuarioFirebase;
 
@@ -47,8 +47,12 @@ public class ObjetivosFragment extends Fragment {
                 addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        final SpotsDialog dialog = new SpotsDialog(getContext(), "Carregando...", R.style.dialogEmpregosAL);
+                        dialog.setCancelable(false);
+                        dialog.show();
 
-                        if (dataSnapshot.exists() == true) {
+
+                        if (dataSnapshot.exists()) {
 
                             for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
@@ -59,11 +63,13 @@ public class ObjetivosFragment extends Fragment {
                                 salario_mensal_desejado.setText(objetivo.getSalarioDesejado());
                             }
                         } else {
-                            tipo_jornada.setHint("Preencha a experiência");
-                            tipo_contrato.setHint("Preencha a experiência");
-                            nivel_hierarquico_objetivos.setHint("Preencha a experiência");
-                            salario_mensal_desejado.setHint("Preencha a experiência");
+                            tipo_jornada.setHint("Preencha a jornada");
+                            tipo_contrato.setHint("Preencha o contrato");
+                            nivel_hierarquico_objetivos.setHint("Preencha o nível hierárquico");
+                            salario_mensal_desejado.setHint("Preencha o salário mensal");
                         }
+
+                        dialog.dismiss();
                     }
 
                     @Override
@@ -87,7 +93,7 @@ public class ObjetivosFragment extends Fragment {
         nivel_hierarquico_objetivos = view.findViewById(R.id.et_nivel_hieraquico_objetivos);
         salario_mensal_desejado = view.findViewById(R.id.et_salario_mensal_desejado);
         bt_salvar = view.findViewById(R.id.bt_salvar_objetivos);
-        fab = view.findViewById(R.id.fabAddObjetivos);
+        FloatingActionButton fab = view.findViewById(R.id.fabAddObjetivos);
 
         tipo_jornada.setEnabled(false);
         tipo_contrato.setEnabled(false);

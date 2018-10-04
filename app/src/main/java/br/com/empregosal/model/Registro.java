@@ -29,6 +29,8 @@ public class Registro implements Serializable{
     private String dataAnuncio;
     private String CEP;
     private String qtd;
+    private String telefone;
+    private String email_usuario;
 
     public String getAreaProfissional() {
         return areaProfissional;
@@ -36,6 +38,22 @@ public class Registro implements Serializable{
 
     public void setAreaProfissional(String areaProfissional) {
         this.areaProfissional = areaProfissional;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public String getEmail_usuario() {
+        return email_usuario;
+    }
+
+    public void setEmail_usuario(String email_usuario) {
+        this.email_usuario = email_usuario;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public String getDescricao() {

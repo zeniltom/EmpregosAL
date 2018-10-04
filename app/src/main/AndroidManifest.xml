@@ -13,14 +13,23 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".activity.LoginActivity"
-            android:theme="@style/SemBarra">
+            android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:theme="@style/SemBarra">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".activity.MainActivity"
@@ -155,6 +164,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.empregosal.activity.SituacaoVagaActivity" />
         </activity>
+        <activity
+            android:name=".activity.EditarExperienciaActivity"
+            android:theme="@style/SemBarra">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.empregosal.activity.CurriculoActivity" />
+        </activity>
     </application>
-
 </manifest>

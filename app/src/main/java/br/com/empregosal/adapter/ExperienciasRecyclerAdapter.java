@@ -15,16 +15,16 @@ public class ExperienciasRecyclerAdapter extends RecyclerView.Adapter<Experienci
 
     private ArrayList<Experiencia> experiencias;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nomeEmpresa, cargoExp, data_inicio_exp, data_final_exp, atividades_exp;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView nomeEmpresa, cargoExp, data_inicio_exp, data_final_exp, atividades_exp;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
-            nomeEmpresa = (TextView) view.findViewById(R.id.exp_nome_empresa);
-            cargoExp = (TextView) view.findViewById(R.id.exp_cargo);
-            data_inicio_exp = (TextView) view.findViewById(R.id.exp_data_inicio);
-            data_final_exp = (TextView) view.findViewById(R.id.exp_data_final);
-            atividades_exp = (TextView) view.findViewById(R.id.exp_descricao_atv);
+            nomeEmpresa = view.findViewById(R.id.exp_nome_empresa);
+            cargoExp = view.findViewById(R.id.exp_cargo);
+            data_inicio_exp = view.findViewById(R.id.exp_data_inicio);
+            data_final_exp = view.findViewById(R.id.exp_data_final);
+            atividades_exp = view.findViewById(R.id.exp_descricao_atv);
         }
     }
 

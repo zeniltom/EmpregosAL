@@ -1,6 +1,8 @@
 package br.com.empregosal.model;
 
-public class Experiencia {
+import java.io.Serializable;
+
+public class Experiencia implements Serializable {
 
     private String idExperiencia;
     private String nomeDaEmpresa;

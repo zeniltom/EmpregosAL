@@ -26,12 +26,10 @@ import br.com.empregosal.adapter.IdiomasAdapter;
 import br.com.empregosal.config.ConfiguracaoFirebase;
 import br.com.empregosal.helper.Preferencias;
 import br.com.empregosal.model.Idioma;
+import dmax.dialog.SpotsDialog;
 
 public class IdiomasFragment extends Fragment {
 
-    private ListView listView;
-    private TextView vazia;
-    private FloatingActionButton fab;
     private ArrayAdapter adapter;
     private ArrayList<Idioma> idiomas;
     private DatabaseReference firebase;
@@ -65,9 +63,9 @@ public class IdiomasFragment extends Fragment {
 
         //Monta listview e adapter
         qtd_idiomas = view.findViewById(R.id.qtd_idiomas);
-        fab = view.findViewById(R.id.fabAddIdiomas);
-        listView = (ListView) view.findViewById(R.id.lv_idiomas);
-        vazia = (TextView) view.findViewById(R.id.vazia_idioma);
+        FloatingActionButton fab = view.findViewById(R.id.fabAddIdiomas);
+        ListView listView = view.findViewById(R.id.lv_idiomas);
+        TextView vazia = view.findViewById(R.id.vazia_idioma);
         listView.setEmptyView(vazia);
         /*adapter = new ArrayAdapter(
                 getActivity(),;
@@ -84,36 +82,8 @@ public class IdiomasFragment extends Fragment {
         firebase = ConfiguracaoFirebase.getFirebase()
                 .child("idiomas")
                 .child(identificadorUsuarioLogado);
+        carregarIdiomas();
 
-        //Listener para recuperar experiencias
-        valueEventListenerIdiomas = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //Limpar lista
-                idiomas.clear();
-
-                //Listar experiencias
-                for (DataSnapshot dados : dataSnapshot.getChildren()) {
-
-                    Idioma idioma = dados.getValue(Idioma.class);
-                    idiomas.add(idioma);
-
-                    //Se não possui experiências, o TextView qtd_experiencia some
-                    if (idiomas.size() == 0) qtd_idiomas.setVisibility(View.GONE);
-
-                    if (idiomas.size() == 1)
-                        qtd_idiomas.setText(String.valueOf(idiomas.size()) + " Formação");
-
-                    if (idiomas.size() > 1)
-                        qtd_idiomas.setText(String.valueOf(idiomas.size()) + " Formações");
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +112,43 @@ public class IdiomasFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void carregarIdiomas() {
+        final SpotsDialog dialog = new SpotsDialog(getContext(), "Carregando...", R.style.dialogEmpregosAL);
+        dialog.setCancelable(false);
+        dialog.show();
+
+        //Listener para recuperar idiomas
+        valueEventListenerIdiomas = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Limpar lista
+                idiomas.clear();
+
+                //Listar experiencias
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+
+                    Idioma idioma = dados.getValue(Idioma.class);
+                    idiomas.add(idioma);
+
+                    //Se não possui experiências, o TextView qtd_experiencia some
+                    if (idiomas.size() == 0) qtd_idiomas.setVisibility(View.GONE);
+
+                    if (idiomas.size() == 1)
+                        qtd_idiomas.setText(String.valueOf(idiomas.size()) + " Formação");
+
+                    if (idiomas.size() > 1)
+                        qtd_idiomas.setText(String.valueOf(idiomas.size()) + " Formações");
+                }
+                dialog.dismiss();
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
     }
 
 }

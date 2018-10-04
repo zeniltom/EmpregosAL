@@ -116,7 +116,7 @@ public class ListaCandidatosActivity extends AppCompatActivity {
                             usuarioLista.add(u);
                         }
                         usuarioArrayAdapter = new UsuarioAdapter(getApplicationContext(), usuarioLista);
-                        resultado.setText("Resultado(s) da vaga: "+ usuarioArrayAdapter.getCount()+"\n"+ vaga.getCargo());
+                        resultado.setText("Resultado(s) da vaga: " + usuarioArrayAdapter.getCount() + "\n" + vaga.getCargo());
 
                         listaPesquisa.setAdapter(usuarioArrayAdapter);
                         listaPesquisa.setEmptyView(vazio);
@@ -150,21 +150,6 @@ public class ListaCandidatosActivity extends AppCompatActivity {
 
             }
         });
-
-//        query.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot dados : dataSnapshot.getChildren()) {
-//                    candidaturaP = dados.getValue(Candidatura.class);
-//                    Log.i("#CANDIDATURA", candidaturaP.getNomeVaga());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
     }
 
     private void inicializarFirebase() {
