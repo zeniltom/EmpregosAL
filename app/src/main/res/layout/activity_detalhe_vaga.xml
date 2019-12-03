@@ -27,8 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
                 app:cardBackgroundColor="@color/branco"
                 app:cardCornerRadius="2dp"
                 app:cardElevation="10dp">
@@ -113,8 +113,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
                 app:cardBackgroundColor="@color/branco"
                 app:cardCornerRadius="2dp"
                 app:cardElevation="10dp">
@@ -141,7 +141,7 @@
                         android:background="@color/branco"
                         android:text="VER MAIS"
                         android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_descricao_detalhes"
@@ -157,8 +157,8 @@
                         android:id="@+id/separador_descricao_vaga_detalhes"
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@color/cinzaClaro"
                         android:visibility="gone" />
 
@@ -182,8 +182,8 @@
                     <View
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@color/cinzaClaro" />
 
                     <TableLayout
@@ -244,10 +244,10 @@
                 android:id="@+id/cartaoDetalhes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
                 app:cardBackgroundColor="@color/branco"
                 app:cardCornerRadius="2dp"
                 app:cardElevation="10dp">
@@ -287,8 +287,8 @@
                     <View
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@color/cinzaClaro" />
 
                     <TextView
@@ -311,8 +311,8 @@
                     <View
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@color/cinzaClaro" />
 
                     <TextView
@@ -335,8 +335,8 @@
                     <View
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@color/cinzaClaro" />
 
                     <TextView
